@@ -1,70 +1,56 @@
-# Getting Started with Create React App
+# App de control de inventario
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+El programa esta dedicado a empresas que necesiten administrar sus transacciones y el inventario de sus productos, y ver de manera grafica el flujo de efectivo de su negocio.
 
-## Available Scripts
+---
+## Tecnologías a usar
+- **React js** para el frontend.
+- **Node js, express** para el backend.
+- **Mongo DB** como base de datos.
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## Pantallas a implementar
+- **Dashboard** - ***principal***
+  - En esta pantalla se mostrará el grafico con los procentajes de ventas a nivel de categoría(y otras vistas).
+  - Se tendrá el total de ingresos/ventas y gastos en $ dolares, así como la utilidad y/o ganancias.
+- **Sidebar/menu** al lado izquierdo tendra las secciones:
+    - *Productos:* Agregar productos, ver productos y una opcion para modificar y borrar el producto, el id no debe ser modificado.
+    - *Transacciones:* En este apartado estaran todas las transacciones a un nivel mas detallado, graficos, total de gastos sin retorno, total de gastos generales y total de ingresos, todo el historial de ventas a lo largo del tiempo, fecha de las transacciones y una vista detallada a cada una de ellas, *solo el perfil de admin puede modificar las transacciones (cualquier transaccion solo puede ser realizada por el admin)*, las vistas se manejaran a nivel de **día, semana, mes y año.**
+- **Agregar gasto** - al agregar un gasto se tendran los campos:
+    - Total.
+    - Nombre.
+    - Descripción.
+    - Proveedor.
+    - Sucursal.
+    - Fecha(por defecto se tomara la fecha presente).
+- **Personas** datos de:
+    - Clientes.
+    - Proveedores.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Funcionalidades
+- Al registrar los productos se eligira la unidad de medida, unidad de compra y la unidad de venta(*kg, g, lt, ml, pieza, metro, mm*), y al momento de la venta tambien se especificara la cantidad de ser necesario, el valor por defecto sera de ***UNO***.
+- ***No*** tendra opcion de registro de usuario, esto solo podra hacerse desde la base de datos, solo tendra ***login*** para los usuarios predefinidos.
+- Manejarlo por suscursales, ejemplo:
+    - Sucursal **Santa Ana**.
+    - Sucursal **Atiquizaya**.
+- Un ***botón flotante*** para realizar venta de manera fácil.
+- Se llevara el control de cuando los productos se vayan acabando y se notificara al usuario en el **icono de notificaciones**.
+- El registro de productos tendra los campos:
+    - Nombre.
+    - ID - Codigo de barras.
+    - precio de compra.
+    - precio de venta.
+    - cantidad.
+    - imagen.
+    - marca.
+    - categoría.
+    - unidad(*kg, g, lt, pieza, etc*).
+    - unidad de compra(*kg, g, lt, pieza, etc*).
+    - unidad de venta(*kg, g, lt, pieza, etc*).
+- Debe haber un apartado para agregar gastos del negocio, gastos sin retorno de inversion por ejempo:
+    - herramientas.
+    - alquiler.
+    - cosas que no tienen precio de venta.
