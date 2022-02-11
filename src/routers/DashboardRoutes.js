@@ -1,6 +1,7 @@
 import { Routes, Route} from "react-router-dom";
 
 import { DashboardScreen } from "../components/dashboard/DashboardScreen";
+import { Navbar } from "../components/ui/Navbar";
 
 
 export const DashboardRoutes = () => {
@@ -8,6 +9,8 @@ export const DashboardRoutes = () => {
         <>
             {/* <Julon /> */}
 
+            <Navbar />
+            
             <div className="container mt-2">
 
                 <Routes>
