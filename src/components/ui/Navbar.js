@@ -2,10 +2,12 @@ import React, { useEffect, useRef, useState } from 'react';
 import '../../styles/Navbar.css';
 // Se instalo el paquete react-bootstrap
 import { Dropdown } from 'react-bootstrap';
+import { Sidebar } from './Sidebar';
 
 export const Navbar = () => {
 
   const [showDropdown, setShowDropdown] = useState(false);
+
 
   const wrapperRef = useRef(null);
   useOutsideAlerter(wrapperRef);
@@ -31,8 +33,8 @@ export const Navbar = () => {
     }, [ref]);
   }
 
-
-  return (   
+  return (  
+    <>
     <nav className="navbar navbar-light bg-light">
       <div className="container-fluid">
 
@@ -69,5 +71,7 @@ export const Navbar = () => {
               
       </div>
     </nav>
+    <Sidebar />
+    </> 
   )
 }
