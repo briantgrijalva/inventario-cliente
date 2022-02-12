@@ -2,12 +2,17 @@
 
 :root {
   --primary: #EB3581;
+  --icons: #464646;
 }
 
 * {
   margin: 0;
   padding: 0;
   font-family: 'Roboto', sans-serif;
+}
+
+aside {
+  background-color: #f8f9fa;
 }
 
 .btn-sell {
@@ -29,4 +34,48 @@
 
 .btn-sell:hover {
   transform: scale(1.2);
+}
+
+
+
+#contenedor{
+	/*background: #fba456;*/
+	margin-top: 0;
+	overflow: hidden;
+}
+
+
+
+.bloque-derecha{
+	background: #f8f9fa;
+	margin-top: 0;
+	float: left;
+	width: 4rem;
+}
+
+/* .bloque-derecha .titulo{
+	background: #1d1d1d;
+	color: white;
+	height: 50px;
+	line-height: 50px;
+	text-align: center;
+	width: 100%;
+} */
+
+
+.bloque-derecha section{
+	
+	height: 100vh;
+	width: 100%;
+}
+
+.icon-sidebar {
+  margin-top: 2rem;
+  color: var(--icons);
+}
+
+.icon-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

@@ -1,7 +1,7 @@
 import { Routes, Route} from "react-router-dom";
 
 import { DashboardScreen } from "../components/dashboard/DashboardScreen";
-import { Navbar } from "../components/ui/Navbar";
+// import { Navbar } from "../components/ui/Navbar";
 import { Sidebar } from "../components/ui/Sidebar";
 
 
@@ -10,7 +10,7 @@ export const DashboardRoutes = () => {
         <>
             {/* <Julon /> */}
 
-            <Navbar />
+            
             <Sidebar />
             
             <div className="container mt-2">
