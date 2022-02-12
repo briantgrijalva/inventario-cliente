@@ -69,7 +69,6 @@ export const Sidebar = () => {
                 </a>
 
                 <div className="nav_list"> 
-                  
                   <Link to={'ventas'} className="nav_link active"> <i className='bx bx-grid-alt nav_icon'></i> <span className="nav_name">Dashboard</span> </Link> 
                   <a href="!#" className="nav_link"> <i className='bx bx-user nav_icon'></i> <span className="nav_name">Users</span> </a> 
                   <a href="!#" className="nav_link"> <i className='bx bx-message-square-detail nav_icon'></i> <span className="nav_name">Messages</span> </a> 
@@ -81,7 +80,10 @@ export const Sidebar = () => {
         </nav>
     </div>
     {/* <!--Container Main start--> */}
-    
+    {/* <div className="height-100 bg-light">
+        <h4>Main Components</h4> */}
+        {/* Router */}
+    {/* </div> */}
     {/* <!--Container Main end--> */}
     </div>
     </>
