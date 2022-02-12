@@ -2,6 +2,6 @@ import React from 'react'
 
 export const DashboardScreen = () => {
   return (
-    <div>DashboardScreen</div>
+    <div className='container-dashboard'>DashboardScreen</div>
   )
 }

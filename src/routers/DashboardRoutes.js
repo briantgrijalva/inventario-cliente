@@ -10,7 +10,7 @@ export const DashboardRoutes = () => {
         <>
             {/* <Julon /> */}
 
-            
+            {/* El sidebar contiene las routes */}
             <Sidebar />
             
             <div className="container mt-2">
