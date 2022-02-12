@@ -4,9 +4,21 @@ import '../../styles/Navbar.css';
 import { Dropdown } from 'react-bootstrap';
 import { Sidebar } from './Sidebar';
 
+import { useDispatch } from 'react-redux'
+import { viewSidebar } from '../../actions/ui';
+
 export const Navbar = () => {
 
   const [showDropdown, setShowDropdown] = useState(false);
+  
+  const dispatch = useDispatch();
+
+  const handleChangeView = () =>{
+    
+    dispatch(viewSidebar(false));
+  
+  }
+  
 
 
   const wrapperRef = useRef(null);
@@ -39,7 +51,7 @@ export const Navbar = () => {
       <div className="container-fluid">
 
         <div>
-          <i className="fa-solid fa-bars"></i>
+          <i className="fa-solid fa-bars icon-hamburguer" onClick={handleChangeView}></i>
           <a className="navbar-brand brand-text" href="!#">
             SoftTunix 
             {/* TODO: Logo de las T */}
