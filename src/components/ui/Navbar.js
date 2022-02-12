@@ -2,24 +2,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import '../../styles/Navbar.css';
 // Se instalo el paquete react-bootstrap
 import { Dropdown } from 'react-bootstrap';
-import { Sidebar } from './Sidebar';
-
-import { useDispatch } from 'react-redux'
-import { viewSidebar } from '../../actions/ui';
 
 export const Navbar = () => {
 
   const [showDropdown, setShowDropdown] = useState(false);
   
-  const dispatch = useDispatch();
-
-  const handleChangeView = () =>{
-    
-    dispatch(viewSidebar(false));
-  
-  }
-  
-
 
   const wrapperRef = useRef(null);
   useOutsideAlerter(wrapperRef);
@@ -50,13 +37,7 @@ export const Navbar = () => {
     <nav className="navbar navbar-light bg-light">
       <div className="container-fluid">
 
-        <div>
-          <i className="fa-solid fa-bars icon-hamburguer" onClick={handleChangeView}></i>
-          <a className="navbar-brand brand-text" href="!#">
-            SoftTunix 
-            {/* TODO: Logo de las T */}
-          </a>
-        </div>
+        
         
         <div>
           <button variant="primary" className="btn-sell mb-1 mt-1">
@@ -83,7 +64,7 @@ export const Navbar = () => {
               
       </div>
     </nav>
-    <Sidebar />
+    
     </> 
   )
 }
