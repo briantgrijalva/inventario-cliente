@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import { Link } from 'react-router-dom';
 import '../../styles/Sidebar.css';
 import { Navbar } from './Navbar';
 
@@ -10,7 +11,6 @@ export const Sidebar = () => {
   const navRef = useRef();
 
   document.addEventListener("DOMContentLoaded", function() {
-
 
     /*===== LINK ACTIVE =====*/
     const linkColor = document.querySelectorAll('.nav_link');
@@ -69,7 +69,8 @@ export const Sidebar = () => {
                 </a>
 
                 <div className="nav_list"> 
-                  <a href="!#" className="nav_link active"> <i className='bx bx-grid-alt nav_icon'></i> <span className="nav_name">Dashboard</span> </a> 
+                  
+                  <Link to={'ventas'} className="nav_link active"> <i className='bx bx-grid-alt nav_icon'></i> <span className="nav_name">Dashboard</span> </Link> 
                   <a href="!#" className="nav_link"> <i className='bx bx-user nav_icon'></i> <span className="nav_name">Users</span> </a> 
                   <a href="!#" className="nav_link"> <i className='bx bx-message-square-detail nav_icon'></i> <span className="nav_name">Messages</span> </a> 
                   <a href="!#" className="nav_link"> <i className='bx bx-bookmark nav_icon'></i> <span className="nav_name">Bookmark</span> </a> 
@@ -80,10 +81,7 @@ export const Sidebar = () => {
         </nav>
     </div>
     {/* <!--Container Main start--> */}
-    <div className="height-100 bg-light">
-        <h4>Main Components</h4>
-        {/* Router */}
-    </div>
+    
     {/* <!--Container Main end--> */}
     </div>
     </>
