@@ -38,7 +38,7 @@ export const Sidebar = () => {
       // show navbar
       nav.classList.toggle('show');
       // change icon
-      togglebtn.classList.toggle('bx-x');
+      togglebtn.classList.toggle('fa-times');
       // add padding to body
       bodypd.classList.toggle('body-pd');
       // add padding to header
@@ -51,7 +51,7 @@ export const Sidebar = () => {
     <div className='body' id="body-pd" ref={bodypdRef}>
       <header className="header" id="header" ref={headerpdRef}>
         
-          <div className="header_toggle mt-2"> <i className='bx bx-menu' id="header-toggle" ref={togleRef}
+          <div className="header_toggle mt-2"> <i className='fas fa-bars' id="header-toggle" ref={togleRef}
             onClick={handleSidebar}
           ></i> 
           
@@ -66,7 +66,7 @@ export const Sidebar = () => {
 
               {/* <i class="fa-solid fa-grid-2"></i> */}
                 <a href="!#" className="nav_logo">
-                    <i className='bx bx-layer nav_logo-icon'></i> <span className="nav_logo-name">SoftTunix </span> 
+                    <i className='fas fa-skull nav_logo-icon'></i> <span className="nav_logo-name">SoftTunix </span> 
                   </a>
 
                   <div className="nav_list">

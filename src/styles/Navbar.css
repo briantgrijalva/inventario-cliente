@@ -19,6 +19,10 @@
     margin-left: 2rem;
 }
 
+.icon-hamburguer {
+    font-size: 1.25rem;
+}
+
 .icon-hamburguer:hover {
     cursor: pointer;
 }
