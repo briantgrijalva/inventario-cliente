@@ -49,36 +49,40 @@ export const Sidebar = () => {
     <>
     
     <div className='body' id="body-pd" ref={bodypdRef}>
-     <header className="header" id="header" ref={headerpdRef}>
-       
-        <div className="header_toggle"> <i className='bx bx-menu' id="header-toggle" ref={togleRef}
-          onClick={handleSidebar}
-        ></i> 
+      <header className="header" id="header" ref={headerpdRef}>
         
-        </div>
-        <Navbar />
-        {/* <div class="header_img"> <img src="https://i.imgur.com/hczKIze.jpg" alt=""/> </div> */}
-        
-    </header>
-    <div className="l-navbar" id="nav-bar" ref={navRef}>
-        <nav className="nav">
-            <div>
+          <div className="header_toggle mt-2"> <i className='bx bx-menu' id="header-toggle" ref={togleRef}
+            onClick={handleSidebar}
+          ></i> 
+          
+          </div>
+          <Navbar />
+          {/* <div class="header_img"> <img src="https://i.imgur.com/hczKIze.jpg" alt=""/> </div> */}
+          
+      </header>
+      <div className="l-navbar" id="nav-bar" ref={navRef}>
+          <nav className="nav">
+              <div>
 
-               <a href="!#" className="nav_logo">
-                  <i className='bx bx-layer nav_logo-icon'></i> <span className="nav_logo-name">SoftTunix </span> 
-                </a>
+              {/* <i class="fa-solid fa-grid-2"></i> */}
+                <a href="!#" className="nav_logo">
+                    <i className='bx bx-layer nav_logo-icon'></i> <span className="nav_logo-name">SoftTunix </span> 
+                  </a>
 
-                <div className="nav_list"> 
-                  <Link to={'ventas'} className="nav_link active"> <i className='bx bx-grid-alt nav_icon'></i> <span className="nav_name">Dashboard</span> </Link> 
-                  <a href="!#" className="nav_link"> <i className='bx bx-user nav_icon'></i> <span className="nav_name">Users</span> </a> 
-                  <a href="!#" className="nav_link"> <i className='bx bx-message-square-detail nav_icon'></i> <span className="nav_name">Messages</span> </a> 
-                  <a href="!#" className="nav_link"> <i className='bx bx-bookmark nav_icon'></i> <span className="nav_name">Bookmark</span> </a> 
-                  <a href="!#" className="nav_link"> <i className='bx bx-folder nav_icon'></i> <span className="nav_name">Files</span> </a> 
-                  <a href="!#" className="nav_link"> <i className='bx bx-bar-chart-alt-2 nav_icon'></i> <span className="nav_name">Stats</span> </a> 
-                </div>
-            </div> <a href="!#" className="nav_link"> <i className='bx bx-log-out nav_icon'></i> <span className="nav_name">SignOut</span> </a>
-        </nav>
-    </div>
+                  <div className="nav_list">
+                    <Link to={'ventas'} className="nav_link active"> <i className='fas fa-th-large nav_icon'></i> <span className="nav_name">Dashboard</span> </Link> 
+                    <a href="!#" className="nav_link"> <i className='fas fa-cash-register nav_icon'></i> <span className="nav_name">Ventas</span> </a> 
+                    <a href="!#" className="nav_link"> <i className='fas fa-shopping-bag nav_icon'></i> <span className="nav_name">Compras</span> </a> 
+                    <a href="!#" className="nav_link"> <i className='fas fa-coins nav_icon'></i> <span className="nav_name">Gastos</span> </a> 
+                    <a href="!#" className="nav_link"> <i className='fas fa-exchange nav_icon'></i> <span className="nav_name">Devoluciones</span> </a> 
+                    <a href="!#" className="nav_link"> <i className='fas fa-box-open nav_icon'></i> <span className="nav_name">Productos</span> </a> 
+                    <a href="!#" className="nav_link"> <i className='fas fa-users nav_icon'></i> <span className="nav_name">Personas</span> </a> 
+                    <a href="!#" className="nav_link"> <i className='fas fa-chart-bar nav_icon'></i> <span className="nav_name">Informes</span> </a> 
+                    <Link to={'sucursales'} className="nav_link"> <i className='fas fa-store-alt nav_icon'></i> <span className="nav_name">Sucursales</span> </Link> 
+                  </div>
+              </div> <a href="!#" className="nav_link"> <i className='fas fa-cog nav_icon'></i> <span className="nav_name">Ajustes</span> </a>
+          </nav>
+      </div>
     {/* <!--Container Main start--> */}
     {/* <div className="height-100 bg-light">
         <h4>Main Components</h4> */}

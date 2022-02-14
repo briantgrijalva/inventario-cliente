@@ -1,6 +1,7 @@
 import { Routes, Route} from "react-router-dom";
 
 import { DashboardScreen } from "../components/dashboard/DashboardScreen";
+import { SucursalesScreen } from "../components/sucursales/SucursalesScreen";
 // import { Navbar } from "../components/ui/Navbar";
 import { Sidebar } from "../components/ui/Sidebar";
 import { VentasScreen } from "../components/ventas/VentasScreen";
@@ -19,6 +20,7 @@ export const DashboardRoutes = () => {
                 <Routes>
                     <Route path="dashboard" element={<DashboardScreen />} />
                     <Route path="ventas" element={<VentasScreen />} />
+                    <Route path="sucursales" element={<SucursalesScreen />} />
                     
                     
                     <Route path="/*" element={<DashboardScreen />} />
