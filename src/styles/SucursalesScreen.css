@@ -1,0 +1,16 @@
+.container-sucursales {
+    margin-top: 8rem;
+}
+
+.div-card {
+    margin-top: 2rem;
+}
+
+.title-separator {
+    border-bottom: 1px solid #EB3581!important;
+    margin-bottom: 1rem;
+    font-family: 'Montserrat', sans-serif;
+    font-size: large;
+    font-weight: bold;
+}
+

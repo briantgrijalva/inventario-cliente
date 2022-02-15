@@ -36,7 +36,27 @@ aside {
   transform: scale(1.2);
 }
 
+.btn-add {
+  background-color: var(--primary) !important;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  border: none !important;
+  color: #FFF;
+  height: 2.5rem;
+  width: 8rem;
 
+  box-shadow: 0px 12px 12px -6px var(--primary);
+  border-radius: 8px;
+  
+  transform: scale(1);
+  transition: transform 250ms ease;
+  float: right;
+}
+
+.btn-add:hover {
+  transform: scale(1.2);
+}
 
 #contenedor{
 	/*background: #fba456;*/
@@ -77,3 +97,4 @@ aside {
   box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.16);
   border-radius: 16px;
 }
+

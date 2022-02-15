@@ -1,5 +1,5 @@
-import React, { useRef } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useRef } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import '../../styles/Sidebar.css';
 import { Navbar } from './Navbar';
 
@@ -9,42 +9,65 @@ export const Sidebar = () => {
   const bodypdRef = useRef();
   const togleRef = useRef();
   const navRef = useRef();
+  const dasboardRef = useRef();
+  const comprasRef = useRef();
+  const ventasRef = useRef();
+  const gastosRef = useRef();
+  const devolucionRef = useRef();
+  const productosRef = useRef();
+  const personasRef = useRef();
+  const informesRef = useRef();
+  const sucursalRef = useRef();
+  const ajustesRef = useRef();
 
-  document.addEventListener("DOMContentLoaded", function() {
+  const location = useLocation();
+  
 
-    /*===== LINK ACTIVE =====*/
-    const linkColor = document.querySelectorAll('.nav_link');
+  useEffect(() => {
     
-    function colorLink(){
-      if(linkColor){
-        linkColor.forEach(l=> l.classList.remove('active'));
-        this.classList.add('active');
-      }
-    }
-    linkColor.forEach(l=> l.addEventListener('click', colorLink));
+    const link = [
+      dasboardRef.current,
+      comprasRef.current,
+      ventasRef.current,
+      gastosRef.current,
+      devolucionRef.current,
+      productosRef.current,
+      personasRef.current,
+      informesRef.current,
+      ajustesRef.current, 
+      sucursalRef.current
+    ];
+
+    link.filter(lnk => location.pathname === lnk.pathname)
+    .map(lnk => (
+      lnk.classList.add('active')))
+
+      link.filter(lnk => location.pathname !== lnk.pathname)
+    .map(lnk => (
+      lnk.classList.remove('active')))
     
-    // Your code to run since DOM is loaded and ready
-    }
-  );
+  }, [location]);
 
-    const handleSidebar = () => {
 
-      //Getting node element
-      const headerpd = headerpdRef.current;
-      const bodypd = bodypdRef.current;
-      const togglebtn = togleRef.current;
-      const nav = navRef.current;
+  const handleSidebar = () => {
 
-      // show navbar
-      nav.classList.toggle('show');
-      // change icon
-      togglebtn.classList.toggle('fa-times');
-      // add padding to body
-      bodypd.classList.toggle('body-pd');
-      // add padding to header
-      headerpd.classList.toggle('body-pd');
-   }
+    //Getting node element
+    const headerpd = headerpdRef.current;
+    const bodypd = bodypdRef.current;
+    const togglebtn = togleRef.current;
+    const nav = navRef.current;
 
+    // show navbar
+    nav.classList.toggle('show');
+    // change icon
+    togglebtn.classList.toggle('fa-times');
+    // add padding to body
+    bodypd.classList.toggle('body-pd');
+    // add padding to header
+    headerpd.classList.toggle('body-pd');
+  }
+
+   
   return (  
     <>
     
@@ -70,17 +93,17 @@ export const Sidebar = () => {
                   </a>
 
                   <div className="nav_list">
-                    <Link to={'ventas'} className="nav_link active"> <i className='fas fa-th-large nav_icon'></i> <span className="nav_name">Dashboard</span> </Link> 
-                    <a href="!#" className="nav_link"> <i className='fas fa-cash-register nav_icon'></i> <span className="nav_name">Ventas</span> </a> 
-                    <a href="!#" className="nav_link"> <i className='fas fa-shopping-bag nav_icon'></i> <span className="nav_name">Compras</span> </a> 
-                    <a href="!#" className="nav_link"> <i className='fas fa-coins nav_icon'></i> <span className="nav_name">Gastos</span> </a> 
-                    <a href="!#" className="nav_link"> <i className='fas fa-exchange nav_icon'></i> <span className="nav_name">Devoluciones</span> </a> 
-                    <a href="!#" className="nav_link"> <i className='fas fa-box-open nav_icon'></i> <span className="nav_name">Productos</span> </a> 
-                    <a href="!#" className="nav_link"> <i className='fas fa-users nav_icon'></i> <span className="nav_name">Personas</span> </a> 
-                    <a href="!#" className="nav_link"> <i className='fas fa-chart-bar nav_icon'></i> <span className="nav_name">Informes</span> </a> 
-                    <Link to={'sucursales'} className="nav_link"> <i className='fas fa-store-alt nav_icon'></i> <span className="nav_name">Sucursales</span> </Link> 
+                    <Link to={'dashboard'} ref={dasboardRef} className='nav_link'> <i className='fas fa-th-large nav_icon'></i> <span className="nav_name">Dashboard</span> </Link> 
+                    <Link to={'ventas'} ref={ventasRef} className="nav_link"> <i className='fas fa-cash-register nav_icon'></i> <span className="nav_name">Ventas</span> </Link> 
+                    <Link to={'compras'}  ref={comprasRef} className="nav_link"> <i className='fas fa-shopping-bag nav_icon'></i> <span className="nav_name">Compras</span> </Link> 
+                    <Link to={'gastos'}  ref={gastosRef} className="nav_link"> <i className='fas fa-coins nav_icon'></i> <span className="nav_name">Gastos</span> </Link> 
+                    <Link to={'devoluciones'}  ref={devolucionRef} className="nav_link"> <i className='fas fa-exchange nav_icon'></i> <span className="nav_name">Devoluciones</span> </Link> 
+                    <Link to={'productos'}  ref={productosRef} className="nav_link"> <i className='fas fa-box-open nav_icon'></i> <span className="nav_name">Productos</span> </Link> 
+                    <Link to={'personas'}  ref={personasRef} className="nav_link"> <i className='fas fa-users nav_icon'></i> <span className="nav_name">Personas</span> </Link> 
+                    <Link to={'informes'} ref={informesRef} className="nav_link"> <i className='fas fa-chart-bar nav_icon'></i> <span className="nav_name">Informes</span> </Link> 
+                    <Link to={'sucursales'} ref={sucursalRef} className="nav_link" > <i className='fas fa-store-alt nav_icon'></i> <span className="nav_name">Sucursales</span> </Link> 
                   </div>
-              </div> <a href="!#" className="nav_link"> <i className='fas fa-cog nav_icon'></i> <span className="nav_name">Ajustes</span> </a>
+              </div> <Link to={'ajustes'}  ref={ajustesRef} className="nav_link"> <i className='fas fa-cog nav_icon'></i> <span className="nav_name">Ajustes</span> </Link>
           </nav>
       </div>
     {/* <!--Container Main start--> */}
