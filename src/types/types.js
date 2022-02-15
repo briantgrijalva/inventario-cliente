@@ -5,6 +5,7 @@ export const types = {
 
     /*Estado para mostrar el sidebar*/
     viewSidebar: '[UI] ViewSidebar',
+    activeElement: '[UI] ActiveElement',
 
 
 }

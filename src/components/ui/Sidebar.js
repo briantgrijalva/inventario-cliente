@@ -21,7 +21,6 @@ export const Sidebar = () => {
   const ajustesRef = useRef();
 
   const location = useLocation();
-  
 
   useEffect(() => {
     
@@ -48,6 +47,12 @@ export const Sidebar = () => {
     
   }, [location]);
 
+  useEffect(() => {
+    if (location.pathname === '/nuevaSucursal') {
+      sucursalRef.current.classList.add('active');
+    }
+  }, [location])
+  
 
   const handleSidebar = () => {
 
@@ -67,10 +72,8 @@ export const Sidebar = () => {
     headerpd.classList.toggle('body-pd');
   }
 
-   
   return (  
     <>
-    
     <div className='body' id="body-pd" ref={bodypdRef}>
       <header className="header" id="header" ref={headerpdRef}>
         

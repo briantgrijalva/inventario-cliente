@@ -3,6 +3,10 @@
 :root {
   --primary: #EB3581;
   --icons: #464646;
+  --green: #36CC72;
+  --blue: #1CA2EE;
+  --red: #EB3556;
+  --light: #f7f6fb;
 }
 
 * {
@@ -37,7 +41,7 @@ aside {
 }
 
 .btn-add {
-  background-color: var(--primary) !important;
+  background-color: var(--green) !important;
   font-family: 'Montserrat', sans-serif;
   font-weight: 700;
   font-size: 12px;
@@ -46,7 +50,7 @@ aside {
   height: 2.5rem;
   width: 8rem;
 
-  box-shadow: 0px 12px 12px -6px var(--primary);
+  box-shadow: 0px 12px 12px -6px var(--green);
   border-radius: 8px;
   
   transform: scale(1);
@@ -57,6 +61,51 @@ aside {
 .btn-add:hover {
   transform: scale(1.2);
 }
+
+.btn-save {
+  background-color: var(--blue) !important;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  border: none !important;
+  color: #FFF;
+  height: 2.5rem;
+  width: 6rem;
+
+  box-shadow: 0px 12px 12px -6px var(--blue);
+  border-radius: 8px;
+  
+  transform: scale(1);
+  transition: transform 250ms ease;
+  float: right;
+}
+
+.btn-save:hover {
+  transform: scale(1.2);
+}
+
+.btn-cancel {
+  background-color: var(--red) !important;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  border: none !important;
+  color: #FFF;
+  height: 2.5rem;
+  width: 6rem;
+
+  box-shadow: 0px 12px 12px -6px var(--red);
+  border-radius: 8px;
+  
+  transform: scale(1);
+  transition: transform 250ms ease;
+  float: right;
+}
+
+.btn-cancel:hover {
+  transform: scale(1.2);
+}
+
 
 #contenedor{
 	/*background: #fba456;*/
@@ -96,5 +145,20 @@ aside {
   background: #FFFFFF;
   box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.16);
   border-radius: 16px;
+}
+
+.paginacion {
+  background-color: var(--light);
+  align-items: center;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.btn-paginacion {
+  border: none;
+  float: right;
+  margin-left: 1rem;
+  border-radius: 8px;
+  background-color: #DFDFDF;
+  width: 64px;
 }
 
