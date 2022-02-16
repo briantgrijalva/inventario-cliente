@@ -1,51 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react'
+
 import { Col, Container, Row } from 'react-bootstrap';
-import '../../styles/SucursalesScreen.css';
-import '../../styles/UsuariosScreen.css';
+import '../../../styles/SucursalesScreen.css';
 
 export const UsuariosScreen = () => {
-
-    const [view, setView] = useState('Usuarios')
-    
-    const handleChangeView = (e) => {
-        
-        if (e.target.id === 'usuarios') {
-            
-            return setView('Usuarios')
-
-        } else if (e.target.id === 'Clientes') {
-
-            return setView('Clintes')
-
-        } else if (e.target.id === 'Proveedores') {
-            
-            return setView('Proveedores')
-
-        } else {
-
-            return setView('Usuarios')
-
-        }
-         
-    }
-
-
-
-
-    return (
-        <div className='container-sucursales'>
-            
-            <div className='title-separator'>
-                {view}
-            </div>
-
-            <div className='panel pink'>
-                <button className='selected me-3' onClick={handleChangeView} id="usuarios">Usuarios</button>  
-                <button className='selected me-3' onClick={handleChangeView} id="Clientes">Clientes</button>  
-                <button className='selected me-3' onClick={handleChangeView} id="Proveedores">Proveedores</button> 
-            </div>
-
-            <Container className='card-shadow div-card pt-3'>
+  return (
+    <Container className='card-shadow div-card pt-3'>
                 
                 <Row>
                     <Col xs={6} md={6}>
@@ -135,6 +95,5 @@ export const UsuariosScreen = () => {
                 </Row>
 
             </Container>
-        </div>
-    )
+  )
 }

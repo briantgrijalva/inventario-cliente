@@ -1,7 +1,7 @@
 import { Routes, Route} from "react-router-dom";
 
 import { DashboardScreen } from "../components/dashboard/DashboardScreen";
-import { UsuariosScreen } from "../components/personas/UsuariosScreen";
+import { PersonasScreen } from "../components/personas/PersonasScreen";
 import { SucursalesScreen } from "../components/sucursales/SucursalesScreen";
 // import { Navbar } from "../components/ui/Navbar";
 import { Sidebar } from "../components/ui/Sidebar";
@@ -22,7 +22,7 @@ export const DashboardRoutes = () => {
                     <Route path="dashboard" element={<DashboardScreen />} />
                     <Route path="ventas" element={<VentasScreen />} />
                     <Route path="sucursales" element={<SucursalesScreen />} />
-                    <Route path="personas" element={<UsuariosScreen />} />
+                    <Route path="personas" element={<PersonasScreen />} />
                     
                     
                     <Route path="/*" element={<DashboardScreen />} />
