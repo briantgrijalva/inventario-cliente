@@ -1,10 +1,14 @@
 import React from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { addNewSucursal } from '../../actions/sucursales';
 import { useForm } from '../../hooks/useForm';
 // import '../../styles/SucursalesScreen.css';
 
 export const AgregarSucursal = () => {
+
+    const dispatch = useDispatch();
 
     const initialForm = {
         name: '',
@@ -17,20 +21,20 @@ export const AgregarSucursal = () => {
     
     const [{name, email, tel, pais, ciudad, direccion}, handleInputChange, reset] = useForm(initialForm);
 
-    // TODO: Implementar redux
-
-
     let navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        
+        dispatch(addNewSucursal(name, email, tel, pais, ciudad, direccion));
 
         // TODO: mostrar alerta
+
         navigate('/sucursales');
     }
 
     const handleCancel = () => {
-        // TODO: limpiar campos
+        reset();
         navigate('/sucursales');
     }
 

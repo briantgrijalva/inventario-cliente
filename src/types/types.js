@@ -7,5 +7,5 @@ export const types = {
     viewSidebar: '[UI] ViewSidebar',
     activeElement: '[UI] ActiveElement',
 
-
+    createNewSucursal: '[Sucursal] CreateNewSucursal',
 }

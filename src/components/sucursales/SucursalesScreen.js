@@ -1,11 +1,20 @@
 import React from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+
 // import '../../styles/SucursalesScreen.css';
 
 export const SucursalesScreen = () => {
 
+    
+    const {sucursal} = useSelector(state => state.sucursales);
+    
+
+    // console.log(sucursal[0].name);
     let navigate = useNavigate();
+
+   
     
   return (
      <div className='container-sucursales'>
@@ -52,33 +61,18 @@ export const SucursalesScreen = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                            <th scope="row"><input type='checkbox'/></th>
-                            <td>Sucursal1</td>
-                            <td>El Salvador</td>
-                            <td>Atiquizaya</td>
-                            <td>+503 777 777 7</td>
-                            <td>kike@gmail.com</td>
-                            <td> &nbsp; <i className="fas fa-pen"></i> &nbsp; <i className="fas fa-trash"></i></td>
+                        {sucursal.map(scsal => ( 
+                            // TODO: generar los IDs
+                            <tr key={Math.random()}>
+                                <th scope="row"><input type='checkbox'/></th>
+                                <td>{scsal.name}</td>
+                                <td>{scsal.pais}</td>
+                                <td>{scsal.ciudad}</td>
+                                <td>{scsal.tel}</td>
+                                <td>{scsal.email}</td>
+                                <td> &nbsp; <i className="fas fa-pen"></i> &nbsp; <i className="fas fa-trash"></i></td>                                
                             </tr>
-                            <tr>
-                            <th scope="row"><input type='checkbox'/></th>
-                            <td>Sucursal Jacob</td>
-                            <td>Thornton</td>
-                            <td>Atiquizaya</td>
-                            <td>+503 777 777 7</td>
-                            <td>kike@gmail.com</td>
-                            <td> &nbsp; <i className="fas fa-pen"></i> &nbsp; <i className="fas fa-trash"></i></td>
-                            </tr>
-                            <tr>
-                            <th scope="row"><input type='checkbox'/></th>
-                            <td>Sucursal Larry</td>
-                            <td>the Bird</td>
-                            <td>Atiquizaya</td>
-                            <td>+503 777 777 7</td>
-                            <td>kike@gmail.com</td>
-                            <td> &nbsp; <i className="fas fa-pen"></i> &nbsp; <i className="fas fa-trash"></i></td>
-                            </tr>
+                            ))}
                         </tbody>
                     </table>
                 </Col>

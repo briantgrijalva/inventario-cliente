@@ -50,7 +50,7 @@ export const Sidebar = () => {
   useEffect(() => {
     if (location.pathname === '/nuevaSucursal') {
       sucursalRef.current.classList.add('active');
-    }
+    } 
   }, [location])
   
 
