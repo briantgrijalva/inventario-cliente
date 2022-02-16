@@ -2,6 +2,7 @@ import { Routes, Route} from "react-router-dom";
 
 import { DashboardScreen } from "../components/dashboard/DashboardScreen";
 import { PersonasScreen } from "../components/personas/PersonasScreen";
+import { AgregarUsuarioScreen } from "../components/personas/usuarios/AgregarUsuarioScreen";
 import { SucursalesScreen } from "../components/sucursales/SucursalesScreen";
 // import { Navbar } from "../components/ui/Navbar";
 import { Sidebar } from "../components/ui/Sidebar";
@@ -23,6 +24,7 @@ export const DashboardRoutes = () => {
                     <Route path="ventas" element={<VentasScreen />} />
                     <Route path="sucursales" element={<SucursalesScreen />} />
                     <Route path="personas" element={<PersonasScreen />} />
+                    <Route path="nuevoUsuario" element={<AgregarUsuarioScreen />} />
                     
                     
                     <Route path="/*" element={<DashboardScreen />} />
