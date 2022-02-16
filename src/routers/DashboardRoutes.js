@@ -1,7 +1,9 @@
 import { Routes, Route} from "react-router-dom";
 
 import { DashboardScreen } from "../components/dashboard/DashboardScreen";
+import { AgregarClientesScreen } from "../components/personas/clientes/AgregarClientesScreen";
 import { PersonasScreen } from "../components/personas/PersonasScreen";
+import { AgregarProveedoresScreen } from "../components/personas/proveedores/AgregarProveedoresScreen";
 import { AgregarUsuarioScreen } from "../components/personas/usuarios/AgregarUsuarioScreen";
 import { SucursalesScreen } from "../components/sucursales/SucursalesScreen";
 // import { Navbar } from "../components/ui/Navbar";
@@ -25,6 +27,8 @@ export const DashboardRoutes = () => {
                     <Route path="sucursales" element={<SucursalesScreen />} />
                     <Route path="personas" element={<PersonasScreen />} />
                     <Route path="nuevoUsuario" element={<AgregarUsuarioScreen />} />
+                    <Route path="nuevoProveedor" element={<AgregarProveedoresScreen />} />
+                    <Route path="nuevoCliente" element={<AgregarClientesScreen />} />
                     
                     
                     <Route path="/*" element={<DashboardScreen />} />

@@ -26,7 +26,7 @@ export const ProveedoresScreen = () => {
 
                         <button
                             className='btn-add me-3'
-                            onClick={() =>  navigate('/agregarProveedor')}
+                            onClick={() =>  navigate('/nuevoProveedor')}
                         >
                             <i className="fas fa-plus-circle"></i> &nbsp; AGREGAR
                         </button>

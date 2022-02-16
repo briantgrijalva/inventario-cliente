@@ -7,15 +7,16 @@ import { useForm } from '../../../hooks/useForm';
 export const AgregarUsuarioScreen = () => {
 
     const initialForm = {
-        name: '',
-        tel: '',
-        email: '',
-        pais: '',
-        ciudad: '',
-        direccion: ''
+        nombres: '', 
+        apellidos: '', 
+        tel: '', 
+        email: '', 
+        tipoCuenta: '', 
+        pass: '', 
+        pass2: ''
     }
     
-    const [{name, email, tel, pais, ciudad, direccion}, handleInputChange, reset] = useForm(initialForm);
+    const [{nombres, apellidos, tel, email, tipoCuenta, pass, pass2}, handleInputChange, reset] = useForm(initialForm);
 
     // TODO: Implementar redux
 
@@ -26,22 +27,22 @@ export const AgregarUsuarioScreen = () => {
         e.preventDefault();
 
         // TODO: mostrar alerta
-        navigate('/sucursales');
+        navigate('/personas');
     }
 
     const handleCancel = () => {
         // TODO: limpiar campos
-        navigate('/sucursales');
+        navigate('/personas');
     }
 
   return (
     <div className='container-sucursales'>
         <div className='title-separator'>
-            Agregar nueva sucursal
+            Agregar un nuevo usuario
         </div>
-        <Container className='card-shadow div-card pt-3'>
-        <form onSubmit={handleSubmit}>
-            <Row className='mb-4'>
+        <Container className='card-shadow div-card py-3'>
+            <form onSubmit={handleSubmit}>
+                <Row className='mb-4'>
                 
                     <Col xs={12} md={6}>
                         
@@ -50,13 +51,27 @@ export const AgregarUsuarioScreen = () => {
                             <input
                                 type='text'
                                 name='name'
-                                value={name}
+                                value={nombres}
                                 onChange={handleInputChange}
                                 className="form-control" 
-                                placeholder="Nombre"
+                                placeholder="Nombres"
                             />
                             
                         </div>
+
+                        <label htmlFor="name" className="form-label mt-4">Apellidos</label>
+                        <div className="input-group mt-0">
+                            <input
+                                type='text'
+                                name='name'
+                                value={apellidos}
+                                onChange={handleInputChange}
+                                className="form-control" 
+                                placeholder="Apellidos"
+                            />
+                            
+                        </div>
+
                             <label htmlFor="tel" className="form-label mt-4">Teléfono</label>
                         <div className="input-group mt-0">
                             <input
@@ -65,7 +80,7 @@ export const AgregarUsuarioScreen = () => {
                                 value={tel}
                                 onChange={handleInputChange} 
                                 className="form-control" 
-                                placeholder="Teléfono"
+                                placeholder="Telefono"
                             />
                             
                         </div>
@@ -83,40 +98,41 @@ export const AgregarUsuarioScreen = () => {
                     </Col>
                     <Col xs={12} md={6}>
                         
-                            <label htmlFor="pais" className="form-label mt-4">País</label>
+                            <label htmlFor="tipoCuenta" className="form-label mt-4">Tipo de cuenta</label>
                         <div className="input-group mt-0">
                             <input 
                                 type='text' 
-                                name='pais'
-                                value={pais}
+                                name='tipoCuenta'
+                                value={tipoCuenta}
                                 onChange={handleInputChange} 
                                 className="form-control" 
                                 placeholder="País"
                             />
                             
                         </div>
-                            <label htmlFor="ciudad" className="form-label mt-4">Ciudad</label>
+                            <label htmlFor="pass" className="form-label mt-4">Contraseña</label>
                         <div className="input-group mt-0">
                             <input 
-                                type='text' 
-                                name='ciudad' 
-                                value={ciudad}
+                                type='password' 
+                                name='pass' 
+                                value={pass}
                                 onChange={handleInputChange}
                                 className="form-control" 
-                                placeholder="Ciudad"
+                                placeholder="Contraseña"
                             />
                             
                         </div>
-                            <label htmlFor="direccion" className="form-label mt-4">Dirección</label>
+                            <label htmlFor="pass" className="form-label mt-4">Repetir contraseña</label>
                         <div className="input-group mt-0">
                             <input 
-                                type='text' 
-                                name='direccion' 
-                                value={direccion}
+                                type='password' 
+                                name='pass2' 
+                                value={pass2}
                                 onChange={handleInputChange}
                                 className="form-control" 
-                                placeholder="Dirección"
+                                placeholder="Repetir contraseña"
                             />
+                            
                         </div>
                         
                         <button variant="primary" type='submit' className="btn-save mb-4 mt-3">

@@ -1,10 +1,15 @@
 import React from 'react'
 
 import { Col, Container, Row } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import '../../../styles/SucursalesScreen.css';
 
 export const ClientesScreen = () => {
-  return (
+
+    let navigate = useNavigate();
+
+    return (
+        
     <Container className='card-shadow div-card pt-3'>
                 
                 <Row>
@@ -20,6 +25,7 @@ export const ClientesScreen = () => {
 
                         <button
                             className='btn-add me-3'
+                            onClick={() =>  navigate('/nuevoCliente')}
                         >
                             <i className="fas fa-plus-circle"></i> &nbsp; AGREGAR
                         </button>
