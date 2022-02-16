@@ -1,0 +1,20 @@
+
+
+.selected {height:2.2em;color:#454545;background:transparent;border-width:2px;border-style: solid;border-color: #454545;position:relative;margin:1em;display:inline-block;padding:0em 1em;transition:all 0.3s ease-in-out;text-align:center;
+    font-family:'Montserrat', sans-serif;font-weight:bold}
+    .selected:before, .selected:after {content:'';display:block;position:absolute;border-color:#454545;box-sizing:border-box;border-style:solid;width:2em;height:2em;transition:all 0.3s ease-in-out}
+    .selected:before {top:-6px;left:-6px;border-width:2px 0 0 2px;z-index:5;}
+    .selected:after {bottom:-6px;right:-6px;border-width:0 2px 2px 0;}
+    .selected:hover:before, .selected:hover:after {width:calc(100% + 12px);
+      height:calc(100% + 12px);border-color:#fff}
+      .selected:hover {color:#353535;background-color:#fff;border-color:#fff}
+    
+
+.selected:hover {
+    cursor: pointer;
+}
+
+.pink button {color:var(--primary);border-color:var(--primary)}
+.pink button:before, .pink button:after  {border-color:var(--primary)}
+.pink button:hover:before, .pink button:hover:after {border-color:var(--primary);}
+.pink button:hover {color:#fff;background-color:var(--primary);border-color:var(--primary);}

@@ -2,6 +2,7 @@
 
 :root {
   --primary: #EB3581;
+  --pdf: #eb3544;
   --icons: #464646;
 }
 
@@ -15,6 +16,8 @@ aside {
   background-color: #f8f9fa;
 }
 
+/*Botones*/
+
 .btn-sell {
   background-color: var(--primary) !important;
   font-family: 'Montserrat', sans-serif;
@@ -22,8 +25,8 @@ aside {
   font-size: 12px;
   border: none !important;
   color: #FFF;
-  height: 2.5rem;
-  width: 6rem;
+  height: 2.2rem;
+  width: 5.5rem;
 
   box-shadow: 0px 12px 12px -6px var(--primary);
   border-radius: 8px;
@@ -35,6 +38,51 @@ aside {
 .btn-sell:hover {
   transform: scale(1.2);
 }
+
+.btn-add {
+  background-color: var(--primary) !important;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  border: none !important;
+  color: #FFF;
+  height: 2.5rem;
+  width: 8rem;
+
+  box-shadow: 0px 12px 12px -6px var(--primary);
+  border-radius: 8px;
+  
+  transform: scale(1);
+  transition: transform 250ms ease;
+  float: right;
+}
+
+.btn-add:hover {
+  transform: scale(1.2);
+}
+
+.btn-pdf {
+  background-color: var(--pdf) !important;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  border: none !important;
+  color: #FFF;
+  height: 2.5rem;
+  width: 8rem;
+
+  box-shadow: 0px 12px 12px -6px var(--pdf);
+  border-radius: 8px;
+  
+  transform: scale(1);
+  transition: transform 250ms ease;
+  float: right;
+}
+
+.btn-pdf:hover {
+  transform: scale(1.2);
+}
+
 
 
 
@@ -53,7 +101,6 @@ aside {
 	width: 4rem;
 }
 
-
 .bloque-derecha section{
 	
 	height: 100vh;
@@ -71,9 +118,57 @@ aside {
     justify-content: center;
 }
 
-/*Cards*/
+
+/* Cards */
 .card-shadow {
   background: #FFFFFF;
   box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.16);
   border-radius: 16px;
 }
+
+
+
+/*Media Querys*/
+
+@media (min-width: 992px){
+  
+  .container-div{
+    padding: 0 4rem;
+  }
+
+}
+
+@media (min-width: 1092px){
+  
+  .container-div{
+    padding: 0 2rem;
+  }
+
+}
+
+@media (min-width: 1200px){
+  
+  .container-div{
+    padding: 0 3rem;
+  }
+
+}
+
+@media (min-width: 1250px){
+  
+  .container-div{
+    padding: 0 1rem;
+  }
+
+}
+
+@media (min-width: 1400px){
+  
+  .container-div{
+    padding: 0 2rem;
+  }
+
+}
+
+
+

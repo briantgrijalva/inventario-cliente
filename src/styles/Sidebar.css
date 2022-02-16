@@ -6,7 +6,7 @@
     --first-color: #F7F6FB;
     --first-color-light: #AFA5D9;
     --white-color: #F7F6FB;
-    --body-font: 'Nunito', sans-serif;
+    --body-font: 'Roboto', sans-serif;
     --normal-font-size: 1rem;
     --z-fixed: 100;
     --primary: #EB3581;
@@ -82,7 +82,6 @@ a {
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     overflow: hidden
 }
 
@@ -112,7 +111,7 @@ a {
 .nav_link {
     position: relative;
     color: var(--first-color-light);
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     transition: .3s
 }
 
@@ -149,7 +148,7 @@ a {
     height: 100vh
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 860px) {
     .body {
         margin: calc(var(--header-height) + 1rem) 0 0 0;
         padding-left: calc(var(--nav-width) + 2rem)
