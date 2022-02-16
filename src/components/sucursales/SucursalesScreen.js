@@ -32,9 +32,13 @@ export const SucursalesScreen = () => {
                     </div>
                 </Col>
                 <Col xs={6} md={6}>
-                    
                     <button
-                        className='btn-add'
+                        className='btn-pdf me-3 btn-pdf-small' 
+                    >
+                        <i className="fas fa-file-pdf"></i> &nbsp; PDF
+                    </button>
+                    <button
+                        className='btn-add me-3 btn-pdf-small'
                         onClick={() =>  navigate('/nuevaSucursal')}
                     >
                         <i className="fas fa-plus-circle"></i> &nbsp; AGREGAR
