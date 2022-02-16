@@ -2,6 +2,7 @@ import React from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import { addNewSucursal } from '../../actions/sucursales';
 import { useForm } from '../../hooks/useForm';
 // import '../../styles/SucursalesScreen.css';
@@ -28,7 +29,14 @@ export const AgregarSucursal = () => {
         
         dispatch(addNewSucursal(name, email, tel, pais, ciudad, direccion));
 
-        // TODO: mostrar alerta
+        
+        Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Sucursal creada correctamente',
+            showConfirmButton: false,
+            timer: 1500
+          })
 
         navigate('/sucursales');
     }

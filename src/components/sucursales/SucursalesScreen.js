@@ -74,7 +74,7 @@ export const SucursalesScreen = () => {
                                 <td>{scsal.ciudad}</td>
                                 <td>{scsal.tel}</td>
                                 <td>{scsal.email}</td>
-                                <td> &nbsp; <i className="fas fa-pen"></i> &nbsp; <i className="fas fa-trash"></i></td>                                
+                                <td><i className="fas fa-pen"></i> <i className="fas fa-trash ms-1"></i></td>                                
                             </tr>
                             ))}
                         </tbody>
