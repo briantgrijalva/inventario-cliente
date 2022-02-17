@@ -13,6 +13,8 @@ import { VentasScreen } from "../components/ventas/VentasScreen";
 
 
 export const DashboardRoutes = () => {
+
+    localStorage.setItem("paginacion", 1);
     return (
         <>
             {/* <Julon /> */}

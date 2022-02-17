@@ -26,19 +26,31 @@ export const AgregarSucursal = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        
-        dispatch(addNewSucursal(name, email, tel, pais, ciudad, direccion));
 
-        
-        Swal.fire({
-            position: 'center',
-            icon: 'success',
-            title: 'Sucursal creada correctamente',
-            showConfirmButton: false,
-            timer: 1500
-          })
+        if (name === '' || email === '' || tel === '' || pais === '' || ciudad === '' || direccion === '') {
+            Swal.fire({
+                position: 'center',
+                icon: 'warning',
+                title: 'Todos los campos son necesarios',
+                showConfirmButton: false,
+                timer: 1500
+            })
+        } else {
 
-        navigate('/sucursales');
+            dispatch(addNewSucursal(name, email, tel, pais, ciudad, direccion));
+    
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Sucursal creada correctamente',
+                showConfirmButton: false,
+                timer: 1500
+            })
+
+            navigate('/sucursales');
+        }
+        
+        
     }
 
     const handleCancel = () => {

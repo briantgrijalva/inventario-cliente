@@ -216,12 +216,12 @@ aside {
 
 @media (max-width: 992px){
   
-  .btn-pdf-small {
+  .btn-pdf, .btn-add {
     width: 2.5rem;
     font-size: 0;
   }
 
-  .btn-pdf-small i{
+  .btn-pdf i, .btn-add i{
     font-size: 16px;
   }
 
