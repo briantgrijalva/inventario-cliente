@@ -3,10 +3,11 @@ import { Col, Container, Row } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-
-export const SucursalesScreen = () => {
+export const ProductosScreen = () => {
 
     const {sucursal} = useSelector(state => state.sucursales);
+
+    // const {producto} = useSelector(state => state.productos);
 
     let navigate = useNavigate();
     
@@ -72,11 +73,11 @@ export const SucursalesScreen = () => {
         setInitialPag(0);
         setLastPag(parseInt(localStorage.getItem("paginacion")));
     }
-    
+
   return (
-     <div className='container-sucursales'>
+    <div className='container-sucursales'>
         <div className='title-separator'>
-            Sucursales
+            Productos
         </div>
         <Container className='card-shadow div-card pt-3'>
             
@@ -90,13 +91,18 @@ export const SucursalesScreen = () => {
                 </Col>
                 <Col xs={6} md={6}>
                     <button
+                        className='btn-save me-3 btn-filter' 
+                    >
+                        <i className="fas fa-filter"></i> &nbsp; FILTRAR
+                    </button>
+                    <button
                         className='btn-pdf me-3' 
                     >
                         <i className="fas fa-file-pdf"></i> &nbsp; PDF
                     </button>
                     <button
                         className='btn-add me-3'
-                        onClick={() =>  navigate('/nuevaSucursal')}
+                        onClick={() =>  navigate('/nuevoProducto')}
                     >
                         <i className="fas fa-plus-circle"></i> &nbsp; AGREGAR
                     </button>
@@ -192,5 +198,5 @@ export const SucursalesScreen = () => {
             
         </Container>
     </div>
-  )     
+  )
 }

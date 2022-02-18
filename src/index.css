@@ -33,7 +33,7 @@ aside {
   border: none !important;
   color: #FFF;
   height: 2.2rem;
-  width: 5.5rem;
+  width: 7rem;
 
   box-shadow: 0px 12px 12px -6px var(--primary);
   border-radius: 8px;
@@ -54,7 +54,7 @@ aside {
   border: none !important;
   color: #FFF;
   height: 2.5rem;
-  width: 8rem;
+  width: 7rem;
 
   box-shadow: 0px 12px 12px -6px var(--green);
   border-radius: 8px;
@@ -76,7 +76,7 @@ aside {
   border: none !important;
   color: #FFF;
   height: 2.5rem;
-  width: 8rem;
+  width: 7rem;
 
   box-shadow: 0px 12px 12px -6px var(--pdf);
   border-radius: 8px;
@@ -98,7 +98,7 @@ aside {
   border: none !important;
   color: #FFF;
   height: 2.5rem;
-  width: 8rem;
+  width: 7rem;
 
 
   box-shadow: 0px 12px 12px -6px var(--blue);
@@ -216,12 +216,13 @@ aside {
 
 @media (max-width: 992px){
   
-  .btn-pdf, .btn-add {
+  .btn-pdf, .btn-add, .btn-filter {
     width: 2.5rem;
     font-size: 0;
+    margin-right: 0.5rem !important;
   }
 
-  .btn-pdf i, .btn-add i{
+  .btn-pdf i, .btn-add i, .btn-filter i{
     font-size: 16px;
   }
 
