@@ -1,12 +1,14 @@
 import React from 'react'
 
 import { Col, Container, Row } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import '../../../styles/SucursalesScreen.css';
 
 export const ClientesScreen = () => {
 
     let navigate = useNavigate();
+    const {clientes} = useSelector(state => state.personas);
 
     return (
         
@@ -59,41 +61,17 @@ export const ClientesScreen = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                <th scope="row"><input type='checkbox'/></th>
-                                <td>Larry</td>
-                                <td>larry@gmail.com</td>
-                                <td>Activo</td>
-                                <td>+503 777 777 7</td>
-                                <td> &nbsp; <i className="fas fa-pen"></i> &nbsp; <i className="fas fa-trash"></i></td>
+                                {clientes.map(scsal => ( 
+                                // TODO: generar los IDs
+                                <tr key={Math.random()}>
+                                    <th scope="row"><input type='checkbox'/></th>
+                                    <td>{scsal.nombres}</td>
+                                    <td>{scsal.email}</td>
+                                    <td>{scsal.tipoCuenta}</td>
+                                    <td>{scsal.tel}</td>
+                                    <td> &nbsp; <i className="fas fa-pen"></i> &nbsp; <i className="fas fa-trash"></i></td>                                
                                 </tr>
-
-                                <tr>
-                                <th scope="row"><input type='checkbox'/></th>
-                                <td>Larry</td>
-                                <td>larry@gmail.com</td>
-                                <td>Activo</td>
-                                <td>+503 777 777 7</td>
-                                <td> &nbsp; <i className="fas fa-pen"></i> &nbsp; <i className="fas fa-trash"></i></td>
-                                </tr>
-
-                                <tr>
-                                <th scope="row"><input type='checkbox'/></th>
-                                <td>Larry</td>
-                                <td>larry@gmail.com</td>
-                                <td>Activo</td>
-                                <td>+503 777 777 7</td>
-                                <td> &nbsp; <i className="fas fa-pen"></i> &nbsp; <i className="fas fa-trash"></i></td>
-                                </tr>
-
-                                <tr>
-                                <th scope="row"><input type='checkbox'/></th>
-                                <td>Larry</td>
-                                <td>larry@gmail.com</td>
-                                <td>Activo</td>
-                                <td>+503 777 777 7</td>
-                                <td> &nbsp; <i className="fas fa-pen"></i> &nbsp; <i className="fas fa-trash"></i></td>
-                                </tr>
+                                ))}
                             </tbody>
                         </table>
                     </Col>

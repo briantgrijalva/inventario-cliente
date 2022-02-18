@@ -7,6 +7,7 @@ import { UsuariosScreen } from './usuarios/UsuariosScreen';
 export const PersonasScreen = () => {
 
     const [view, setView] = useState('Usuarios')
+    /*El view se tiene que agregar en el localStorage*/ 
     
     const handleChangeView = (e) => {
         
