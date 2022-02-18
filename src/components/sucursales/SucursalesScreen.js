@@ -8,46 +8,48 @@ export const SucursalesScreen = () => {
 
     const {sucursal} = useSelector(state => state.sucursales);
 
-    let totalItem = sucursal.length;
-    console.log(totalItem);
-
     let navigate = useNavigate();
-
+    
     const [btnPrevDisable, setBtnPrevDisable] = useState(false);
-    const [btnNextDisable, setBtnNextDisable] = useState(false);
+    const [btnNextDisable, setBtnNextDisable] = useState(true);
     const [counter, setCounter] = useState(0);
+    // eslint-disable-next-line
     const [valueSelect, setValueSelect] = useState(0);
     const [initialPag, setInitialPag] = useState(0);
     const [lastPag, setLastPag] = useState(parseInt(localStorage.getItem("paginacion")));
 
-    console.log(counter);
+    let totalItem = sucursal.length / parseInt(localStorage.getItem("paginacion"));
 
-    // useEffect(() => {
-    //     if (counter === (totalItem - 2)) {
-    //         console.log('last');
-    //         setBtnNextDisable(true);
-    //     } else {
-    //         setBtnNextDisable(false);
-    //     }
-    // }, [counter])
-    
-    
+    console.log(counter);
+    console.log(btnNextDisable);
+    console.log(btnPrevDisable);
+
+    useEffect(() => {
+        if (counter === 0) {
+            setBtnPrevDisable(true);
+            // console.log('first');
+        } else if (counter !== 0) {
+            setBtnPrevDisable(false);
+        }
+    }, [counter])
+
+    useEffect(() => {
+        if (counter === Math.ceil(totalItem - 1)) {
+            setBtnNextDisable(true);
+        } else if (counter !== (totalItem - 1)){
+            setBtnNextDisable(false);
+        }
+        if (localStorage.getItem("paginacion") === 'all') {
+            setBtnNextDisable(true);
+            setBtnPrevDisable(true);
+        } 
+    }, [counter, totalItem])
 
     const handleNext = () => {
         setInitialPag(initialPag + parseInt(localStorage.getItem("paginacion")));
         setLastPag(lastPag + parseInt(localStorage.getItem("paginacion")));
-        setCounter(counter + 1);
-        console.log(`counter ${counter}`);
-        // console.log(initialPag);
-        // console.log(lastPag);
 
-        if (counter === (totalItem - 2)) {
-            console.log('last');
-            // setBtnNextDisable(true);
-        } 
-        // else {
-        //     setBtnNextDisable(false);
-        // }
+        setCounter(counter + 1);
     }
 
     const handlePrev = () => {
@@ -55,20 +57,11 @@ export const SucursalesScreen = () => {
         setLastPag(lastPag - parseInt(localStorage.getItem("paginacion")));
 
         setCounter(counter - 1);
-
-        if (counter === 1) {
-            console.log('first');
-            // setBtnPrevDisable(true);
-        } 
-        // else {
-        //     setBtnPrevDisable(false);
-        // }
-
-        // console.log(initialPag);
-        // console.log(lastPag);
     }
 
     const onChangeSelect = (e) => {
+        setCounter(0);
+        console.log(counter);
         setValueSelect(e.target.value);
         localStorage.setItem("paginacion", e.target.value);
         setInitialPag(0);
@@ -106,9 +99,7 @@ export const SucursalesScreen = () => {
                 </Col>
             </Row>
 
-        
             <Row>
-                
                 <Col xs={6} md={0}></Col>
                 <Col xs={12} md={12} className='table-responsive'>
                     <table className="table table-borderless div-card">
@@ -180,14 +171,14 @@ export const SucursalesScreen = () => {
                     </div>
                     
                 </Col>
-                <Col xs={2} md={8}>
+                <Col xs={2} md={6}>
                     <div >
-                        1 - {valueSelect} of 3{/* total de paginas agregar counter*/}
+                        {localStorage.getItem("paginacion") === 'all' ? 'TODO' : `${counter + 1} - ${Math.ceil(totalItem)}`}
                     </div>
                     
                 </Col>
                 
-                <Col xs={7} md={2}>
+                <Col xs={7} md={4}>
                     <button disabled={btnNextDisable} type='button' className='btn-paginacion' onClick={handleNext}>next <i className="fas fa-caret-right"></i></button>
                     <button disabled={btnPrevDisable} type='button' className='btn-paginacion' onClick={handlePrev}><i className="fas fa-caret-left"></i> prev</button>
                 </Col>
@@ -195,7 +186,6 @@ export const SucursalesScreen = () => {
             </Row>
             
         </Container>
-        {/* {localStorage.getItem("paginacion") === 'all' ? console.log('all') : console.log('otra')} */}
     </div>
   )     
 }
