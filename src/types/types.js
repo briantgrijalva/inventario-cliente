@@ -7,5 +7,10 @@ export const types = {
     viewSidebar: '[UI] ViewSidebar',
     activeElement: '[UI] ActiveElement',
 
+    /*Estados para los componentes*/
     createNewSucursal: '[Sucursal] CreateNewSucursal',
+    createNewUsuario: '[Usuario] CreateNewUsuario',
+    createNewCliente: '[Cliente] CreateNewCliente',
+    createNewProveedor: '[Proveedor] CreateNewProveedor',
+    
 }

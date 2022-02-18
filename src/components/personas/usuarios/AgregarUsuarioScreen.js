@@ -1,6 +1,8 @@
 import React from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { addNewUsuario } from '../../../actions/personas';
 import { useForm } from '../../../hooks/useForm';
 // import '../../styles/SucursalesScreen.css';
 
@@ -20,18 +22,22 @@ export const AgregarUsuarioScreen = () => {
 
     // TODO: Implementar redux
 
-
+    const dispatch = useDispatch();
     let navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
+
+        dispatch(addNewUsuario(nombres, apellidos, tel, email, tipoCuenta, pass, pass2));
         // TODO: mostrar alerta
-        navigate('/personas');
+        reset();
+        //navigate('/personas');
     }
 
     const handleCancel = () => {
         // TODO: limpiar campos
+        reset();
         navigate('/personas');
     }
 
@@ -50,7 +56,7 @@ export const AgregarUsuarioScreen = () => {
                         <div className="input-group mt-0">
                             <input
                                 type='text'
-                                name='name'
+                                name='nombres'
                                 value={nombres}
                                 onChange={handleInputChange}
                                 className="form-control" 
@@ -63,7 +69,7 @@ export const AgregarUsuarioScreen = () => {
                         <div className="input-group mt-0">
                             <input
                                 type='text'
-                                name='name'
+                                name='apellidos'
                                 value={apellidos}
                                 onChange={handleInputChange}
                                 className="form-control" 
@@ -75,7 +81,7 @@ export const AgregarUsuarioScreen = () => {
                             <label htmlFor="tel" className="form-label mt-4">Teléfono</label>
                         <div className="input-group mt-0">
                             <input
-                                type='tel' 
+                                type='number' 
                                 name='tel'
                                 value={tel}
                                 onChange={handleInputChange} 

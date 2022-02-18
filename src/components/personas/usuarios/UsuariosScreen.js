@@ -1,12 +1,25 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Col, Container, Row } from 'react-bootstrap';
 import '../../../styles/SucursalesScreen.css';
+import { useSelector } from 'react-redux';
+import { useForm } from '../../../hooks/useForm';
 
 export const UsuariosScreen = () => {
 
-    let navigate = useNavigate();
+    const navigate = useNavigate()
     
+
+    const {usuarios} = useSelector(state => state.personas);
+
+    const [formValues, handleInputChange] = useForm({
+        searchText: '',
+    });
+
+    let busqueda = '';
+    const {searchText} = formValues;
+    
+
     
 
   return (
@@ -16,7 +29,7 @@ export const UsuariosScreen = () => {
                     <Col xs={6} md={6}>
                         
                         <div className="input-group">
-                            <input type='search' className="form-control" placeholder="Escribe un nombre"/>
+                            <input autoComplete='off' type='search' name='searchText' value={searchText} onChange={handleInputChange} className="form-control" placeholder="Escribe un nombre"/>
                             <button className="btn btn-outline-secondary" type="button"><i className="fas fa-search"></i></button>
                         </div>
                     </Col>
@@ -53,47 +66,44 @@ export const UsuariosScreen = () => {
                                 <th scope="col"><input type='checkbox'/></th>
                                 <th scope="col">Usuario</th>
                                 <th scope="col">Correo</th>
-                                <th scope="col">Estado</th>
+                                <th scope="col">Tipo de cuenta</th>
                                 <th scope="col">Teléfono</th>
                                 <th scope="col">Acción</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                <th scope="row"><input type='checkbox'/></th>
-                                <td>Larry</td>
-                                <td>larry@gmail.com</td>
-                                <td>Activo</td>
-                                <td>+503 777 777 7</td>
-                                <td> &nbsp; <i className="fas fa-pen"></i> &nbsp; <i className="fas fa-trash"></i></td>
-                                </tr>
+                                {
+                                
+                                    searchText === '' ?
+                                    
+                                    usuarios.map(scsal => ( 
+                                    // TODO: generar los IDs
+                                    <tr key={Math.random()}>
+                                        <th scope="row"><input type='checkbox'/></th>
+                                        <td>{scsal.nombres}</td>
+                                        <td>{scsal.email}</td>
+                                        <td>{scsal.tipoCuenta}</td>
+                                        <td>{scsal.tel}</td>
+                                        <td> &nbsp; <i className="fas fa-pen"></i> &nbsp; <i className="fas fa-trash"></i></td>                                
+                                    </tr>
+                                    ))
 
-                                <tr>
-                                <th scope="row"><input type='checkbox'/></th>
-                                <td>Larry</td>
-                                <td>larry@gmail.com</td>
-                                <td>Activo</td>
-                                <td>+503 777 777 7</td>
-                                <td> &nbsp; <i className="fas fa-pen"></i> &nbsp; <i className="fas fa-trash"></i></td>
-                                </tr>
+                                    :
 
-                                <tr>
-                                <th scope="row"><input type='checkbox'/></th>
-                                <td>Larry</td>
-                                <td>larry@gmail.com</td>
-                                <td>Activo</td>
-                                <td>+503 777 777 7</td>
-                                <td> &nbsp; <i className="fas fa-pen"></i> &nbsp; <i className="fas fa-trash"></i></td>
-                                </tr>
-
-                                <tr>
-                                <th scope="row"><input type='checkbox'/></th>
-                                <td>Larry</td>
-                                <td>larry@gmail.com</td>
-                                <td>Activo</td>
-                                <td>+503 777 777 7</td>
-                                <td> &nbsp; <i className="fas fa-pen"></i> &nbsp; <i className="fas fa-trash"></i></td>
-                                </tr>
+                                    usuarios.filter(nombre => nombre.nombres.toLowerCase().includes(searchText.toLowerCase())).map(scsal => ( 
+                                        // TODO: generar los IDs
+                                        <tr key={Math.random()}>
+                                            <th scope="row"><input type='checkbox'/></th>
+                                            <td>{scsal.nombres}</td>
+                                            <td>{scsal.email}</td>
+                                            <td>{scsal.tipoCuenta}</td>
+                                            <td>{scsal.tel}</td>
+                                            <td> &nbsp; <i className="fas fa-pen"></i> &nbsp; <i className="fas fa-trash"></i></td>                                
+                                        </tr>
+                                        ))
+                                        
+                            
+                                }
                             </tbody>
                         </table>
                     </Col>
