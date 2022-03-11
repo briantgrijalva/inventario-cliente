@@ -2,11 +2,11 @@
 
 :root {
   --primary: #EB3581;
-  --pdf: #eb3544;
+  --pdf: #EB3556 ;
   --icons: #464646;
   --green: #36CC72;
   --blue: #1CA2EE;
-  --red: #EB3556;
+  --red: #eb3544;
   --light: #f7f6fb;
 }
 
@@ -32,7 +32,7 @@ aside {
   font-size: 12px;
   border: none !important;
   color: #FFF;
-  height: 2.2rem;
+  height: 2.5rem;
   width: 7rem;
 
   box-shadow: 0px 12px 12px -6px var(--primary);
@@ -122,7 +122,7 @@ aside {
   border: none !important;
   color: #FFF;
   height: 2.5rem;
-  width: 6rem;
+  width: 7rem;
 
   box-shadow: 0px 12px 12px -6px var(--red);
   border-radius: 8px;
@@ -133,6 +133,28 @@ aside {
 }
 
 .btn-cancel:hover {
+  transform: scale(1.2);
+}
+
+.btn-ok {
+  background-color: var(--green) !important;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  border: none !important;
+  color: #FFF;
+  height: 2.5rem;
+  width: 7rem;
+
+  box-shadow: 0px 12px 12px -6px var(--green);
+  border-radius: 8px;
+  
+  transform: scale(1);
+  transition: transform 250ms ease;
+  float: right;
+}
+
+.btn-ok:hover {
   transform: scale(1.2);
 }
 
@@ -211,18 +233,25 @@ aside {
   font-weight: bold;
 }
 
+.spinner-container {
+  display: flex;
+  /* align-items: center; */
+  justify-content: center;
+  margin-top: 45vh;
+}
+
 
 /*Media Querys*/
 
-@media (max-width: 992px){
+@media (max-width: 1200px){
   
-  .btn-pdf, .btn-add, .btn-filter {
+  .btn-pdf, .btn-add, .btn-filter, .btn-small {
     width: 2.5rem;
     font-size: 0;
     margin-right: 0.5rem !important;
   }
 
-  .btn-pdf i, .btn-add i, .btn-filter i{
+  .btn-pdf i, .btn-add i, .btn-filter i, .btn-small i{
     font-size: 16px;
   }
 

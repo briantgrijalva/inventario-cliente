@@ -1,14 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import { startCreateNewSucursal } from '../../actions/sucursales';
-import { useForm } from '../../hooks/useForm';
+import { clearActiveSucursal, setActiveSucursal, startLoading, startUpdatedSucursal } from '../../actions/sucursales';
 
-export const AgregarSucursal = () => {
-
-    const dispatch = useDispatch();
+export const ViewSucursal = () => {
 
     const initialForm = {
         name: '',
@@ -18,12 +15,50 @@ export const AgregarSucursal = () => {
         ciudad: '',
         direccion: ''
     }
-    
-    const [values, handleInputChange, reset] = useForm(initialForm);
 
-    const {name, email, tel, pais, ciudad, direccion} = values;
+    const [values, setValues] = useState(initialForm);
+
+    const reset = () => {
+        setValues( initialForm );
+    }
+
+    const handleInputChange = ({ target }) => {
+        setValues({
+            ...values,
+            [ target.name ]: target.value
+        });
+    }
+
+    const { name, email, tel, pais, ciudad, direccion } = values;
+
+    const dispatch = useDispatch();
+    
+    const { activeSucursal } = useSelector(state => state.sucursales);
 
     let navigate = useNavigate();
+
+    let sucursal = localStorage.getItem('activeSucursal');
+    // console.log(JSON.parse(sucursal));
+    let parseSucursal = JSON.parse(sucursal);
+    
+
+    useEffect(() => {
+
+        dispatch(startLoading());
+        
+      }, [dispatch])
+      
+
+    useEffect(() => {
+        if (activeSucursal) {
+            // console.log(activeSucursal[0]);
+            setValues( activeSucursal[0] );
+        } else {
+            dispatch(setActiveSucursal(parseSucursal));
+        }
+        // console.log(activeSucursal);
+    }, [activeSucursal, setValues, dispatch, parseSucursal])
+    
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -38,21 +73,24 @@ export const AgregarSucursal = () => {
             })
         } else {
 
-            // console.log(values);
-            dispatch(startCreateNewSucursal(values));
-            navigate('/sucursales');
+            if (activeSucursal) {
+                dispatch(startUpdatedSucursal(values));
+                dispatch(clearActiveSucursal());
+                navigate('/sucursales');
+            }
         }
     }
 
     const handleCancel = () => {
         reset();
+        dispatch(clearActiveSucursal());
         navigate('/sucursales');
     }
 
   return (
     <div className='container-sucursales'>
         <div className='title-separator'>
-            Agregar nueva sucursal
+            Detalles de la sucursal
         </div>
         <Container className='card-shadow div-card pt-3'>
         <form onSubmit={handleSubmit}>
@@ -63,6 +101,7 @@ export const AgregarSucursal = () => {
                         <label htmlFor="name" className="form-label mt-4">Nombre</label>
                         <div className="input-group mt-0">
                             <input
+                                contentEditable='false'
                                 type='text'
                                 name='name'
                                 value={name}
@@ -147,11 +186,9 @@ export const AgregarSucursal = () => {
                             CANCELAR
                         </button>
                         
-                        
                     </Col>
                 </Row>
             </form>
-
         </Container>
     </div>
   )

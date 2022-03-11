@@ -37,19 +37,25 @@ export const Sidebar = () => {
       sucursalRef.current
     ];
 
+    
+
     link.filter(lnk => location.pathname === lnk.pathname)
     .map(lnk => (
       lnk.classList.add('active')))
 
-      link.filter(lnk => location.pathname !== lnk.pathname)
+    link.filter(lnk => location.pathname !== lnk.pathname)
     .map(lnk => (
-      lnk.classList.remove('active')))
+      lnk.classList.remove('active')))  
+
     
   }, [location]);
 
   useEffect(() => {
-    if (location.pathname === '/nuevaSucursal') {
+    
+    if (location.pathname === '/nuevaSucursal' || location.pathname === '/verSucursal') {
       sucursalRef.current.classList.add('active');
+    } else if (location.pathname === '/nuevoProducto') {
+      productosRef.current.classList.add('active');
     }
   }, [location])
 

@@ -1,19 +1,15 @@
-// import React, { useContext } from 'react'
-import { useNavigate } from 'react-router-dom';
-// import { AuthContext } from '../auth/authContext'
+import React from 'react'
+import { useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
 
 export const PublicRoute = ({children}) => {
     
-    // const {user} = useContext(AuthContext)
-    // return user.logged
-    let navigate = useNavigate();
+    const {uid} = useSelector( state => state.auth );
 
-    const user = true;
-    return user
-        ? navigate("/dashboard")
+    let user = uid;
+    return !!user
+        ? <Navigate to="/dashboard"/>
         : children
     
-
-    // return <Navigate to="/login"/>;
      
 }

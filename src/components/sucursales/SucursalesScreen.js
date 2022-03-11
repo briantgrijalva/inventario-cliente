@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import { setActiveSucursal, startDeleted, startLoading } from '../../actions/sucursales';
+import Checkbox from '../../helpers/Checkbox';
 
 
 export const SucursalesScreen = () => {
 
     const {sucursal} = useSelector(state => state.sucursales);
+
+    const dispatch = useDispatch();
 
     let navigate = useNavigate();
     
@@ -17,13 +22,68 @@ export const SucursalesScreen = () => {
     const [valueSelect, setValueSelect] = useState(0);
     const [initialPag, setInitialPag] = useState(0);
     const [lastPag, setLastPag] = useState(parseInt(localStorage.getItem("paginacion")));
+    const [check, setCheck] = useState(false);
+    const [isCheckAll, setIsCheckAll] = useState(false);
+    const [isCheck, setIsCheck] = useState([]);
+    const [list, setList] = useState([]);
 
     let totalItem = sucursal.length / parseInt(localStorage.getItem("paginacion"));
+
+
+    useEffect(() => {
+        setList(sucursal);
+    }, [list, sucursal]);
+
+    const handleSelectAll = (e) => {
+        setIsCheckAll(!isCheckAll);
+
+        if (localStorage.getItem("paginacion") === 'all') {
+            setIsCheck(list.map((li) => li.id));
+            if (isCheckAll) {
+                setIsCheck([]);
+            }
+        } else {
+            setIsCheck(list.map((li) => li.id).slice(initialPag, lastPag));
+            if (isCheckAll) {
+                setIsCheck([]);
+            }
+        }
+    };
+
+    const handleClick = (e) => {
+        const { id, checked } = e.target;
+        setIsCheck([...isCheck, id]);
+        if (!checked) {
+        setIsCheck(isCheck.filter((item) => item !== id));
+        }
+    };
+
+    // let sucursalMap = sucursal.filter(s => (s.id).includes(isCheck)).map(s => s);
+    // console.log(isCheck);
+    // console.log(sucursalMap);
+
 
     // console.log(totalItem);
     // console.log(counter);
     // console.log(btnNextDisable);
     // console.log(btnPrevDisable);
+
+
+    useEffect(() => {
+
+      dispatch(startLoading());
+
+    }, [dispatch])
+
+    
+    useEffect(() => {
+        if (isCheck.length > 0) {
+            setCheck(true);
+        } else {
+            setCheck(false);
+        }
+    }, [isCheck, setCheck])
+    
 
     useEffect(() => {
         if (counter === 0) {
@@ -55,6 +115,8 @@ export const SucursalesScreen = () => {
         setLastPag(lastPag + parseInt(localStorage.getItem("paginacion")));
 
         setCounter(counter + 1);
+        // reset elements checked
+        setIsCheck([]);
     }
 
     const handlePrev = () => {
@@ -62,6 +124,8 @@ export const SucursalesScreen = () => {
         setLastPag(lastPag - parseInt(localStorage.getItem("paginacion")));
 
         setCounter(counter - 1);
+        // reset elements checked
+        setIsCheck([]);
     }
 
     const onChangeSelect = (e) => {
@@ -71,6 +135,122 @@ export const SucursalesScreen = () => {
         localStorage.setItem("paginacion", e.target.value);
         setInitialPag(0);
         setLastPag(parseInt(localStorage.getItem("paginacion")));
+        setIsCheck([]);
+    }
+
+    const handleView = (e) => {
+        // console.log(e.target.id);
+        let id = e.target.id;
+        let sucursalSelect = sucursal.filter(s => s.id === id).map(s => (s));
+        dispatch(setActiveSucursal(sucursalSelect));
+        
+        localStorage.setItem('activeSucursal', JSON.stringify(sucursalSelect));
+
+        // console.log(sucursalSelect[0]);
+        navigate('/verSucursal');
+    }
+
+    const handleDelete = (e) => {
+
+        // console.log(e.target.id);
+        let id = e.target.id;    
+        let sucursalSelect = sucursal.filter(s => s.id === id).map(s => (s));
+
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+              confirmButton: 'btn-ok ms-3',
+              cancelButton: 'btn-cancel'
+            },
+            buttonsStyling: false
+          })
+          
+          swalWithBootstrapButtons.fire({
+            title: '¿Estas seguro?',
+            text: "¡No podrás reverir esta acción!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: '¡BORRALO!',
+            cancelButtonText: 'CANCELAR',
+            reverseButtons: true
+          }).then((result) => {
+            if (result.isConfirmed) {      
+                // console.log(sucursalSelect[0]);
+                dispatch(startDeleted(sucursalSelect[0]));
+                swalWithBootstrapButtons.fire(
+                    'Borrado!',
+                    `La Sucursal ${sucursalSelect[0].name} fue borrada.`,
+                    'success'
+                )
+            } else if (
+              /* Read more about handling dismissals below */
+              result.dismiss === Swal.DismissReason.cancel
+            ) {
+              swalWithBootstrapButtons.fire(
+                'Cancelado',
+                `La Sucursal ${sucursalSelect[0].name} esta segura :)`,
+                'error'
+              )
+            }
+          })
+    }
+
+    const handleDeleteCheck = () => {
+
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+              confirmButton: 'btn-ok ms-3',
+              cancelButton: 'btn-cancel'
+            },
+            buttonsStyling: false
+          })
+          
+          swalWithBootstrapButtons.fire({
+            title: '¿Estas seguro?',
+            text: "¡No podrás reverir esta acción!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: '¡BORRALO!',
+            cancelButtonText: 'CANCELAR',
+            reverseButtons: true
+          }).then((result) => {
+            if (result.isConfirmed) {      
+                
+                // for (let i = 0; i < updatedList.length; i++) {
+                //     console.log(updatedList[i][0]);
+                //     dispatch(startDeleted(checkedSucursal[i][0]));
+                //     setCheck(false);
+                // }
+                let sucursalMap
+                for (let i = 0; i < list.length; i++) {
+                    console.log(list);
+                    for (let i = 0; i < isCheck.length; i++) {
+                        sucursalMap = list.filter(s => s.id === isCheck[i]).map(s => s);
+                        // console.log(sucursalMap);
+                        dispatch(startDeleted(sucursalMap[0]));
+                    }
+                    // console.log(isCheck);
+                    // console.log(sucursalMap);
+                    // dispatch(startDeleted(list[i]));
+                    setCheck(false);
+                }
+                // console.log(sucursalMap);
+                swalWithBootstrapButtons.fire(
+                    'Borrado!',
+                    `La Sucursales seleccionadas fueron borradas.`,
+                    'success'
+                )
+            } else if (
+              /* Read more about handling dismissals below */
+              result.dismiss === Swal.DismissReason.cancel
+            ) {
+              swalWithBootstrapButtons.fire(
+                'Cancelado',
+                `Las sucursales estan seguras :)`,
+                'error'
+              )
+            }
+          })
+
     }
     
   return (
@@ -89,6 +269,7 @@ export const SucursalesScreen = () => {
                     </div>
                 </Col>
                 <Col xs={6} md={6}>
+
                     <button
                         className='btn-pdf me-3' 
                     >
@@ -100,6 +281,15 @@ export const SucursalesScreen = () => {
                     >
                         <i className="fas fa-plus-circle"></i> &nbsp; AGREGAR
                     </button>
+
+                    {check 
+                    ?<button
+                        className="btn-cancel me-3 btn-small"
+                        onClick={handleDeleteCheck}
+                    >
+                        <i className="fas fa-trash"></i> &nbsp; BORRAR
+                    </button>
+                    : null }
                     
                 </Col>
             </Row>
@@ -110,7 +300,16 @@ export const SucursalesScreen = () => {
                     <table className="table table-borderless div-card">
                         <thead className='table-light'>
                             <tr>
-                            <th scope="col"><input type='checkbox'/></th>
+                            <th scope="col">
+                                {/* Componente Checkbox */}
+                                 <Checkbox
+                                    type="checkbox"
+                                    name="selectAll"
+                                    id="selectAll"
+                                    handleClick={handleSelectAll}
+                                    isChecked={isCheckAll}
+                                />
+                            </th>
                             <th scope="col">Nombre</th>
                             <th scope="col">País</th>
                             <th scope="col">Ciudad</th>
@@ -122,27 +321,57 @@ export const SucursalesScreen = () => {
                         <tbody>
                         {localStorage.getItem("paginacion") === 'all' 
                         ? sucursal.map(scsal => ( 
-                            // TODO: generar los IDs
-                            <tr key={Math.random()}>
-                                <th scope="row"><input type='checkbox'/></th>
+                            
+                            <tr key={scsal.id}>
+                                <th scope="row">
+                                    {/* Componente Checkbox */}
+                                    <Checkbox
+                                        key={scsal.id}
+                                        type="checkbox"
+                                        name={scsal.name}
+                                        id={scsal.id}
+                                        handleClick={handleClick}
+                                        isChecked={isCheck.includes(scsal.id)}
+                                    />
+                                </th>
                                 <td>{scsal.name}</td>
                                 <td>{scsal.pais}</td>
                                 <td>{scsal.ciudad}</td>
                                 <td>{scsal.tel}</td>
                                 <td>{scsal.email}</td>
-                                <td><i className="fas fa-pen"></i> <i className="fas fa-trash ms-1"></i></td>                                
+                                <td><i
+                                        className="fas fa-eye" 
+                                        id={scsal.id} 
+                                        onClick={handleView} 
+                                    ></i> 
+                                    <i 
+                                        className="fas fa-trash ms-1" 
+                                        id={scsal.id} 
+                                        onClick={handleDelete}
+                                    ></i>
+                                </td>                                
                             </tr>
                             ))
                         : sucursal.map(scsal => ( 
                             // TODO: generar los IDs
-                            <tr key={Math.random()}>
-                                <th scope="row"><input type='checkbox'/></th>
+                            <tr key={scsal.id}>
+                                <th scope="row">
+                                    {/* Componente Checkbox */}
+                                    <Checkbox
+                                        key={scsal.id}
+                                        type="checkbox"
+                                        name={scsal.name}
+                                        id={scsal.id}
+                                        handleClick={handleClick}
+                                        isChecked={isCheck.includes(scsal.id)}
+                                    />
+                                </th>
                                 <td>{scsal.name}</td>
                                 <td>{scsal.pais}</td>
                                 <td>{scsal.ciudad}</td>
                                 <td>{scsal.tel}</td>
                                 <td>{scsal.email}</td>
-                                <td><i className="fas fa-pen"></i> <i className="fas fa-trash ms-1"></i></td>                                
+                                <td><i className="fas fa-eye" id={scsal.id} onClick={handleView}></i> <i className="fas fa-trash ms-1" id={scsal.id} onClick={handleDelete}></i></td>                                
                             </tr>
                             // Recorre el numero de elementos que indiquemos
                             )).slice(initialPag, lastPag)
@@ -160,6 +389,7 @@ export const SucursalesScreen = () => {
                         <div>
                             Filas 
                         </div>
+                        {}
                         
                         <select 
                             name='select' 

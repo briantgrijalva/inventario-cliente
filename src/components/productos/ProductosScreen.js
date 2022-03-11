@@ -90,21 +90,29 @@ export const ProductosScreen = () => {
                     </div>
                 </Col>
                 <Col xs={6} md={6}>
+                    
                     <button
-                        className='btn-save me-3 btn-filter' 
+                        className='btn-save me-2 btn-filter' 
                     >
                         <i className="fas fa-filter"></i> &nbsp; FILTRAR
                     </button>
                     <button
-                        className='btn-pdf me-3' 
+                        className='btn-pdf me-2' 
                     >
                         <i className="fas fa-file-pdf"></i> &nbsp; PDF
                     </button>
                     <button
-                        className='btn-add me-3'
+                        className='btn-add me-2'
                         onClick={() =>  navigate('/nuevoProducto')}
                     >
                         <i className="fas fa-plus-circle"></i> &nbsp; AGREGAR
+                    </button>
+
+                    
+                    <button
+                        className="btn-cancel me-2 btn-small"
+                    >
+                        <i className="fas fa-trash"></i> &nbsp; BORRAR
                     </button>
                     
                 </Col>
@@ -117,12 +125,15 @@ export const ProductosScreen = () => {
                         <thead className='table-light'>
                             <tr>
                             <th scope="col"><input type='checkbox'/></th>
+                            <th scope="col">Imagen</th>
                             <th scope="col">Nombre</th>
-                            <th scope="col">País</th>
-                            <th scope="col">Ciudad</th>
-                            <th scope="col">Teléfono</th>
-                            <th scope="col">Correo</th>
-                            <th scope="col">Acción</th>
+                            <th scope="col">Código</th>
+                            <th scope="col">Categoría</th>
+                            <th scope="col">Marca</th>
+                            <th scope="col">Precio</th>
+                            <th scope="col">Unidad</th>
+                            <th scope="col">Cantidad</th>
+                            <th scope="col">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
