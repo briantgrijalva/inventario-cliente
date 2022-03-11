@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { setActiveSucursal, startDeleted, startLoading } from '../../actions/sucursales';
 import Checkbox from '../../helpers/Checkbox';
+import { useForm } from '../../hooks/useForm';
 
 
 export const SucursalesScreen = () => {
@@ -29,6 +30,12 @@ export const SucursalesScreen = () => {
 
     let totalItem = sucursal.length / parseInt(localStorage.getItem("paginacion"));
 
+    const [formValues, handleInputChange, reset] = useForm({
+        searchText: '',
+    });
+
+    const {searchText} = formValues;
+
 
     useEffect(() => {
         setList(sucursal);
@@ -37,17 +44,28 @@ export const SucursalesScreen = () => {
     const handleSelectAll = (e) => {
         setIsCheckAll(!isCheckAll);
 
-        if (localStorage.getItem("paginacion") === 'all') {
-            setIsCheck(list.map((li) => li.id));
-            if (isCheckAll) {
-                setIsCheck([]);
+        if (searchText === '') {
+            if (localStorage.getItem("paginacion") === 'all') {
+                setIsCheck(list.map((li) => li.id));
+                if (isCheckAll) {
+                    setIsCheck([]);
+                }
+            } else {
+                setIsCheck(list.map((li) => li.id).slice(initialPag, lastPag));
+                if (isCheckAll) {
+                    setIsCheck([]);
+                }
             }
         } else {
-            setIsCheck(list.map((li) => li.id).slice(initialPag, lastPag));
+            // setIsCheck(list.map((li) => li.id));
+            // setIsCheck(list.map((li) => li.id).filter(s => s.name.toLowerCase().includes(searchText.toLowerCase())));
+            setIsCheck(list.filter(s => s.name.toLowerCase().includes(searchText.toLowerCase())).map(s => s.id));
+            // sucursal.filter(s => s.name.toLowerCase().includes(searchText.toLowerCase())).map(scsal =>
             if (isCheckAll) {
                 setIsCheck([]);
             }
         }
+        
     };
 
     const handleClick = (e) => {
@@ -232,6 +250,7 @@ export const SucursalesScreen = () => {
                     // console.log(sucursalMap);
                     // dispatch(startDeleted(list[i]));
                     setCheck(false);
+                    reset();
                 }
                 // console.log(sucursalMap);
                 swalWithBootstrapButtons.fire(
@@ -250,7 +269,6 @@ export const SucursalesScreen = () => {
               )
             }
           })
-
     }
     
   return (
@@ -264,7 +282,7 @@ export const SucursalesScreen = () => {
                 <Col xs={6} md={6}>
                     
                     <div className="input-group">
-                        <input type='text' className="form-control" placeholder="Escribe un nombre"/>
+                        <input type='search' className="form-control" placeholder="Escribe un nombre" name='searchText' value={searchText} onChange={handleInputChange}/>
                         <button className="btn btn-outline-secondary" type="button"><i className="fas fa-search"></i></button>
                     </div>
                 </Col>
@@ -319,41 +337,66 @@ export const SucursalesScreen = () => {
                             </tr>
                         </thead>
                         <tbody>
-                        {localStorage.getItem("paginacion") === 'all' 
-                        ? sucursal.map(scsal => ( 
-                            
-                            <tr key={scsal.id}>
-                                <th scope="row">
-                                    {/* Componente Checkbox */}
-                                    <Checkbox
-                                        key={scsal.id}
-                                        type="checkbox"
-                                        name={scsal.name}
-                                        id={scsal.id}
-                                        handleClick={handleClick}
-                                        isChecked={isCheck.includes(scsal.id)}
-                                    />
-                                </th>
-                                <td>{scsal.name}</td>
-                                <td>{scsal.pais}</td>
-                                <td>{scsal.ciudad}</td>
-                                <td>{scsal.tel}</td>
-                                <td>{scsal.email}</td>
-                                <td><i
-                                        className="fas fa-eye" 
-                                        id={scsal.id} 
-                                        onClick={handleView} 
-                                    ></i> 
-                                    <i 
-                                        className="fas fa-trash ms-1" 
-                                        id={scsal.id} 
-                                        onClick={handleDelete}
-                                    ></i>
-                                </td>                                
-                            </tr>
-                            ))
-                        : sucursal.map(scsal => ( 
-                            // TODO: generar los IDs
+                        {searchText === '' 
+                        ?
+                                   
+                            localStorage.getItem("paginacion") === 'all' 
+                            ? sucursal.map(scsal => ( 
+                                
+                                <tr key={scsal.id}>
+                                    <th scope="row">
+                                        {/* Componente Checkbox */}
+                                        <Checkbox
+                                            key={scsal.id}
+                                            type="checkbox"
+                                            name={scsal.name}
+                                            id={scsal.id}
+                                            handleClick={handleClick}
+                                            isChecked={isCheck.includes(scsal.id)}
+                                        />
+                                    </th>
+                                    <td>{scsal.name}</td>
+                                    <td>{scsal.pais}</td>
+                                    <td>{scsal.ciudad}</td>
+                                    <td>{scsal.tel}</td>
+                                    <td>{scsal.email}</td>
+                                    <td><i
+                                            className="fas fa-eye" 
+                                            id={scsal.id} 
+                                            onClick={handleView} 
+                                        ></i> 
+                                        <i 
+                                            className="fas fa-trash ms-1" 
+                                            id={scsal.id} 
+                                            onClick={handleDelete}
+                                        ></i>
+                                    </td>                                
+                                </tr>
+                                ))
+                            : sucursal.map(scsal => ( 
+                                // TODO: generar los IDs
+                                <tr key={scsal.id}>
+                                    <th scope="row">
+                                        {/* Componente Checkbox */}
+                                        <Checkbox
+                                            key={scsal.id}
+                                            type="checkbox"
+                                            name={scsal.name}
+                                            id={scsal.id}
+                                            handleClick={handleClick}
+                                            isChecked={isCheck.includes(scsal.id)}
+                                        />
+                                    </th>
+                                    <td>{scsal.name}</td>
+                                    <td>{scsal.pais}</td>
+                                    <td>{scsal.ciudad}</td>
+                                    <td>{scsal.tel}</td>
+                                    <td>{scsal.email}</td>
+                                    <td><i className="fas fa-eye" id={scsal.id} onClick={handleView}></i> <i className="fas fa-trash ms-1" id={scsal.id} onClick={handleDelete}></i></td>                                
+                                </tr>
+                                // Recorre el numero de elementos que indiquemos
+                                )).slice(initialPag, lastPag)
+                        : sucursal.filter(s => s.name.toLowerCase().includes(searchText.toLowerCase())).map(scsal => (
                             <tr key={scsal.id}>
                                 <th scope="row">
                                     {/* Componente Checkbox */}
@@ -373,9 +416,7 @@ export const SucursalesScreen = () => {
                                 <td>{scsal.email}</td>
                                 <td><i className="fas fa-eye" id={scsal.id} onClick={handleView}></i> <i className="fas fa-trash ms-1" id={scsal.id} onClick={handleDelete}></i></td>                                
                             </tr>
-                            // Recorre el numero de elementos que indiquemos
-                            )).slice(initialPag, lastPag)
-                        }
+                        ))}
                         </tbody>
                     </table>
                 </Col>
