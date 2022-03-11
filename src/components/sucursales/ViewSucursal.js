@@ -27,6 +27,7 @@ export const ViewSucursal = () => {
             ...values,
             [ target.name ]: target.value
         });
+        console.log(values);
     }
 
     const { name, email, tel, pais, ciudad, direccion } = values;
@@ -51,13 +52,16 @@ export const ViewSucursal = () => {
 
     useEffect(() => {
         if (activeSucursal) {
-            // console.log(activeSucursal[0]);
+            console.log(activeSucursal[0]);
+            // console.log(parseSucursal);
             setValues( activeSucursal[0] );
-        } else {
+        } 
+        else {
             dispatch(setActiveSucursal(parseSucursal));
         }
         // console.log(activeSucursal);
-    }, [activeSucursal, setValues, dispatch, parseSucursal])
+        // eslint-disable-next-line
+    }, [activeSucursal, dispatch])
     
 
     const handleSubmit = (e) => {
@@ -74,6 +78,7 @@ export const ViewSucursal = () => {
         } else {
 
             if (activeSucursal) {
+                console.log(values);
                 dispatch(startUpdatedSucursal(values));
                 dispatch(clearActiveSucursal());
                 navigate('/sucursales');
