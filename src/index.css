@@ -158,7 +158,9 @@ aside {
   transform: scale(1.2);
 }
 
-
+.btn-edit-icon {
+  float: right;
+}
 
 
 #contenedor{

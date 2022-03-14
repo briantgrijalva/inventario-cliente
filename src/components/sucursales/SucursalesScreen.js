@@ -148,7 +148,7 @@ export const SucursalesScreen = () => {
 
     const onChangeSelect = (e) => {
         setCounter(0);
-        console.log(counter);
+        // console.log(counter);
         setValueSelect(e.target.value);
         localStorage.setItem("paginacion", e.target.value);
         setInitialPag(0);
@@ -239,8 +239,8 @@ export const SucursalesScreen = () => {
                 //     setCheck(false);
                 // }
                 let sucursalMap
-                for (let i = 0; i < list.length; i++) {
-                    console.log(list);
+                // for (let i = 0; i < list.length; i++) {
+                    // console.log(list);
                     for (let i = 0; i < isCheck.length; i++) {
                         sucursalMap = list.filter(s => s.id === isCheck[i]).map(s => s);
                         // console.log(sucursalMap);
@@ -249,9 +249,10 @@ export const SucursalesScreen = () => {
                     // console.log(isCheck);
                     // console.log(sucursalMap);
                     // dispatch(startDeleted(list[i]));
+                    setIsCheck([]);
                     setCheck(false);
                     reset();
-                }
+                // }
                 // console.log(sucursalMap);
                 swalWithBootstrapButtons.fire(
                     'Borrado!',

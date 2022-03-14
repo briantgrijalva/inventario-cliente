@@ -16,6 +16,8 @@ export const ViewSucursal = () => {
         direccion: ''
     }
 
+
+    const [isDisabled, setIsDisabled] = useState(true);
     const [values, setValues] = useState(initialForm);
 
     const reset = () => {
@@ -27,7 +29,7 @@ export const ViewSucursal = () => {
             ...values,
             [ target.name ]: target.value
         });
-        console.log(values);
+        // console.log(values);
     }
 
     const { name, email, tel, pais, ciudad, direccion } = values;
@@ -52,7 +54,7 @@ export const ViewSucursal = () => {
 
     useEffect(() => {
         if (activeSucursal) {
-            console.log(activeSucursal[0]);
+            // console.log(activeSucursal[0]);
             // console.log(parseSucursal);
             setValues( activeSucursal[0] );
         } 
@@ -92,10 +94,15 @@ export const ViewSucursal = () => {
         navigate('/sucursales');
     }
 
+    const handleClickDisable = () => {
+        setIsDisabled(!isDisabled)
+      };
+
   return (
     <div className='container-sucursales'>
         <div className='title-separator'>
             Detalles de la sucursal
+            <i className="fas fa-pen btn-edit-icon" onClick={handleClickDisable}></i>
         </div>
         <Container className='card-shadow div-card pt-3'>
         <form onSubmit={handleSubmit}>
@@ -111,6 +118,7 @@ export const ViewSucursal = () => {
                                 name='name'
                                 value={name}
                                 onChange={handleInputChange}
+                                disabled={isDisabled}
                                 className="form-control" 
                                 placeholder="Nombre"
                             />
@@ -123,6 +131,7 @@ export const ViewSucursal = () => {
                                 name='tel'
                                 value={tel}
                                 onChange={handleInputChange} 
+                                disabled={isDisabled}
                                 className="form-control" 
                                 placeholder="Teléfono"
                             />
@@ -135,6 +144,7 @@ export const ViewSucursal = () => {
                                 name='email' 
                                 value={email}
                                 onChange={handleInputChange}
+                                disabled={isDisabled}
                                 className="form-control" 
                                 placeholder="Correo"
                             />
@@ -148,7 +158,8 @@ export const ViewSucursal = () => {
                                 type='text' 
                                 name='pais'
                                 value={pais}
-                                onChange={handleInputChange} 
+                                onChange={handleInputChange}
+                                disabled={isDisabled} 
                                 className="form-control" 
                                 placeholder="País"
                             />
@@ -161,6 +172,7 @@ export const ViewSucursal = () => {
                                 name='ciudad' 
                                 value={ciudad}
                                 onChange={handleInputChange}
+                                disabled={isDisabled}
                                 className="form-control" 
                                 placeholder="Ciudad"
                             />
@@ -173,6 +185,7 @@ export const ViewSucursal = () => {
                                 name='direccion' 
                                 value={direccion}
                                 onChange={handleInputChange}
+                                disabled={isDisabled}
                                 className="form-control" 
                                 placeholder="Dirección"
                             />
