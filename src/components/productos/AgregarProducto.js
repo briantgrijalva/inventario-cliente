@@ -3,7 +3,7 @@ import { Col, Container, Row } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import { addNewSucursal } from '../../actions/sucursales';
+import { fileUpload, startCreateNewProducto } from '../../actions/productos';
 import Image from '../../helpers/Image';
 import { useForm } from '../../hooks/useForm';
 
@@ -12,49 +12,77 @@ export const AgregarProducto = () => {
 
     const [nameImg, setNameImg] = useState('');
 
+    const [file, setFile] = useState(null);
+
     const nameImage = 'node-js.png';
 
     const dispatch = useDispatch();
 
     const initialForm = {
-        id: (Math.floor(Math.random() * (1000 - 0)) + 0).toString(),
         name: '',
-        tel: '',
-        email: '',
-        pais: '',
-        ciudad: '',
-        direccion: ''
+        category: '',
+        barsymbol: '',
+        price: '',
+        unitSell: '',
+        alertStock: '',
+        barCode: '',
+        brand: '',
+        cost: '',
+        unitProduct: '',
+        unitPurchase: '',
+        tax: '',
+        photo: '',
+        comments: ''
     }
     
-    const [{id, name, email, tel, pais, ciudad, direccion}, handleInputChange, reset] = useForm(initialForm);
+    const [values, handleInputChange, reset] = useForm(initialForm);
+
+    const {name, category, barsymbol, price, unitSell, alertStock, barCode, brand, cost, unitProduct, unitPurchase, tax, comments} = values;
 
     let navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if (name === '' || email === '' || tel === '' || pais === '' || ciudad === '' || direccion === '') {
-            Swal.fire({
-                position: 'center',
-                icon: 'warning',
-                title: 'Todos los campos son necesarios',
-                showConfirmButton: false,
-                timer: 1500
-            })
-        } else {
+        // if (name === '' || category === '' || price === '' || cost === '' || unitProduct === '' || unitSell === '' || unitPurchase === '') {
+        //     Swal.fire({
+        //         position: 'center',
+        //         icon: 'warning',
+        //         title: 'Todos los campos son necesarios',
+        //         showConfirmButton: false,
+        //         timer: 1500
+        //     })
+        // } else {
 
-            // dispatch(addNewSucursal(id, name, email, tel, pais, ciudad, direccion));
+            
+            // const data = new FormData();
+            // data.append("name", name);
+            // data.append("file", file);
+        
+            // Axios.post(`productos`, data)
+            //     .then(res => console.log(res))
+            //     .catch(err => console.log(err));
+            // dispatch(fileUpload(file));
+
+            console.log(file);
+            // fileUpload(file);
+            if (file) {
+                dispatch(startCreateNewProducto(values, file));
+                // Swal.fire({
+                //     position: 'center',
+                //     icon: 'success',
+                //     title: 'Sucursal creada correctamente',
+                //     showConfirmButton: false,
+                //     timer: 1500
+                // })
+            }
+
+            
     
-            Swal.fire({
-                position: 'center',
-                icon: 'success',
-                title: 'Sucursal creada correctamente',
-                showConfirmButton: false,
-                timer: 1500
-            })
+            
 
-            navigate('/productos');
-        }
+            // navigate('/productos');
+        // }
         
         
     }
@@ -96,7 +124,7 @@ export const AgregarProducto = () => {
                           <input
                               type='text' 
                               name='category'
-                              value={tel}
+                              value={category}
                               onChange={handleInputChange} 
                               className="form-control" 
                               placeholder="Categoría"
@@ -109,7 +137,7 @@ export const AgregarProducto = () => {
                           <input 
                               type='text' 
                               name='barsymbol' 
-                              value={email}
+                              value={barsymbol}
                               onChange={handleInputChange}
                               className="form-control" 
                               placeholder="Simbología de código de barras(discutir al respecto)"
@@ -118,9 +146,9 @@ export const AgregarProducto = () => {
                           <label htmlFor="price" className="form-label mt-4">Precio del producto(precio de venta)</label> 
                       <div className="input-group mt-0">
                           <input 
-                              type='text' 
+                              type='number' 
                               name='price' 
-                              value={email}
+                              value={price}
                               onChange={handleInputChange}
                               className="form-control" 
                               placeholder="Precio del producto(precio de venta)"
@@ -131,7 +159,7 @@ export const AgregarProducto = () => {
                           <input 
                               type='text' 
                               name='unitSell' 
-                              value={email}
+                              value={unitSell}
                               onChange={handleInputChange}
                               className="form-control" 
                               placeholder="Unidad de venta"
@@ -142,7 +170,7 @@ export const AgregarProducto = () => {
                           <input 
                               type='text' 
                               name='alertStock' 
-                              value={email}
+                              value={alertStock}
                               onChange={handleInputChange}
                               className="form-control" 
                               placeholder="Unidad de venta"
@@ -156,7 +184,7 @@ export const AgregarProducto = () => {
                           <input 
                               type='text' 
                               name='barCode'
-                              value={pais}
+                              value={barCode}
                               onChange={handleInputChange} 
                               className="form-control" 
                               placeholder="Código de producto(código de barras escaneado, aun por discutir)"
@@ -168,7 +196,7 @@ export const AgregarProducto = () => {
                           <input 
                               type='text' 
                               name='brand' 
-                              value={ciudad}
+                              value={brand}
                               onChange={handleInputChange}
                               className="form-control" 
                               placeholder="Marca"
@@ -180,7 +208,7 @@ export const AgregarProducto = () => {
                           <input 
                               type='text' 
                               name='cost' 
-                              value={direccion}
+                              value={cost}
                               onChange={handleInputChange}
                               className="form-control" 
                               placeholder="Costo del producto(precio de compra)"
@@ -192,7 +220,7 @@ export const AgregarProducto = () => {
                           <input 
                               type='text' 
                               name='unitProduct' 
-                              value={direccion}
+                              value={unitProduct}
                               onChange={handleInputChange}
                               className="form-control" 
                               placeholder="Unidad del producto"
@@ -204,7 +232,7 @@ export const AgregarProducto = () => {
                           <input 
                               type='text' 
                               name='unitPurchase' 
-                              value={direccion}
+                              value={unitPurchase}
                               onChange={handleInputChange}
                               className="form-control" 
                               placeholder="Unidad de compra(todos los campos relacionados a la unidad deben ser validados)"
@@ -215,7 +243,7 @@ export const AgregarProducto = () => {
                           <input 
                               type='text' 
                               name='tax' 
-                              value={direccion}
+                              value={tax}
                               onChange={handleInputChange}
                               className="form-control" 
                               placeholder="Impuesto"
@@ -231,10 +259,36 @@ export const AgregarProducto = () => {
                       <p className="card-text">Some quick example </p>
                       {/* <a href="#" class="btn btn-primary">Go somewhere</a> */}
                       <div className="mb-3">
-                        <label htmlFor="formFile" className="form-label">Selecciona una imagen</label>
-                        <input className="form-control btn-primary" type="file" id="formFile"
-                            onChange={e => setNameImg(e.target.files[0].name)}
+                        <label htmlFor="photo" className="form-label">Selecciona una imagen</label>
+                        {/* <input 
+                            className="form-control btn-primary" 
+                            type="file" 
+                            id="photo" 
+                            name='photo' 
+                            // value={photo}
+                            onChange={e => setFile(e.target.files[0])}
+
+                        /> */}
+                        <input
+                            className="form-control btn-primary" 
+                            type="file"
+                            id="file"
+                            name='file' 
+                            accept=".jpg"
+                            onChange={event => {
+                                const file = event.target.files[0];
+                                setFile(file);
+                            }}
                         />
+          
+
+                        {/* <input
+                            id='fileSelector'
+                            type='file'
+                            name='file'
+                            style={{display: 'none'}}
+                            onChange={handleFileChange}
+                        /> */}
                       </div>
                     </div>
                   </div>
@@ -246,8 +300,8 @@ export const AgregarProducto = () => {
                       <div className="input-group mt-0">
                           <textarea 
                               type='textarea' 
-                              name='price' 
-                              value={email}
+                              name='comments' 
+                              value={comments}
                               onChange={handleInputChange}
                               className="form-control" 
                               placeholder="Precio del producto(precio de venta)"

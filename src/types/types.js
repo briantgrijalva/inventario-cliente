@@ -20,6 +20,14 @@ export const types = {
     sucursalDeletedSucursal: '[Sucursal] DeletedSucursal',
     sucursalLoadedSucursal: '[Sucursal] LoadedSucursal',
 
+    productoSetActive: '[ProductoProducto] SetActiveProducto',
+    productoClearActiveProducto: '[Producto] ClearActiveProducto',
+    productoStartCreateNewProducto: '[Producto] StartCreateNewProducto',
+    productoAddNewProducto: '[Producto] AddNewProducto',
+    productoUpdatedProducto: '[Producto] UpdatedProducto',
+    productoDeleteProducto: '[Producto] DeletedProducto',
+    productoLoadedProducto: '[Producto] LoadedProducto',
+
 
     createNewProducto: '[Producto] CreateNewProducto',
     createNewUsuario: '[Usuario] CreateNewUsuario',

@@ -63,12 +63,6 @@ export const sucursalesReducer = (state = initialState, action) => {
                 ...state,
                 sucursal: [...action.payload]
             }
-            
-        //   const myDeletedArray = draft.list;
-        //   const objDeletedIndex = myDeletedArray.filter(obj => 
-        //     !action.payload.find(itemToDelete=>itemToDelete._id===obj.id)
-        //   );
-        //   draft.list = objDeletedIndex; //update data
     
         default:
             return state;

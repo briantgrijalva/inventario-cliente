@@ -1,13 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import { setActiveProducto, startDeleted, startLoading } from '../../actions/productos';
+import Checkbox from '../../helpers/Checkbox';
+import Image from '../../helpers/Image';
+import { useForm } from '../../hooks/useForm';
 
 export const ProductosScreen = () => {
 
-    const {sucursal} = useSelector(state => state.sucursales);
+    const {producto} = useSelector(state => state.productos);
 
-    // const {producto} = useSelector(state => state.productos);
+    const dispatch = useDispatch();
 
     let navigate = useNavigate();
     
@@ -18,13 +23,85 @@ export const ProductosScreen = () => {
     const [valueSelect, setValueSelect] = useState(0);
     const [initialPag, setInitialPag] = useState(0);
     const [lastPag, setLastPag] = useState(parseInt(localStorage.getItem("paginacion")));
+    const [check, setCheck] = useState(false);
+    const [isCheckAll, setIsCheckAll] = useState(false);
+    const [isCheck, setIsCheck] = useState([]);
+    const [list, setList] = useState([]);
 
-    let totalItem = sucursal.length / parseInt(localStorage.getItem("paginacion"));
+    let totalItem = producto.length / parseInt(localStorage.getItem("paginacion"));
+
+    const [formValues, handleInputChange, reset] = useForm({
+        searchText: '',
+    });
+
+    const {searchText} = formValues;
+
+
+    useEffect(() => {
+        setList(producto);
+    }, [list, producto]);
+
+    const handleSelectAll = (e) => {
+        setIsCheckAll(!isCheckAll);
+
+        if (searchText === '') {
+            if (localStorage.getItem("paginacion") === 'all') {
+                setIsCheck(list.map((li) => li.id));
+                if (isCheckAll) {
+                    setIsCheck([]);
+                }
+            } else {
+                setIsCheck(list.map((li) => li.id).slice(initialPag, lastPag));
+                if (isCheckAll) {
+                    setIsCheck([]);
+                }
+            }
+        } else {
+            // setIsCheck(list.map((li) => li.id));
+            // setIsCheck(list.map((li) => li.id).filter(s => s.name.toLowerCase().includes(searchText.toLowerCase())));
+            setIsCheck(list.filter(s => s.name.toLowerCase().includes(searchText.toLowerCase())).map(s => s.id));
+            // sucursal.filter(s => s.name.toLowerCase().includes(searchText.toLowerCase())).map(scsal =>
+            if (isCheckAll) {
+                setIsCheck([]);
+            }
+        }
+        
+    };
+
+    const handleClick = (e) => {
+        const { id, checked } = e.target;
+        setIsCheck([...isCheck, id]);
+        if (!checked) {
+        setIsCheck(isCheck.filter((item) => item !== id));
+        }
+    };
+
+    // let sucursalMap = sucursal.filter(s => (s.id).includes(isCheck)).map(s => s);
+    // console.log(isCheck);
+    // console.log(sucursalMap);
+
 
     // console.log(totalItem);
     // console.log(counter);
     // console.log(btnNextDisable);
     // console.log(btnPrevDisable);
+
+
+    useEffect(() => {
+
+      dispatch(startLoading());
+
+    }, [dispatch])
+
+    
+    useEffect(() => {
+        if (isCheck.length > 0) {
+            setCheck(true);
+        } else {
+            setCheck(false);
+        }
+    }, [isCheck, setCheck])
+    
 
     useEffect(() => {
         if (counter === 0) {
@@ -56,6 +133,8 @@ export const ProductosScreen = () => {
         setLastPag(lastPag + parseInt(localStorage.getItem("paginacion")));
 
         setCounter(counter + 1);
+        // reset elements checked
+        setIsCheck([]);
     }
 
     const handlePrev = () => {
@@ -63,19 +142,138 @@ export const ProductosScreen = () => {
         setLastPag(lastPag - parseInt(localStorage.getItem("paginacion")));
 
         setCounter(counter - 1);
+        // reset elements checked
+        setIsCheck([]);
     }
 
     const onChangeSelect = (e) => {
         setCounter(0);
-        console.log(counter);
+        // console.log(counter);
         setValueSelect(e.target.value);
         localStorage.setItem("paginacion", e.target.value);
         setInitialPag(0);
         setLastPag(parseInt(localStorage.getItem("paginacion")));
+        setIsCheck([]);
     }
 
+    const handleView = (e) => {
+        // console.log(e.target.id);
+        let id = e.target.id;
+        let productoSelect = producto.filter(s => s.id === id).map(s => (s));
+        dispatch(setActiveProducto(productoSelect));
+        
+        localStorage.setItem('activeProducto', JSON.stringify(productoSelect));
+
+        // console.log(sucursalSelect[0]);
+        navigate('/verSucursal');
+    }
+
+    const handleDelete = (e) => {
+
+        // console.log(e.target.id);
+        let id = e.target.id;    
+        let productoSelect = producto.filter(s => s.id === id).map(s => (s));
+
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+              confirmButton: 'btn-ok ms-3',
+              cancelButton: 'btn-cancel'
+            },
+            buttonsStyling: false
+          })
+          
+          swalWithBootstrapButtons.fire({
+            title: '¿Estas seguro?',
+            text: "¡No podrás reverir esta acción!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: '¡BORRALO!',
+            cancelButtonText: 'CANCELAR',
+            reverseButtons: true
+          }).then((result) => {
+            if (result.isConfirmed) {      
+                // console.log(sucursalSelect[0]);
+                dispatch(startDeleted(productoSelect[0]));
+                swalWithBootstrapButtons.fire(
+                    'Borrado!',
+                    `La Sucursal ${productoSelect[0].name} fue borrada.`,
+                    'success'
+                )
+            } else if (
+              /* Read more about handling dismissals below */
+              result.dismiss === Swal.DismissReason.cancel
+            ) {
+              swalWithBootstrapButtons.fire(
+                'Cancelado',
+                `La Sucursal ${productoSelect[0].name} esta segura :)`,
+                'error'
+              )
+            }
+          })
+    }
+
+    const handleDeleteCheck = () => {
+
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+              confirmButton: 'btn-ok ms-3',
+              cancelButton: 'btn-cancel'
+            },
+            buttonsStyling: false
+          })
+          
+          swalWithBootstrapButtons.fire({
+            title: '¿Estas seguro?',
+            text: "¡No podrás reverir esta acción!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: '¡BORRALO!',
+            cancelButtonText: 'CANCELAR',
+            reverseButtons: true
+          }).then((result) => {
+            if (result.isConfirmed) {      
+                
+                // for (let i = 0; i < updatedList.length; i++) {
+                //     console.log(updatedList[i][0]);
+                //     dispatch(startDeleted(checkedSucursal[i][0]));
+                //     setCheck(false);
+                // }
+                let sucursalMap
+                // for (let i = 0; i < list.length; i++) {
+                    // console.log(list);
+                    for (let i = 0; i < isCheck.length; i++) {
+                        sucursalMap = list.filter(s => s.id === isCheck[i]).map(s => s);
+                        // console.log(sucursalMap);
+                        dispatch(startDeleted(sucursalMap[0]));
+                    }
+                    // console.log(isCheck);
+                    // console.log(sucursalMap);
+                    // dispatch(startDeleted(list[i]));
+                    setIsCheck([]);
+                    setCheck(false);
+                    reset();
+                // }
+                // console.log(sucursalMap);
+                swalWithBootstrapButtons.fire(
+                    'Borrado!',
+                    `La Sucursales seleccionadas fueron borradas.`,
+                    'success'
+                )
+            } else if (
+              /* Read more about handling dismissals below */
+              result.dismiss === Swal.DismissReason.cancel
+            ) {
+              swalWithBootstrapButtons.fire(
+                'Cancelado',
+                `Las sucursales estan seguras :)`,
+                'error'
+              )
+            }
+          })
+    }
+    
   return (
-    <div className='container-sucursales'>
+     <div className='container-sucursales'>
         <div className='title-separator'>
             Productos
         </div>
@@ -85,35 +283,32 @@ export const ProductosScreen = () => {
                 <Col xs={6} md={6}>
                     
                     <div className="input-group">
-                        <input type='text' className="form-control" placeholder="Escribe un nombre"/>
+                        <input type='search' className="form-control" placeholder="Escribe un nombre" name='searchText' value={searchText} onChange={handleInputChange}/>
                         <button className="btn btn-outline-secondary" type="button"><i className="fas fa-search"></i></button>
                     </div>
                 </Col>
                 <Col xs={6} md={6}>
-                    
+
                     <button
-                        className='btn-save me-2 btn-filter' 
-                    >
-                        <i className="fas fa-filter"></i> &nbsp; FILTRAR
-                    </button>
-                    <button
-                        className='btn-pdf me-2' 
+                        className='btn-pdf me-3' 
                     >
                         <i className="fas fa-file-pdf"></i> &nbsp; PDF
                     </button>
                     <button
-                        className='btn-add me-2'
+                        className='btn-add me-3'
                         onClick={() =>  navigate('/nuevoProducto')}
                     >
                         <i className="fas fa-plus-circle"></i> &nbsp; AGREGAR
                     </button>
 
-                    
-                    <button
-                        className="btn-cancel me-2 btn-small"
+                    {check 
+                    ?<button
+                        className="btn-cancel me-3 btn-small"
+                        onClick={handleDeleteCheck}
                     >
                         <i className="fas fa-trash"></i> &nbsp; BORRAR
                     </button>
+                    : null }
                     
                 </Col>
             </Row>
@@ -124,7 +319,16 @@ export const ProductosScreen = () => {
                     <table className="table table-borderless div-card">
                         <thead className='table-light'>
                             <tr>
-                            <th scope="col"><input type='checkbox'/></th>
+                            <th scope="col">
+                                {/* Componente Checkbox */}
+                                <Checkbox
+                                    type="checkbox"
+                                    name="selectAll"
+                                    id="selectAll"
+                                    handleClick={handleSelectAll}
+                                    isChecked={isCheckAll}
+                                />
+                            </th>
                             <th scope="col">Imagen</th>
                             <th scope="col">Nombre</th>
                             <th scope="col">Código</th>
@@ -136,34 +340,112 @@ export const ProductosScreen = () => {
                             <th scope="col">Acciones</th>
                             </tr>
                         </thead>
+                      
                         <tbody>
-                        {localStorage.getItem("paginacion") === 'all' 
-                        ? sucursal.map(scsal => ( 
-                            // TODO: generar los IDs
-                            <tr key={Math.random()}>
-                                <th scope="row"><input type='checkbox'/></th>
-                                <td>{scsal.name}</td>
-                                <td>{scsal.pais}</td>
-                                <td>{scsal.ciudad}</td>
-                                <td>{scsal.tel}</td>
-                                <td>{scsal.email}</td>
-                                <td><i className="fas fa-pen"></i> <i className="fas fa-trash ms-1"></i></td>                                
+                        {searchText === '' 
+                        ?
+                                   
+                            localStorage.getItem("paginacion") === 'all' 
+                            ? producto.map(scsal => ( 
+                                
+                                <tr key={scsal.id}>
+                                    <th scope="row">
+                                        {/* Componente Checkbox */}
+                                        <Checkbox
+                                            key={scsal.id}
+                                            type="checkbox"
+                                            name={scsal.name}
+                                            id={scsal.id}
+                                            handleClick={handleClick}
+                                            isChecked={isCheck.includes(scsal.id)}
+                                        />
+                                    </th>
+                                    <td>
+                                        <img 
+                                            src={`${process.env.REACT_APP_API_URL}/upload/${scsal.photo}`}
+                                            style={{width: "4rem", height: "4rem"}}
+                                        />
+                                    </td>
+                                    <td>{scsal.name}</td>
+                                    <td>{scsal.barCode}</td>
+                                    <td>{scsal.category}</td>
+                                    <td>{scsal.brand}</td>
+                                    <td>{scsal.price.$numberDecimal}</td>
+                                    <td>{scsal.unitProduct}</td>
+                                    <td>{0 /* condicion si existe cantidad en ajuste de stock ponerlo si no sera CERO*/}</td>
+                                    <td><i
+                                            className="fas fa-eye" 
+                                            id={scsal.id} 
+                                            onClick={handleView} 
+                                        ></i> 
+                                        <i 
+                                            className="fas fa-trash ms-1" 
+                                            id={scsal.id} 
+                                            onClick={handleDelete}
+                                        ></i>
+                                    </td>                                
+                                </tr>
+                                ))
+                            : producto.map(scsal => ( 
+                                // TODO: generar los IDs
+                                <tr key={scsal.id}>
+                                    <th scope="row">
+                                        {/* Componente Checkbox */}
+                                        <Checkbox
+                                            key={scsal.id}
+                                            type="checkbox"
+                                            name={scsal.name}
+                                            id={scsal.id}
+                                            handleClick={handleClick}
+                                            isChecked={isCheck.includes(scsal.id)}
+                                        />
+                                    </th>
+                                    <td>
+                                        <img 
+                                            src={`${process.env.REACT_APP_API_URL}/upload/${scsal.photo}`}
+                                            style={{width: "4rem", height: "4rem"}}
+                                        />
+                                    </td>
+                                    <td>{scsal.name}</td>
+                                    <td>{scsal.barCode}</td>
+                                    <td>{scsal.category}</td>
+                                    <td>{scsal.brand}</td>
+                                    <td>{scsal.price.$numberDecimal}</td>
+                                    <td>{scsal.unitProduct}</td>
+                                    <td>{0 /* condicion si existe cantidad en ajuste de stock ponerlo si no sera CERO*/}</td>
+                                    <td><i className="fas fa-eye" id={scsal.id} onClick={handleView}></i> <i className="fas fa-trash ms-1" id={scsal.id} onClick={handleDelete}></i></td>                                
+                                </tr>
+                                // Recorre el numero de elementos que indiquemos
+                                )).slice(initialPag, lastPag)
+                        : producto.filter(s => s.name.toLowerCase().includes(searchText.toLowerCase())).map(scsal => (
+                            <tr key={scsal.id}>
+                                <th scope="row">
+                                    {/* Componente Checkbox */}
+                                    <Checkbox
+                                        key={scsal.id}
+                                        type="checkbox"
+                                        name={scsal.name}
+                                        id={scsal.id}
+                                        handleClick={handleClick}
+                                        isChecked={isCheck.includes(scsal.id)}
+                                    />
+                                </th>
+                                    <td>
+                                        <img 
+                                            src={`${process.env.REACT_APP_API_URL}/upload/${scsal.photo}`}
+                                            style={{width: "4rem", height: "4rem"}}
+                                        />
+                                    </td>
+                                    <td>{scsal.name}</td>
+                                    <td>{scsal.barCode}</td>
+                                    <td>{scsal.category}</td>
+                                    <td>{scsal.brand}</td>
+                                    <td>{scsal.price.$numberDecimal}</td>
+                                    <td>{scsal.unitProduct}</td>
+                                    <td>{0 /* condicion si existe cantidad en ajuste de stock ponerlo si no sera CERO*/}</td>
+                                <td><i className="fas fa-eye" id={scsal.id} onClick={handleView}></i> <i className="fas fa-trash ms-1" id={scsal.id} onClick={handleDelete}></i></td>                                
                             </tr>
-                            ))
-                        : sucursal.map(scsal => ( 
-                            // TODO: generar los IDs
-                            <tr key={Math.random()}>
-                                <th scope="row"><input type='checkbox'/></th>
-                                <td>{scsal.name}</td>
-                                <td>{scsal.pais}</td>
-                                <td>{scsal.ciudad}</td>
-                                <td>{scsal.tel}</td>
-                                <td>{scsal.email}</td>
-                                <td><i className="fas fa-pen"></i> <i className="fas fa-trash ms-1"></i></td>                                
-                            </tr>
-                            // Recorre el numero de elementos que indiquemos
-                            )).slice(initialPag, lastPag)
-                        }
+                        ))}
                         </tbody>
                     </table>
                 </Col>
@@ -177,6 +459,7 @@ export const ProductosScreen = () => {
                         <div>
                             Filas 
                         </div>
+                        {}
                         
                         <select 
                             name='select' 
@@ -209,5 +492,5 @@ export const ProductosScreen = () => {
             
         </Container>
     </div>
-  )
+  )     
 }
