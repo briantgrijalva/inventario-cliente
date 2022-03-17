@@ -8,6 +8,7 @@ import { AgregarProveedoresScreen } from "../components/personas/proveedores/Agr
 import { AgregarUsuarioScreen } from "../components/personas/usuarios/AgregarUsuarioScreen";
 import { AgregarProducto } from "../components/productos/AgregarProducto";
 import { ProductosScreen } from "../components/productos/ProductosScreen";
+import { ViewProducto } from "../components/productos/ViewProducto";
 import { AgregarSucursal } from "../components/sucursales/AgregarSucursal";
 import { SucursalesScreen } from "../components/sucursales/SucursalesScreen";
 import { ViewSucursal } from "../components/sucursales/ViewSucursal";
@@ -41,6 +42,7 @@ export const DashboardRoutes = () => {
                     <Route path="nuevoCliente" element={<AgregarClientesScreen />} />
                     <Route path="productos" element={<ProductosScreen />} />
                     <Route path="nuevoProducto" element={<AgregarProducto />} />
+                    <Route path="verProducto" element={<ViewProducto />} />
                     
                     
                     <Route path="/*" element={<DashboardScreen />} />

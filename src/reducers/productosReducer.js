@@ -18,6 +18,25 @@ export const productosReducer = (state = initialState, action) => {
                     action.payload
                 ]
             }
+        case types.productoSetActive:
+            return {
+                ...state,
+                activeProducto: action.payload
+            }
+
+        case types.productoClearActiveProducto:
+            return {
+                ...state,
+                activeProducto: null
+            }
+        
+        case types.productoUpdatedProducto:
+            return {
+                ...state,
+                producto: state.producto.map(
+                    p => (p.id === action.payload.id) ? action.payload : p
+                )
+            }
         
         case types.productoDeleteProducto:
         return {

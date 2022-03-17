@@ -10,14 +10,14 @@ export const startCreateNewProducto = (producto, file) => {
         
         
         try {
-            fileUpload(file)
+            await fileUpload(file);
             const resp = await fetchConToken('productos', producto, 'POST');
             const body = await resp.json();
             // const fileUrl = await fileUpload(file);
 
             // console.log(body.producto.photo);
 
-            if (body.ok && body.producto.photo) {
+            if (body.ok && body.producto.photo !== '') {
                 // producto.photo = fileUrl;
                 producto.id = body.producto.id;
                 dispatch(addNewProducto(producto));
@@ -116,6 +116,55 @@ export const setActiveProducto = (producto) => ({
 
 export const clearActiveProducto = () => ({
     type: types.productoClearActiveProducto
+});
+
+export const startUpdatedProducto= (producto) => {
+    return async(dispatch) => {
+        
+        try {
+
+            // console.log(sucursal);
+            const resp = await fetchConToken(`productos/${producto.id}`, producto, 'PUT');
+            const body = await resp.json();
+
+            if (body.ok) {
+                dispatch(updatedProducto(producto));
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Sucursal modificada',
+                    text: `Sucursal ${producto.name} modificada correctamente`,
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            } else {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    title: 'Error',
+                    text: body.msg,
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            }
+            
+        } catch (error) {
+            console.log(error);
+            Swal.fire({
+                position: 'center',
+                icon: 'error',
+                title: 'Error',
+                text: error,
+                showConfirmButton: false,
+                timer: 1500
+            })
+        }
+    }
+}
+
+const updatedProducto = (producto) => ({
+    type: types.productoUpdatedProducto,
+    payload: producto
 });
 
 export const startDeleted = (producto) => {

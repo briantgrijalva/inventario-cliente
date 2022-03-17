@@ -2,22 +2,23 @@ import React, { useState } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import Swal from 'sweetalert2';
-import { fileUpload, startCreateNewProducto } from '../../actions/productos';
-import Image from '../../helpers/Image';
+// import Swal from 'sweetalert2';
+import { startCreateNewProducto } from '../../actions/productos';
+// import Image from '../../helpers/Image';
 import { useForm } from '../../hooks/useForm';
 
 
 export const AgregarProducto = () => {
 
-    const [nameImg, setNameImg] = useState('');
+    // const [nameImg, setNameImg] = useState('');
 
     const [file, setFile] = useState(null);
 
-    const nameImage = 'node-js.png';
+    // const nameImage = 'node-js.png';
 
     const dispatch = useDispatch();
 
+    
     const initialForm = {
         name: '',
         category: '',
@@ -168,7 +169,7 @@ export const AgregarProducto = () => {
                       <label htmlFor="alertStock" className="form-label mt-4">Alerta de stock</label> 
                       <div className="input-group mt-0">
                           <input 
-                              type='text' 
+                              type='number' 
                               name='alertStock' 
                               value={alertStock}
                               onChange={handleInputChange}
@@ -182,7 +183,7 @@ export const AgregarProducto = () => {
                       <label htmlFor="barCode" className="form-label mt-4">Código de producto(aun por discutir)</label>
                       <div className="input-group mt-0">
                           <input 
-                              type='text' 
+                              type='number' 
                               name='barCode'
                               value={barCode}
                               onChange={handleInputChange} 
@@ -206,7 +207,7 @@ export const AgregarProducto = () => {
                       <label htmlFor="cost" className="form-label mt-4">Costo del producto(precio de compra)</label>
                       <div className="input-group mt-0">
                           <input 
-                              type='text' 
+                              type='number' 
                               name='cost' 
                               value={cost}
                               onChange={handleInputChange}
@@ -241,7 +242,7 @@ export const AgregarProducto = () => {
                       <label htmlFor="tax" className="form-label mt-4">Impuesto</label>
                       <div className="input-group mt-0">
                           <input 
-                              type='text' 
+                              type='number' 
                               name='tax' 
                               value={tax}
                               onChange={handleInputChange}
@@ -253,7 +254,7 @@ export const AgregarProducto = () => {
                   </Col>
                   <Col xs={12} md={4}>
                   <div className="card" style={{width: "18rem"}}>
-                    <Image name={nameImg} />
+                    {/* <Image name={nameImg} /> */}
                     <div className="card-body">
                       <h5 className="card-title">Card title</h5>
                       <p className="card-text">Some quick example </p>

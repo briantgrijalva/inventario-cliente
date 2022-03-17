@@ -5,10 +5,12 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { setActiveProducto, startDeleted, startLoading } from '../../actions/productos';
 import Checkbox from '../../helpers/Checkbox';
-import Image from '../../helpers/Image';
+// import Image from '../../helpers/Image';
 import { useForm } from '../../hooks/useForm';
 
 export const ProductosScreen = () => {
+
+    // let baseUrl = process.env.REACT_APP_API_URL;
 
     const {producto} = useSelector(state => state.productos);
 
@@ -165,7 +167,7 @@ export const ProductosScreen = () => {
         localStorage.setItem('activeProducto', JSON.stringify(productoSelect));
 
         // console.log(sucursalSelect[0]);
-        navigate('/verSucursal');
+        navigate('/verProducto');
     }
 
     const handleDelete = (e) => {
@@ -238,13 +240,13 @@ export const ProductosScreen = () => {
                 //     dispatch(startDeleted(checkedSucursal[i][0]));
                 //     setCheck(false);
                 // }
-                let sucursalMap
+                let productoMap
                 // for (let i = 0; i < list.length; i++) {
                     // console.log(list);
                     for (let i = 0; i < isCheck.length; i++) {
-                        sucursalMap = list.filter(s => s.id === isCheck[i]).map(s => s);
+                        productoMap = list.filter(s => s.id === isCheck[i]).map(s => s);
                         // console.log(sucursalMap);
-                        dispatch(startDeleted(sucursalMap[0]));
+                        dispatch(startDeleted(productoMap[0]));
                     }
                     // console.log(isCheck);
                     // console.log(sucursalMap);
@@ -363,7 +365,8 @@ export const ProductosScreen = () => {
                                     <td>
                                         <img 
                                             src={`${process.env.REACT_APP_API_URL}/upload/${scsal.photo}`}
-                                            style={{width: "4rem", height: "4rem"}}
+                                            style={{width: "4rem"}}
+                                            alt='...'
                                         />
                                     </td>
                                     <td>{scsal.name}</td>
@@ -403,7 +406,8 @@ export const ProductosScreen = () => {
                                     <td>
                                         <img 
                                             src={`${process.env.REACT_APP_API_URL}/upload/${scsal.photo}`}
-                                            style={{width: "4rem", height: "4rem"}}
+                                            style={{width: "4rem"}}
+                                            alt='...'
                                         />
                                     </td>
                                     <td>{scsal.name}</td>
@@ -433,7 +437,8 @@ export const ProductosScreen = () => {
                                     <td>
                                         <img 
                                             src={`${process.env.REACT_APP_API_URL}/upload/${scsal.photo}`}
-                                            style={{width: "4rem", height: "4rem"}}
+                                            style={{width: "4rem"}}
+                                            alt='...'
                                         />
                                     </td>
                                     <td>{scsal.name}</td>
