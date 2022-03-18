@@ -233,28 +233,16 @@ export const ProductosScreen = () => {
             cancelButtonText: 'CANCELAR',
             reverseButtons: true
           }).then((result) => {
-            if (result.isConfirmed) {      
-                
-                // for (let i = 0; i < updatedList.length; i++) {
-                //     console.log(updatedList[i][0]);
-                //     dispatch(startDeleted(checkedSucursal[i][0]));
-                //     setCheck(false);
-                // }
+            if (result.isConfirmed) {        
                 let productoMap
-                // for (let i = 0; i < list.length; i++) {
-                    // console.log(list);
-                    for (let i = 0; i < isCheck.length; i++) {
-                        productoMap = list.filter(s => s.id === isCheck[i]).map(s => s);
-                        // console.log(sucursalMap);
-                        dispatch(startDeleted(productoMap[0]));
-                    }
-                    // console.log(isCheck);
+                for (let i = 0; i < isCheck.length; i++) {
+                    productoMap = list.filter(s => s.id === isCheck[i]).map(s => s);
                     // console.log(sucursalMap);
-                    // dispatch(startDeleted(list[i]));
-                    setIsCheck([]);
-                    setCheck(false);
-                    reset();
-                // }
+                    dispatch(startDeleted(productoMap[0]));
+                }
+                setIsCheck([]);
+                setCheck(false);
+                reset();
                 // console.log(sucursalMap);
                 swalWithBootstrapButtons.fire(
                     'Borrado!',

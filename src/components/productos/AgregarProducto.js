@@ -10,11 +10,12 @@ import { useForm } from '../../hooks/useForm';
 
 export const AgregarProducto = () => {
 
-    // const [nameImg, setNameImg] = useState('');
 
     const [file, setFile] = useState(null);
+    const [state, setState] = useState(null);
 
-    // const nameImage = 'node-js.png';
+
+    let baseUrl = process.env.REACT_APP_API_URL;
 
     const dispatch = useDispatch();
 
@@ -55,19 +56,10 @@ export const AgregarProducto = () => {
         //     })
         // } else {
 
-            
-            // const data = new FormData();
-            // data.append("name", name);
-            // data.append("file", file);
-        
-            // Axios.post(`productos`, data)
-            //     .then(res => console.log(res))
-            //     .catch(err => console.log(err));
-            // dispatch(fileUpload(file));
 
             console.log(file);
             // fileUpload(file);
-            if (file) {
+            // if (file) {
                 dispatch(startCreateNewProducto(values, file));
                 // Swal.fire({
                 //     position: 'center',
@@ -76,7 +68,7 @@ export const AgregarProducto = () => {
                 //     showConfirmButton: false,
                 //     timer: 1500
                 // })
-            }
+            // }
 
             
     
@@ -93,7 +85,27 @@ export const AgregarProducto = () => {
         navigate('/productos');
     }
 
+    const imageHandler = (e) => {
+        const file = e.target.files[0];
+        console.log(file);
+        // setFile(file);
+        setFile(file);
 
+        const reader = new FileReader();
+        reader.onload = () => {
+            if (reader.readyState === 2) {
+                setState(reader.result)
+            }
+        }
+        reader.readAsDataURL(file);
+        // reader.readAsDataURL(e.target.files[0]);
+
+        // console.log(reader);
+        
+    }
+
+    console.log(file);
+    console.log(state);
     
   
   return (
@@ -253,46 +265,32 @@ export const AgregarProducto = () => {
                     
                   </Col>
                   <Col xs={12} md={4}>
-                  <div className="card" style={{width: "18rem"}}>
-                    {/* <Image name={nameImg} /> */}
-                    <div className="card-body">
-                      <h5 className="card-title">Card title</h5>
-                      <p className="card-text">Some quick example </p>
-                      {/* <a href="#" class="btn btn-primary">Go somewhere</a> */}
-                      <div className="mb-3">
-                        <label htmlFor="photo" className="form-label">Selecciona una imagen</label>
-                        {/* <input 
-                            className="form-control btn-primary" 
-                            type="file" 
-                            id="photo" 
-                            name='photo' 
-                            // value={photo}
-                            onChange={e => setFile(e.target.files[0])}
-
-                        /> */}
-                        <input
-                            className="form-control btn-primary" 
-                            type="file"
-                            id="file"
-                            name='file' 
-                            accept=".jpg"
-                            onChange={event => {
-                                const file = event.target.files[0];
-                                setFile(file);
-                            }}
+                  <div>
+                    <div className="card" >
+                       
+                        <div className="card-body">
+                        <img 
+                            src={state}
+                            className="img-fluid"
+                            alt='...'
                         />
-          
+                        <h5 className="card-title">Card title</h5>
+                        <p className="card-text">Some quick example </p>
+                        <div className="mb-3">
+                            <label htmlFor="file" className="form-label">Selecciona una imagen</label>
+                            <input
+                                className="form-control btn-primary" 
+                                type="file"
+                                id="file"
+                                name='file' 
+                                accept=".jpg"
+                                onChange={imageHandler}
 
-                        {/* <input
-                            id='fileSelector'
-                            type='file'
-                            name='file'
-                            style={{display: 'none'}}
-                            onChange={handleFileChange}
-                        /> */}
-                      </div>
+                            />
+                        </div>
+                        </div>
                     </div>
-                  </div>
+                    </div>
                   </Col>
               </Row>
               <Row className='mb-4'>
