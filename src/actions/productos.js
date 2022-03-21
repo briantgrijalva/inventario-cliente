@@ -51,7 +51,7 @@ const addNewProducto = (producto) => ({
 });
 
 
-export const startLoading = () => {
+export const startLoadingProducto = () => {
     return async(dispatch) => {
 
         try {

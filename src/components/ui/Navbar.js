@@ -5,12 +5,14 @@ import { Dropdown } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { startLogout } from '../../actions/auth';
 import { clearActiveSucursal } from '../../actions/sucursales';
+import { useNavigate } from 'react-router-dom';
 
 export const Navbar = () => {
 
   const [showDropdown, setShowDropdown] = useState(false);
   const {name} = useSelector( state => state.auth );
   const dispatch = useDispatch();
+  let navigate = useNavigate();
 
   const handleLogout = () => {
     // console.log('click');
@@ -42,6 +44,10 @@ export const Navbar = () => {
     }, [ref]);
   }
 
+  const onSellClick = () => {
+    navigate('/ventas');
+  }
+
 
   return (  
     <>
@@ -51,7 +57,11 @@ export const Navbar = () => {
         
         
         <div>
-          <button variant="primary" className="btn-sell mb-1 mt-1">
+          <button 
+            variant="primary" 
+            className="btn-sell mb-1 mt-1"
+            onClick={onSellClick}
+          >
             VENDER
           </button>
           <i className="fa-solid fa-bell icon-notification"></i>

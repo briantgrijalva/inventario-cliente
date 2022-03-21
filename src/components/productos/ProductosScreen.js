@@ -3,7 +3,7 @@ import { Col, Container, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import { setActiveProducto, startDeleted, startLoading } from '../../actions/productos';
+import { setActiveProducto, startDeleted, startLoadingProducto } from '../../actions/productos';
 import Checkbox from '../../helpers/Checkbox';
 // import Image from '../../helpers/Image';
 import { useForm } from '../../hooks/useForm';
@@ -91,7 +91,7 @@ export const ProductosScreen = () => {
 
     useEffect(() => {
 
-      dispatch(startLoading());
+      dispatch(startLoadingProducto());
 
     }, [dispatch])
 
@@ -273,7 +273,14 @@ export const ProductosScreen = () => {
                 <Col xs={6} md={6}>
                     
                     <div className="input-group">
-                        <input type='search' className="form-control" placeholder="Escribe un nombre" name='searchText' value={searchText} onChange={handleInputChange}/>
+                        <input 
+                            type='search' 
+                            className="form-control" 
+                            placeholder="Escribe un nombre" 
+                            name='searchText' 
+                            value={searchText} 
+                            onChange={handleInputChange}
+                        />
                         <button className="btn btn-outline-secondary" type="button"><i className="fas fa-search"></i></button>
                     </div>
                 </Col>
@@ -405,7 +412,18 @@ export const ProductosScreen = () => {
                                     <td>{scsal.price.$numberDecimal}</td>
                                     <td>{scsal.unitProduct}</td>
                                     <td>{0 /* condicion si existe cantidad en ajuste de stock ponerlo si no sera CERO*/}</td>
-                                    <td><i className="fas fa-eye" id={scsal.id} onClick={handleView}></i> <i className="fas fa-trash ms-1" id={scsal.id} onClick={handleDelete}></i></td>                                
+                                    <td>
+                                        <i 
+                                            className="fas fa-eye btn-actions" 
+                                            id={scsal.id} 
+                                            onClick={handleView}
+                                        ></i> 
+                                        <i 
+                                            className="fas fa-trash ms-1 btn-actions" 
+                                            id={scsal.id} 
+                                            onClick={handleDelete}
+                                        ></i>
+                                    </td>                                
                                 </tr>
                                 // Recorre el numero de elementos que indiquemos
                                 )).slice(initialPag, lastPag)
@@ -436,7 +454,18 @@ export const ProductosScreen = () => {
                                     <td>{scsal.price.$numberDecimal}</td>
                                     <td>{scsal.unitProduct}</td>
                                     <td>{0 /* condicion si existe cantidad en ajuste de stock ponerlo si no sera CERO*/}</td>
-                                <td><i className="fas fa-eye" id={scsal.id} onClick={handleView}></i> <i className="fas fa-trash ms-1" id={scsal.id} onClick={handleDelete}></i></td>                                
+                                    <td>
+                                        <i 
+                                            className="fas fa-eye btn-actions" 
+                                            id={scsal.id} 
+                                            onClick={handleView}
+                                        ></i> 
+                                        <i 
+                                            className="fas fa-trash ms-1 btn-actions" 
+                                            id={scsal.id} 
+                                            onClick={handleDelete}
+                                        ></i>
+                                    </td>                                
                             </tr>
                         ))}
                         </tbody>

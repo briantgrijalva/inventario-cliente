@@ -15,8 +15,6 @@ export const AgregarProducto = () => {
     const [state, setState] = useState(null);
 
 
-    let baseUrl = process.env.REACT_APP_API_URL;
-
     const dispatch = useDispatch();
 
     
@@ -274,8 +272,8 @@ export const AgregarProducto = () => {
                             className="img-fluid"
                             alt='...'
                         />
-                        <h5 className="card-title">Card title</h5>
-                        <p className="card-text">Some quick example </p>
+                        <h5 className="card-title">Imagen</h5>
+                        {/* <p className="card-text">Some quick example </p> */}
                         <div className="mb-3">
                             <label htmlFor="file" className="form-label">Selecciona una imagen</label>
                             <input

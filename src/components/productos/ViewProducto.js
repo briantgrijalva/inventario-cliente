@@ -3,7 +3,7 @@ import { Col, Container, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 // import Swal from 'sweetalert2';
-import { clearActiveProducto, fileUpload, setActiveProducto, startLoading, startUpdatedProducto } from '../../actions/productos';
+import { clearActiveProducto, fileUpload, setActiveProducto, startLoadingProducto, startUpdatedProducto } from '../../actions/productos';
 
 export const ViewProducto = () => {
 
@@ -60,7 +60,7 @@ export const ViewProducto = () => {
 
     useEffect(() => {
 
-        dispatch(startLoading());
+        dispatch(startLoadingProducto());
         
       }, [dispatch])
       
@@ -199,7 +199,7 @@ export const ViewProducto = () => {
                         <input 
                             type='number' 
                             name='price' 
-                            value={price.$numberDecimal || ''}
+                            value={price.$numberDecimal || price}
                             onChange={handleInputChange}
                             disabled={isDisabled}
                             className="form-control" 
@@ -264,7 +264,7 @@ export const ViewProducto = () => {
                         <input 
                             type='number' 
                             name='cost' 
-                            value={cost.$numberDecimal || ''}
+                            value={cost.$numberDecimal || cost}
                             onChange={handleInputChange}
                             disabled={isDisabled}
                             className="form-control" 
@@ -302,7 +302,7 @@ export const ViewProducto = () => {
                         <input 
                             type='number' 
                             name='tax' 
-                            value={tax.$numberDecimal || ''} // FIX Warning: A component is changing an uncontrolled input of type text to be controlled.
+                            value={tax.$numberDecimal || tax} // FIX Warning: A component is changing an uncontrolled input of type text to be controlled.
                             onChange={handleInputChange}
                             disabled={isDisabled}
                             className="form-control" 
@@ -323,8 +323,8 @@ export const ViewProducto = () => {
                             className="img-fluid"
                             alt='...'
                         />
-                        <h5 className="card-title">Card title</h5>
-                        <p className="card-text">Some quick example </p>
+                        <h5 className="card-title">Imagen</h5>
+                        {/* <p className="card-text">Some quick example </p> */}
                         {/* <a href="#" class="btn btn-primary">Go somewhere</a> */}
                         <div className="mb-3">
                             <label htmlFor="file" className="form-label">Selecciona una imagen</label>

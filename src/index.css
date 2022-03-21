@@ -162,13 +162,27 @@ aside {
   float: right;
 }
 
+.btn-actions {
+  color: var(--primary);
+}
+
+.btn-actions:hover {
+  cursor: pointer;
+}
+
+.btn-plus-minus {
+  background-color: var(--primary);
+  border: none;
+  border-radius: 8px;
+  color: var(--light);
+  width: 1.8rem;
+}
 
 #contenedor{
 	/*background: #fba456;*/
 	margin-top: 0;
 	overflow: hidden;
 }
-
 
 
 .bloque-derecha{
@@ -195,12 +209,25 @@ aside {
     justify-content: center;
 }
 
-
+.center-element{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bolder;
+}
 /* Cards */
 .card-shadow {
   background: #FFFFFF;
   box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.16);
   border-radius: 16px;
+}
+
+.card-products {
+  background-color: var(--light);
+}
+
+.card-products:hover {
+  cursor: pointer;
 }
 
 
@@ -219,6 +246,31 @@ aside {
   width: 64px;
 }
 
+.paginacion-product {
+  border: none;
+  /* display: flex; */
+  /* align-items: center; */
+  /* justify-items: center; */
+  /* margin-left: 2.3rem; */
+  border-radius: 8px;
+  background-color: #DFDFDF;
+  width: 64px;
+}
+
+.price-cube {
+  background: var(--primary); 
+  color:white; 
+  font-weight: bold; 
+  font-size: 1rem;
+  height: 2rem;
+  width: 4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1.4rem;
+  border-radius: 8px;
+}
+
 .container-sucursales {
   margin-top: 8rem;
 }
@@ -235,12 +287,37 @@ aside {
   font-weight: bold;
 }
 
+.alignleft {
+  float: left;
+  width:33.33333%;
+  text-align:left;
+}
+.aligncenter {
+  float: left;
+  width:33.33333%;
+  text-align:center;
+}
+.alignright {
+ float: left;
+ width:33.33333%;
+ text-align:right;
+}​
+
 .spinner-container {
   display: flex;
   /* align-items: center; */
   justify-content: center;
   margin-top: 45vh;
 }
+
+.total-div {
+  margin-top: 13rem;
+  font-weight: bolder;
+  font-size: large;
+  font-family: 'Montserrat', sans-serif;
+  color: var(--primary);
+}
+
 
 
 /*Media Querys*/
