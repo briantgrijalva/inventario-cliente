@@ -193,8 +193,8 @@ export const VentasScreen = () => {
 
         let tempTotal = (Number(total) + Number(delivery) + Number(finalTax)) - Number(desc);
 
-        console.log(tempTotal);
-        setFinalTotal(tempTotal)
+        console.log(Math.round((tempTotal + Number.EPSILON) * 100) / 100);
+        setFinalTotal(Math.round((tempTotal + Number.EPSILON) * 100) / 100)
 
         console.log('enviar');
     }
