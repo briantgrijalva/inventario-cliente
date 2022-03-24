@@ -5,6 +5,7 @@ import { personasReducer } from '../reducers/personasReducer';
 import { productosReducer } from '../reducers/productosReducer';
 import { sucursalesReducer } from '../reducers/sucursalesReducer';
 import { uiReducer } from '../reducers/uiReducer';
+import { ventasReducer } from '../reducers/ventasReducer';
 
 const composeEnhancers = (typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
 
@@ -13,7 +14,8 @@ const reducers = combineReducers({
     sucursales: sucursalesReducer,
     personas: personasReducer,
     auth: authReducer,
-    productos: productosReducer
+    productos: productosReducer,
+    ventas: ventasReducer
 })
 
 export const store = createStore(

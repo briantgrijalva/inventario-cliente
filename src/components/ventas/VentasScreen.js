@@ -7,75 +7,199 @@ import { useForm } from '../../hooks/useForm';
 
 export const VentasScreen = () => {
 
-   
-  const [btnPrevDisable, setBtnPrevDisable] = useState(false);
-  const [btnNextDisable, setBtnNextDisable] = useState(true);
-  const [counter, setCounter] = useState(0);
-  const [initialPag, setInitialPag] = useState(0);
-  const [lastPag, setLastPag] = useState(6);
-  
-  const {producto} = useSelector(state => state.productos);
-  const {sucursal} = useSelector(state => state.sucursales);
+    const [btnPrevDisable, setBtnPrevDisable] = useState(false);
+    const [btnNextDisable, setBtnNextDisable] = useState(true);
+    const [counter, setCounter] = useState(0);
+    const [initialPag, setInitialPag] = useState(0);
+    const [lastPag, setLastPag] = useState(6);
+    const [total, setTotal] = useState(0);
+    const [productoSelect, setProductoSelect] = useState([]);
+    const [finalTotal, setFinalTotal] = useState(0);
+    
+    
+    const {producto} = useSelector(state => state.productos);
+    const {sucursal} = useSelector(state => state.sucursales);
 
-  let totalItem = producto.length / 6;
+    // console.log(producto);
+    let productos = producto.map(pT => ({
+        ...pT,
+        cantidad: 1,
+        totalSum: pT.price.$numberDecimal //* pT.cantidad
+      })).map(pT => pT);
 
-  const dispatch = useDispatch();
+    
 
-  const [formValues, handleInputChange, reset] = useForm({
-    searchText: '',
-  });
+    // console.log(productos);
 
-  const {searchText} = formValues;
+    let totalItem = producto.length / 6;
 
-  useEffect(() => {
+    const dispatch = useDispatch();
+    
 
-    dispatch(startLoadingProducto());
+    const [formValues, handleInputChange, reset] = useForm({
+        searchText: '',
+        desc: 0,
+        tax: 0,
+        delivery: 0
+    });
 
-  }, [dispatch])
+    const {searchText, desc, tax, delivery} = formValues;
 
-  useEffect(() => {
+    let initialState = { cantidad: "" };
 
-    dispatch(startLoading());
+    const [values, setValues] = useState(initialState);
 
-  }, [dispatch])
+    const { cantidad } = values;
 
-  useEffect(() => {
-    if (counter === 0) {
-        setBtnPrevDisable(true);
-    } else if (counter !== 0) {
-        setBtnPrevDisable(false);
+    useEffect(() => {
+
+        dispatch(startLoadingProducto());
+
+    }, [dispatch])
+
+    useEffect(() => {
+
+        dispatch(startLoading());
+
+    }, [dispatch])
+
+    useEffect(() => {
+        if (counter === 0) {
+            setBtnPrevDisable(true);
+        } else if (counter !== 0) {
+            setBtnPrevDisable(false);
+        }
+        // console.log(counter);
+    }, [counter])
+
+    useEffect(() => {
+        if (counter === Math.ceil(totalItem - 1)) {
+            setBtnNextDisable(true);
+        } else if (counter !== (totalItem - 1)){
+            setBtnNextDisable(false);
+        }
+        if (totalItem === 0) {
+            setBtnNextDisable(true);
+            setBtnPrevDisable(true);
+        }
+    }, [counter, totalItem])
+
+    const handleNext = () => {
+        setInitialPag(initialPag + 6);
+        setLastPag(lastPag + 6);
+
+        setCounter(counter + 1);
     }
-    console.log(counter);
-  }, [counter])
 
-  useEffect(() => {
-      if (counter === Math.ceil(totalItem - 1)) {
-          setBtnNextDisable(true);
-      } else if (counter !== (totalItem - 1)){
-          setBtnNextDisable(false);
+    const handlePrev = () => {
+        setInitialPag(initialPag - 6);
+        setLastPag(lastPag - 6);
+
+        setCounter(counter - 1);
+    }
+
+    let numPag = counter + 1;
+
+    const uniqByKeepLast = (a, key) => {
+        return [
+            ...new Map(
+                a.map(x => [key(x), x])
+            ).values()
+        ]
+    }
+    
+    let algProduct = [];
+    let arr = [];
+  
+    useEffect(() => {
+        let totales = algProduct;
+        
+        totales.forEach(t => {
+            
+            arr.push(Number(t.totalSum));
+            // console.log(Number(t.totalSum));
+        });
+
+        // console.log(arr);
+
+        if (arr.length > 0) {
+            const reducer = (accumulator, curr) => accumulator + curr;
+            setTotal(arr.reduce(reducer))
+        }
+        
+        // const arr = [1, 2, 3, 4];
+        
+    // eslint-disable-next-line
+    }, [algProduct])
+   
+
+
+    const handleAddProductSell = (e) => {
+
+
+        let id = e.target.id;
+        
+        let productoSel = productos.filter(p => p.id === id).map(p => (p));
+
+        // console.log(productoSel[0]);
+        
+        // productoSel[0].cantidad = value;
+        
+        setProductoSelect([...productoSelect, productoSel[0]]);
+        // productoParcial([...productoParcial, productoSel[0]]);
+        productoSelect.forEach(t => {
+            
+            arr.push(Number(t.totalSum));
+            // console.log(Number(t.totalSum));
+        });
+        
+    }
+
+
+    function handleChange({target}) {
+        // console.log(target.value);
+        setValues({
+            ...values,
+            [ target.name ]: target.value
+        });
+
+        let id = target.id;
+        
+        let productoSel = productos.filter(p => p.id === id).map(p => (p));
+
+        productoSel[0].cantidad = target.value;
+        productoSel[0].totalSum = (Number(productoSel[0].price.$numberDecimal) * Number(productoSel[0].cantidad));
+        // console.log(productoSel[0]);
+        
+        setProductoSelect([...productoSelect, productoSel[0]]);
+        // productoParcial([...productoParcial, productoSel[0]]);
+
+        // let arrForAmount = (uniqByKeepLast(productoParcial, it => it.id));
+
+        // console.log(arrForAmount);
+        
       }
-      if (totalItem === 0) {
-          setBtnNextDisable(true);
-          setBtnPrevDisable(true);
-      }
-  }, [counter, totalItem])
 
-  const handleNext = () => {
-      setInitialPag(initialPag + 6);
-      setLastPag(lastPag + 6);
+      algProduct = (uniqByKeepLast(productoSelect, it => it.id));
+    //   console.log(productoSelect);
+      
+    //   console.log(algProduct);
+    const onSubmit = (e) => {
+        e.preventDefault()
 
-      setCounter(counter + 1);
-  }
+        let finalTax = (Number(tax) / 100) * Number(total);
 
-  const handlePrev = () => {
-      setInitialPag(initialPag - 6);
-      setLastPag(lastPag - 6);
+        console.log(finalTax);
 
-      setCounter(counter - 1);
-  }
+        let tempTotal = (Number(total) + Number(delivery) + Number(finalTax)) - Number(desc);
 
-  let numPag = counter + 1;
+        console.log(tempTotal);
+        setFinalTotal(tempTotal)
 
+        console.log('enviar');
+    }
+
+   
 
   return (
     <div className='container-sucursales'>
@@ -83,7 +207,7 @@ export const VentasScreen = () => {
         Realizar Venta
     </div>
     <Container className='div-card pt-3'>
-        <form>
+        <form onSubmit={onSubmit}>
             <Row className='mb-4'>
             
                 <Col xs={12} md={6} className='card-shadow'>
@@ -124,71 +248,63 @@ export const VentasScreen = () => {
                                 </thead>
                             
                                 <tbody>
-                                <tr>
-                                    <td>Pan</td>
-                                    <td>$15.00</td>
-                                    <td>
-                                        <div className='alignleft'>
-                                            <button 
-                                                // disabled={btnPrevDisable} 
-                                                type='button' 
-                                                className='btn-plus-minus' 
-                                                // style={{float: 'left'}}
-                                                // className='btn-paginacion'
-                                                // onClick={handlePrev}
-                                                >
-                                                <i className="fas fa-minus"></i>
-                                            </button>
-                                        </div>
-                                        <div
-                                            className='aligncenter'
-                                            // className='center-element'
-                                            // style={{textAlign: 'center'}}
-                                        >
-                                            <p>1</p>
-                                        </div>
-                                            
-                                        <div className='alignright'>
-                                            <button 
-                                                // disabled={btnNextDisable} 
-                                                type='button' 
-                                                className='btn-plus-minus' 
-                                                style={{float: 'right'}}
-                                                // className='btn-paginacion' 
-                                                // onClick={handleNext}
-                                                >
-                                                <i className="fas fa-plus "></i>
-                                            </button>
-                                        </div>
-                                            
-                                    </td>
-                                    <td>$15.00</td>
-                                    <td className='center-element'><i className="fas fa-times btn-actions"></i></td>
-                                </tr>
-                                {
-                                    // producto.map(scsal => ( 
-                                    //     <tr key={scsal.id}>
-                                    //         <th scope="row">
+                                
+                                    {algProduct.map(p => (
+                                        <tr key={p.id} >
+                                        <td>{p.name}</td>
+                                        <td>$ {p.price.$numberDecimal%1 === 0 ? p.price.$numberDecimal + '.00' : p.price.$numberDecimal}</td>
+                                        <td>
+                                            <div className='alignleft' id={p.id}>
+                                                {/* <button 
+                                                    // disabled={btnPrevDisable} 
+                                                    type='button' 
+                                                    className='btn-plus-minus' 
+                                                    // style={{float: 'left'}}
+                                                    id={p.id}
+                                                    name="firstName" 
+                                                    onChange={handleChange}
+                                                    // className='btn-paginacion'
+                                                    onClick={handleDecrement}
+                                                    ref={currentR}
+                                                    >
+                                                    <i className="fas fa-minus" id={p.id}></i>
+                                                </button> */}
+                                            </div>
+                                            <div
+                                                className='aligncenter'
+                                                // className='center-element'
+                                                // style={{textAlign: 'center'}}
+                                            >
+                                                <input 
+                                                    style={{width: '2rem'}}
+                                                    type='number' 
+                                                    name="cantidad"
+                                                    id={p.id}
+                                                    value={p.cantidad}
+                                                    onChange={handleChange} min={1}/>
+                                                <p >{p.cantidad}</p>
+                                            </div>
                                                 
-                                    //         </th>
-                                    //         <td>
-                                    //             <img 
-                                    //                 src={`${process.env.REACT_APP_API_URL}/upload/${scsal.photo}`}
-                                    //                 style={{width: "4rem"}}
-                                    //                 alt='...'
-                                    //             />
-                                    //         </td>
-                                    //         <td>{scsal.name}</td>
-                                    //         <td>{scsal.barCode}</td>
-                                    //         <td>{scsal.category}</td>
-                                    //         <td>{scsal.brand}</td>
-                                    //         <td>{scsal.price.$numberDecimal}</td>
-                                    //         <td>{scsal.unitProduct}</td>
-                                    //         <td>{0 /* condicion si existe cantidad en ajuste de stock ponerlo si no sera CERO*/}</td>
-                                    //         <td><i className="fas fa-eye" id={scsal.id} onClick={handleView}></i> <i className="fas fa-trash ms-1" id={scsal.id} onClick={handleDelete}></i></td>                                
-                                    //     </tr>
-                                    //     ))
-                                }
+                                            <div className='alignright' id={p.id}>
+                                                {/* <button 
+                                                    // disabled={btnNextDisable} 
+                                                    type='button' 
+                                                    className='btn-plus-minus' 
+                                                    style={{float: 'right'}}
+                                                    id={p.id}
+                                                    // className='btn-paginacion' 
+                                                    onClick={handleAddProductSell}
+                                                    >
+                                                    <i className="fas fa-plus "  id={p.id}></i>
+                                                </button> */}
+                                            </div>
+                                                
+                                        </td>
+                                        <td>${p.totalSum%1 === 0 ? p.totalSum + '.00' : p.totalSum}</td>
+                                        <td className='center-element'><i className="fas fa-times btn-actions"></i></td>
+                                        </tr>
+
+                                    ))}
                                 </tbody>
                             </table>
                         </Col>
@@ -199,17 +315,23 @@ export const VentasScreen = () => {
                         className="input-group center-element total-div" 
                         // style={{marginTop: '13rem'}}
                     >
-                       <div>Total : $50.00</div>  
+                       <div>Total : $ {total%1 === 0 ? total + '.00' : total}</div>  
                     </div>     
                     <Row className='mt-4'>
                         <Col xs={4} md={4}>
                             <label htmlFor="tax" className="form-label">Impuesto</label>
                             <div className="input-group flex-nowrap">
                                 <input 
-                                    type="text" 
+                                    type="number" 
+                                    min={0}
+                                    // max={1}
+                                    // step={0.01}
                                     className="form-control" 
+                                    name='tax' 
+                                    value={tax} 
+                                    onChange={handleInputChange}
                                     // value='0' 
-                                    placeholder='0'
+                                    // placeholder='0'
                                     aria-describedby="tax"
                                 />
                                 <span className="input-group-text" id="tax">%</span>
@@ -219,10 +341,13 @@ export const VentasScreen = () => {
                             <label htmlFor="desc" className="form-label">Descuento</label>
                             <div className="input-group flex-nowrap">
                                 <input 
-                                    type="text" 
+                                    type="number" 
                                     className="form-control" 
+                                    name='desc' 
+                                    value={desc} 
+                                    onChange={handleInputChange}
                                     // value='0' 
-                                    placeholder='0'
+                                    // placeholder='0'
                                     aria-describedby="desc"
                                 />
                                 <span className="input-group-text" id="desc">$</span>
@@ -232,10 +357,13 @@ export const VentasScreen = () => {
                             <label htmlFor="delivery" className="form-label">Envío</label>
                             <div className="input-group flex-nowrap">
                                 <input 
-                                    type="text" 
+                                    type="number" 
                                     className="form-control" 
+                                    name='delivery' 
+                                    value={delivery} 
+                                    onChange={handleInputChange}
                                     // value='0' 
-                                    placeholder='0'
+                                    // placeholder='0'
                                     aria-describedby="delivery"
                                 />
                                 <span className="input-group-text" id="delivery">$</span>
@@ -259,7 +387,7 @@ export const VentasScreen = () => {
 
                             <button 
                                 variant="primary" 
-                                type='button' 
+                                type='submit' 
                                 className="btn-save ms-5">
                                 PAGAR
                             </button>
@@ -269,9 +397,7 @@ export const VentasScreen = () => {
                             
                         </Col>
                     </Row>
-                    
-
-                      
+ 
                 </Col>
 
                 <Col xs={12} md={6} className='card-shadow'>
@@ -293,26 +419,34 @@ export const VentasScreen = () => {
                     ?       
                       producto.map(p => ( 
                         <Col xs={6} md={4} key={p.id} className='mt-2'>
-                          <div>
-                            <div className="card card-shadow card-products" >
-                                <div className="card-body">
+                          
+                            <div 
+                                className="card card-shadow card-products" 
+                                
+                            >
+                                <div
+                                    className="card-body" 
+                                    id={p.id}
+                                    onClick={handleAddProductSell}
+                                >
                                 <img 
+                                    id={p.id}
                                     src={`${process.env.REACT_APP_API_URL}/upload/${p.photo}`}
                                     className="img-fluid"
                                     alt='...'
                                 />
-                                <h5 className="card-title">{p.name}</h5>
-                                <p className="card-text">{p.barCode}</p>
+                                <h5 className="card-title" id={p.id}>{p.name} </h5>
+                                <p className="card-text" id={p.id}>{p.barCode}</p>
                                 <p 
                                     className="card-text price-cube"
-                                    
+                                    id={p.id}
                                 >
                                     $ {p.price.$numberDecimal%1 === 0 ? p.price.$numberDecimal + '.00' : p.price.$numberDecimal} 
                                 </p>
                                 
                                 </div>
                             </div>
-                          </div>
+                          
                         </Col>
                             // Recorre el numero de elementos que indiquemos
                             )).slice(initialPag, lastPag)

@@ -28,6 +28,8 @@ export const types = {
     productoDeleteProducto: '[Producto] DeletedProducto',
     productoLoadedProducto: '[Producto] LoadedProducto',
 
+    ventaStartCreateNewVenta: '[Venta] StartCreateNewVenta',
+    ventaAddNewVenta: '[Venta] AddNewVenta',
 
     createNewProducto: '[Producto] CreateNewProducto',
     createNewUsuario: '[Usuario] CreateNewUsuario',
