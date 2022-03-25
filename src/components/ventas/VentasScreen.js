@@ -136,22 +136,42 @@ export const VentasScreen = () => {
 
     const handleAddProductSell = (e) => {
 
+        // console.log(e.target.value);
+
+        // if (e.target.value !== 1) {
+        //     ret
+        // }
+
+        // console.log(uniqByKeepLast(productoSelect, it => it.id));
 
         let id = e.target.id;
-        
-        let productoSel = productos.filter(p => p.id === id).map(p => (p));
 
-        // console.log(productoSel[0]);
+        let productValidateCant = uniqByKeepLast(productoSelect, it => it.id).filter(p => p.id === id).map(p => (p));
         
-        // productoSel[0].cantidad = value;
-        
-        setProductoSelect([...productoSelect, productoSel[0]]);
-        // productoParcial([...productoParcial, productoSel[0]]);
-        productoSelect.forEach(t => {
+        // console.log(productValidateCant[0].cantidad !== 1);
+        // console.log(productValidateCant[0]);
+        if (productValidateCant[0] === undefined || productValidateCant[0].cantidad === 1)  {
+        // if (productValidateCant[0].cantidad === 1)  {
+            let productoSel = productos.filter(p => p.id === id).map(p => (p));
+
+            // console.log(productoSel[0]);
+
+            // console.log(productoSel[0]);
             
-            arr.push(Number(t.totalSum));
-            // console.log(Number(t.totalSum));
-        });
+            // productoSel[0].cantidad = value;
+            
+            setProductoSelect([...productoSelect, productoSel[0]]);
+            // productoParcial([...productoParcial, productoSel[0]]);
+            productoSelect.forEach(t => {
+                
+                arr.push(Number(t.totalSum));
+                // console.log(Number(t.totalSum));
+            });
+        } else {
+            return
+        }
+        
+        
         
     }
 
@@ -172,6 +192,7 @@ export const VentasScreen = () => {
         // console.log(productoSel[0]);
         
         setProductoSelect([...productoSelect, productoSel[0]]);
+        // console.log(productoSelect);
         // productoParcial([...productoParcial, productoSel[0]]);
 
         // let arrForAmount = (uniqByKeepLast(productoParcial, it => it.id));

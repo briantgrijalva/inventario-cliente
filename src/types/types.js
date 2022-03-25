@@ -20,7 +20,7 @@ export const types = {
     sucursalDeletedSucursal: '[Sucursal] DeletedSucursal',
     sucursalLoadedSucursal: '[Sucursal] LoadedSucursal',
 
-    productoSetActive: '[ProductoProducto] SetActiveProducto',
+    productoSetActive: '[Producto] SetActiveProducto',
     productoClearActiveProducto: '[Producto] ClearActiveProducto',
     productoStartCreateNewProducto: '[Producto] StartCreateNewProducto',
     productoAddNewProducto: '[Producto] AddNewProducto',
