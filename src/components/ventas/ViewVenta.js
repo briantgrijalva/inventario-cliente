@@ -3,12 +3,13 @@ import { Col, Container, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import moment from 'moment';
 import { startLoadingProducto } from '../../actions/productos';
 import { startLoading } from '../../actions/sucursales';
-import { startCreateNewVenta } from '../../actions/ventas';
+import { setActiveVenta, startLoadingVenta } from '../../actions/ventas';
 import { useForm } from '../../hooks/useForm';
 
-export const VentasScreen = () => {
+export const ViewVenta = () => {
 
     const [btnPrevDisable, setBtnPrevDisable] = useState(false);
     const [btnNextDisable, setBtnNextDisable] = useState(true);
@@ -17,16 +18,94 @@ export const VentasScreen = () => {
     const [lastPag, setLastPag] = useState(6);
     const [total, setTotal] = useState(0);
     const [cost, setCost] = useState(0);
-    const [productoSelect, setProductoSelect] = useState([]);
     const [valueSelect, setValueSelect] = useState('');
+    const [details, setDetails] = useState([]);
+    const [totalPlus, setTotalPlus] = useState(0);
+    const [costPlus, setCostPlus] = useState(0);
+    const [utilityPlus, setUtilityPlus] = useState(0);
+    const [sucursalName, setSucursalName] = useState([]);
     
-    
-    const {producto} = useSelector(state => state.productos);
     const {sucursal} = useSelector(state => state.sucursales);
+    const {activeVenta} = useSelector(state => state.ventas);
+    const {producto} = useSelector(state => state.productos);
 
-    // console.log(sucursal[0].id);
+    moment.locale('es', {
+        months: 'Enero_Febrero_Marzo_Abril_Mayo_Junio_Julio_Agosto_Septiembre_Octubre_Noviembre_Diciembre'.split('_'),
+        monthsShort: 'Enero._Feb._Mar_Abr._May_Jun_Jul._Ago_Sept._Oct._Nov._Dec.'.split('_'),
+        weekdays: 'Domingo_Lunes_Martes_Miercoles_Jueves_Viernes_Sabado'.split('_'),
+        weekdaysShort: 'Dom._Lun._Mar._Mier._Jue._Vier._Sab.'.split('_'),
+        weekdaysMin: 'Do_Lu_Ma_Mi_Ju_Vi_Sa'.split('_'),
+        relativeTime : {
+            future: "en %s",
+            past:   "hace %s",
+            // s: function (number, withoutSuffix, key, isFuture){
+            //     return '00:' + (number<10 ? '0':'') + number + ' minutes';
+            // },
+            // m:  "01:00 minutes",
+            // mm: function (number, withoutSuffix, key, isFuture){
+            //     return (number<10 ? '0':'') + number + ':00' + ' minutes';
+            // },
+            s: 'un segunndo',
+            ss: '%d segundos',
+            m:  'un minuto',
+            mm: '%d minutos',
+            h:  "una hora",
+            hh: "%d horas",
+            d:  "un dia",
+            dd: "%d dias",
+            M:  "un mes",
+            MM: "%d meses",
+            y:  "un año",
+            yy: "%d años"
+        }
+      }
+    );
+    
+    // console.log(activeVenta[0].products);
+    // let products = activeVenta[0].products;
+    const [productoSelect, setProductoSelect] = useState([]);
 
-    // console.log(producto);
+    const dispatch = useDispatch();
+    let navigate = useNavigate();
+
+    let ventaActive = localStorage.getItem('activeVenta');
+    
+    let parseVenta = JSON.parse(ventaActive);
+    // console.log(parseVenta);
+
+    
+    // setSucursalName(sucursalVenta[0]);
+    
+    
+
+    useEffect(() => {
+        if (activeVenta) {
+            let products = activeVenta[0].products;
+            // console.log(activeSucursal[0]);
+            // console.log(parseSucursal);
+            setProductoSelect( products );
+            setDetails(activeVenta[0]);
+            setTotalPlus( Number(activeVenta[0].total.$numberDecimal) );
+            setCostPlus( Number(activeVenta[0].expenses.$numberDecimal) );
+            setUtilityPlus( Number(activeVenta[0].utility.$numberDecimal) );
+            setSucursalName(sucursal.filter(s => s.id === activeVenta[0].sucursal).map(s => s.name));
+            
+            
+        } 
+        else {
+            dispatch(setActiveVenta(parseVenta));
+        }
+        console.log(activeVenta);
+        
+        // console.log(details);
+        // console.log(sucursalName);
+        
+        // console.log(activeSucursal);
+        // eslint-disable-next-line
+    }, [activeVenta, dispatch, sucursal])
+
+    console.log(sucursalName);
+
     let productos = producto.map(pT => ({
         ...pT,
         cantidad: 1,
@@ -34,16 +113,12 @@ export const VentasScreen = () => {
         totalCost: pT.cost.$numberDecimal,
       })).map(pT => pT);
 
-
-    // console.log(productos);
-
     let totalItem = producto.length / 6;
 
-    const dispatch = useDispatch();
-    let navigate = useNavigate();
+    
     
 
-    const [formValues, handleInputChange, reset] = useForm({
+    const [formValues, handleInputChange] = useForm({
         searchText: '',
         desc: 0,
         tax: 0,
@@ -62,6 +137,7 @@ export const VentasScreen = () => {
 
         dispatch(startLoadingProducto());
         dispatch(startLoading());
+        dispatch(startLoadingVenta());
 
     }, [dispatch])
 
@@ -172,7 +248,7 @@ export const VentasScreen = () => {
         // if (productValidateCant[0].cantidad === 1)  {
             let productoSel = productos.filter(p => p.id === id).map(p => (p));
 
-            // console.log(productoSel[0]);
+            console.log(productoSel[0]);
 
             // console.log(productoSel[0]);
             
@@ -224,7 +300,7 @@ export const VentasScreen = () => {
     }
 
     const handleCancel = () => {
-        reset();
+        // reset();
         navigate('/dashboard');
     }
 
@@ -233,11 +309,17 @@ export const VentasScreen = () => {
 
         let finalTax = (Number(tax) / 100) * Number(total);
 
-        // console.log(finalTax);
+        console.log(finalTax);
 
         let tempTotal = (Number(total) + Number(delivery) + Number(finalTax)) - Number(desc);
 
-        console.log(Math.round((tempTotal + Number.EPSILON) * 100) / 100);
+        // console.log(Math.round((tempTotal + Number.EPSILON) * 100) / 100);
+        // setTotal(Math.round((tempTotal + Number.EPSILON) * 100) / 100);
+
+
+        // console.log(sucursal[0].id);
+
+       
         let finalTot = (Math.round((tempTotal + Number.EPSILON) * 100) / 100);
         // setTotal(finalTot);
         // console.log(total);
@@ -245,7 +327,7 @@ export const VentasScreen = () => {
 
         // console.log(sucursal[0].id);
 
-        let utilityOperation = (finalTot - Number(cost));
+        let utilityOperation = (total - Number(cost));
         console.log('utility ' + utilityOperation);
 
         let venta = {
@@ -274,27 +356,288 @@ export const VentasScreen = () => {
             })
         } else {
 
-            dispatch(startCreateNewVenta(venta));
+            // dispatch(startCreateNewVenta(venta));
             // console.log('cost ' + cost);
             // console.log('total ' + total);
-            console.log(venta);
+            // console.log(venta);
             // TODO: sumar a la wallet global el total de la venta
 
         }
 
 
     }
-
-   
-
   return (
     <div className='container-sucursales'>
     <div className='title-separator'>
-        Realizar Venta
+        Detalles de Venta
     </div>
     <Container className='div-card pt-3'>
         <form onSubmit={onSubmit}>
-            <Row className='mb-4'>
+            <Row>
+                <Col xs={12} md={0} className='mt-2'></Col>
+                <Col xs={12} md={12} className='mt-2'>
+                    {/* <div className=" card-shadow wallets-card mb-3">
+                        
+                        <label htmlFor="date" className="form-label">{moment(details.dateSell).format('LLLL')}</label>
+                    </div> */}
+                    <div className="card card-shadow wallets-card mb-3">
+                        {/* <div className="card-header">
+                            Sucursal
+                        </div> */}
+                        <div className="card-body">
+                            <blockquote className="blockquote mb-0">
+                            <p>SUCURSAL: <span className='wallets-text' style={{"fontWeight": "bold"}}>{sucursalName}</span></p>
+                            <footer className="blockquote-footer">Realizada el <cite title="Source Title">{moment(details.dateSell).format('LLLL')}</cite></footer>
+                            </blockquote>
+                        </div>
+                    </div>
+                </Col>
+                <Col xs={12} md={0} className='mt-2'></Col>
+            </Row>
+            
+            <Row>
+              <Col xs={12} md={4} className='mt-2'>
+
+                <div>
+                  <div className=" card-shadow wallets-card mb-3" style={{"maxWidth": "540px"}}>
+                    <div className="row g-0">
+                      <div className="col-md-4">
+                        <i 
+                          className='fas fa-cash-register center-element mt-4 ms-1 wallets-text' 
+                          style={{"fontSize": "4.5rem"}}
+                        ></i>
+                      </div>
+                      <div className="col-md-8">
+                        <div className="card-body">
+                          <h5 className="card-title">TOTAL</h5>
+                          <p 
+                            className="card-text wallets-text"
+                            style={{"fontSize": "1.5rem", "fontWeight": "bold"}}
+                          >
+                              {/* $ {activeVenta[0].total.$numberDecimal%1 === 0 ? activeVenta[0].total.$numberDecimal + '.00' : activeVenta[0].total.$numberDecimal} */}
+                              {/* $ {details.total.$numberDecimal%1 === 0 ? details.total.$numberDecimal + '.00' : details.total.$numberDecimal} */}
+                                $ {totalPlus%1 === 0 ? totalPlus + '.00' : totalPlus}
+                          </p>
+                          <p className="card-text">
+                            <small className="text-muted">
+                              Total de la venta {/*moment(ventaDate.pop()).startOf('hour').fromNow()*/}
+                            </small>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </Col>
+              <Col xs={12} md={4} className='mt-2'>
+
+                <div>
+                  <div className=" card-shadow wallets-card mb-3" style={{"maxWidth": "540px"}}>
+                    <div className="row g-0">
+                      <div className="col-md-4">
+                        <i 
+                          className='fas fa-coins center-element wallets-text mt-4 ms-1' 
+                          style={{"fontSize": "4.5rem"}}
+                        ></i>
+                      </div>
+                      <div className="col-md-8">
+                        <div className="card-body">
+                          <h5 className="card-title">GASTOS</h5>
+                          <p 
+                            className="card-text wallets-text"
+                            style={{"fontSize": "1.5rem", "fontWeight": "bold"}}
+                          >
+                              {/* $ {activeVenta[0].expenses.$numberDecimal%1 === 0 ? activeVenta[0].expenses.$numberDecimal + '.00' : activeVenta[0].expenses.$numberDecimal} */}
+                              $ {costPlus%1 === 0 ? costPlus + '.00' : costPlus}
+                          </p>
+                          <p className="card-text"><small className="text-muted">Gastos realizados</small></p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </Col>
+              <Col xs={12} md={4} className='mt-2'>
+
+                <div>
+                  <div className=" card-shadow wallets-card mb-3" style={{"maxWidth": "540px"}}>
+                    <div className="row g-0">
+                      <div className="col-md-4"> 
+                        <i 
+                          className='fas fa-hand-holding-usd center-element mt-4 ms-1 wallets-text' 
+                          style={{"fontSize": "4.5rem"}}
+                        ></i>
+                      </div>
+                      <div className="col-md-8">
+                        <div className="card-body">
+                          <h5 className="card-title">GANANCIAS </h5>
+                          <p 
+                            className="card-text wallets-text"
+                            style={{"fontSize": "1.5rem", "fontWeight": "bold"}}
+                          >
+                              {/* $ {activeVenta[0].utility.$numberDecimal%1 === 0 ? activeVenta[0].utility.$numberDecimal + '.00' : activeVenta[0].utility.$numberDecimal} */}
+                              $ {utilityPlus%1 === 0 ? utilityPlus + '.00' : utilityPlus}
+                          </p>
+                          <p className="card-text"><small className="text-muted">Utilidad de la venta</small></p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </Col>
+            </Row>
+
+            <Row>
+                <Col xs={12} md={0} className='mt-2'></Col>
+                <Col xs={12} md={12} className='mt-2'>
+                    {/* <div className="card card-shadow wallets-card mb-3">
+                        
+                    </div> */}
+                    <div className="card text-center card-shadow wallets-card mb-3">
+                        <div className="card-header wallets-text" style={{"fontSize": "1.5rem", "fontWeight": "bold"}}>
+                            PRODUCTOS INVOLUCRADOS
+                        </div>
+                        <div className="card-body">
+                            {/* <h5 className="card-title">PRODUCTOS INVOLUCRADOS</h5>
+                            <p className="card-text">With supporting text below as a natural lead-in to additional content.</p> */}
+                            {/* <a href="#" className="btn btn-primary">Go somewhere</a> */}
+                            <Row>
+                                {     
+                                algProduct.map(p => ( 
+                                    <Col xs={6} md={4} key={p.id} className='mt-2'>
+                                    
+                                        <div 
+                                            className="card card-shadow card-products" 
+                                            
+                                        >
+                                            <div
+                                                className="card-body" 
+                                                id={p.id}
+                                                onClick={handleAddProductSell}
+                                            >
+                                                <img 
+                                                    id={p.id}
+                                                    src={`${process.env.REACT_APP_API_URL}/upload/${p.photo}`}
+                                                    className="img-fluid"
+                                                    alt='...'
+                                                    style={{maxHeight: "100px"}}
+                                                />
+                                                <h5 className="card-title" id={p.id}>{p.name} <span className="wallets-text" style={{"fontSize": "1.5rem", "fontWeight": "bold"}}>{p.barCode}</span></h5>
+                                                
+                                                
+
+                                                <div style={{marginTop: "1rem"}}>
+
+                                                    <p 
+                                                        className="card-text prices-cube-view"
+                                                        style={{width: "100%"}}
+                                                        id={p.id}
+                                                    >
+                                                        Precio: $ {p.price.$numberDecimal%1 === 0 ? p.price.$numberDecimal + '.00' : p.price.$numberDecimal}
+                                                    </p>
+
+                                                </div> 
+
+
+                                                <div style={{marginTop: "1rem"}}>
+
+                                                    <p 
+                                                        className="card-text prices-cube-view"
+                                                        style={{width: "100%"}}
+                                                        id={p.id}
+                                                    >
+                                                        Coste: $ {p.cost.$numberDecimal%1 === 0 ? p.cost.$numberDecimal + '.00' : p.cost.$numberDecimal}
+                                                    </p>
+
+                                                </div> 
+
+                                                <div style={{marginTop: "1rem"}}>
+
+                                                    <p 
+                                                        className="card-text prices-cube-view"
+                                                        style={{width: "100%"}}
+                                                        id={p.id}
+                                                    >
+                                                        Cantidad: {p.cantidad}
+                                                    </p>
+
+                                                </div> 
+
+                                                <div style={{marginTop: "1rem"}}>
+
+                                                    <p 
+                                                        className="card-text prices-cube-view"
+                                                        style={{width: "100%"}}
+                                                        id={p.id}
+                                                    >
+                                                        Costes totales: $ {p.totalCost%1 === 0 ? p.totalCost + '.00' : p.totalCost} 
+                                                    </p>
+
+                                                </div>
+
+
+                                                <div style={{marginTop: "1rem"}}>
+
+                                                    <p 
+                                                        className="card-text prices-cube-view"
+                                                        style={{width: "100%"}}
+                                                        id={p.id}
+                                                    >
+                                                        Suma total: $ {p.totalSum%1 === 0 ? p.totalSum + '.00' : p.totalSum} 
+                                                    </p>
+
+                                                </div>
+                                                    
+                                               
+                                            </div>
+                                        </div>
+                                    
+                                    </Col>
+                                ))
+                                }
+                                
+                            </Row>
+                        </div>
+                        {/* <div className="card-footer text-muted">
+                            2 days ago
+                        </div> */}
+                    </div>
+                </Col>
+                <Col xs={12} md={0} className='mt-2'></Col>
+            </Row>
+
+            <Row className='mt-4 mb-4'>
+                        <Col xs={0} md={2}>
+                            
+                        </Col>
+                        <Col xs={12} md={8} className='center-element'>
+                            
+                            <button
+                                    variant="primary" 
+                                    type='button'
+                                    className="btn-cancel me-5"
+                                    onClick={handleCancel}
+                                >
+                                CANCELAR
+                            </button>
+
+                            <button 
+                                variant="primary" 
+                                type='submit' 
+                                className="btn-save ms-5">
+                                MODIFICAR
+                            </button>
+                            
+                        </Col>
+                        <Col xs={0} md={2}>
+                            
+                        </Col>
+                    </Row>
+
+            {/* <Row className='mb-4'>
             
                 <Col xs={12} md={6} className='card-shadow'>
 
@@ -373,6 +716,7 @@ export const VentasScreen = () => {
                         // style={{marginTop: '13rem'}}
                     >
                        <div>Total : $ {total%1 === 0 ? total + '.00' : total}</div>  
+                     
                     </div>     
                     <Row className='mt-4'>
                         <Col xs={4} md={4}>
@@ -439,7 +783,7 @@ export const VentasScreen = () => {
                                 variant="primary" 
                                 type='submit' 
                                 className="btn-save ms-5">
-                                PAGAR
+                                MODIFICAR
                             </button>
                             
                         </Col>
@@ -562,7 +906,7 @@ export const VentasScreen = () => {
                     
                     
                 </Col>
-            </Row>
+            </Row> */}
         </form>
 
     </Container>

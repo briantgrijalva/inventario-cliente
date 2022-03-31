@@ -15,6 +15,7 @@ import { ViewSucursal } from "../components/sucursales/ViewSucursal";
 // import { Navbar } from "../components/ui/Navbar";
 import { Sidebar } from "../components/ui/Sidebar";
 import { VentasScreen } from "../components/ventas/VentasScreen";
+import { ViewVenta } from "../components/ventas/ViewVenta";
 
 
 export const DashboardRoutes = () => {
@@ -33,6 +34,7 @@ export const DashboardRoutes = () => {
                     <Route path="login" element={<LoginScreen />} />
                     <Route path="dashboard" element={<DashboardScreen />} />
                     <Route path="ventas" element={<VentasScreen />} />
+                    <Route path="verventa" element={<ViewVenta />} />
                     <Route path="sucursales" element={<SucursalesScreen />} />
                     <Route path="nuevaSucursal" element={<AgregarSucursal />} />
                     <Route path="verSucursal" element={<ViewSucursal />} />

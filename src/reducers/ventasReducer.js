@@ -13,45 +13,45 @@ export const ventasReducer = (state = initialState, action) => {
         case types.ventaAddNewVenta:
             return {
                 ...state,
-                producto: [
-                    ...state.producto,
+                venta: [
+                    ...state.venta,
                     action.payload
                 ]
             }
-        // case types.productoSetActive:
-        //     return {
-        //         ...state,
-        //         activeProducto: action.payload
-        //     }
+        case types.ventaSetActive:
+            return {
+                ...state,
+                activeVenta: action.payload
+            }
 
-        // case types.productoClearActiveProducto:
-        //     return {
-        //         ...state,
-        //         activeProducto: null
-        //     }
+        case types.ventaClearActiveVenta:
+            return {
+                ...state,
+                activeVenta: null
+            }
         
-        // case types.productoUpdatedProducto:
-        //     return {
-        //         ...state,
-        //         producto: state.producto.map(
-        //             p => (p.id === action.payload.id) ? action.payload : p
-        //         )
-        //     }
+        case types.ventaUpdatedVenta:
+            return {
+                ...state,
+                venta: state.venta.map(
+                    v => (v.id === action.payload.id) ? action.payload : v
+                )
+            }
         
-        // case types.productoDeleteProducto:
-        // return {
-        //     ...state,
-        //     producto: state.producto.filter(
-        //         s => (s.id !== action.payload.id)
-        //     ),
-        //     activeProducto: null
-        // }
+        case types.ventaDeleteVenta:
+        return {
+            ...state,
+            venta: state.venta.filter(
+                v => (v.id !== action.payload.id)
+            ),
+            activeVenta: null
+        }
     
-        // case types.productoLoadedProducto:
-        //     return {
-        //         ...state,
-        //         producto: [...action.payload]
-        //     }
+        case types.ventaLoadedVenta:
+            return {
+                ...state,
+                venta: [...action.payload]
+            }
         default:
             return state;
     }

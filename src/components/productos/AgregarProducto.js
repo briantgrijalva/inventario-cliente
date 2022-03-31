@@ -142,7 +142,7 @@ export const AgregarProducto = () => {
                           />
                           
                       </div>
-                          <label htmlFor="barsymbol" className="form-label mt-4">Simbología de código de barras(discutir al respecto)</label>
+                          <label htmlFor="barsymbol" className="form-label mt-4">Simbología de código de barras</label>
                           {/* //TODO: implementar select */}
                       <div className="input-group mt-0">
                           <input 
@@ -190,7 +190,7 @@ export const AgregarProducto = () => {
                   </Col>
                   <Col xs={12} md={4}>
                       
-                      <label htmlFor="barCode" className="form-label mt-4">Código de producto(aun por discutir)</label>
+                      <label htmlFor="barCode" className="form-label mt-4">Código de producto</label>
                       <div className="input-group mt-0">
                           <input 
                               type='number' 
@@ -237,7 +237,7 @@ export const AgregarProducto = () => {
                               placeholder="Unidad del producto"
                           />
                       </div>
-                      <label htmlFor="unitPurchase" className="form-label mt-4">Unidad de compra(validar campos relacionados)</label>
+                      <label htmlFor="unitPurchase" className="form-label mt-4">Unidad de compra</label>
                       {/* //TODO: implementar select */}
                       <div className="input-group mt-0">
                           <input 
