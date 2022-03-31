@@ -9,7 +9,7 @@ import { startLoading } from '../../actions/sucursales';
 import { setActiveVenta, startLoadingVenta } from '../../actions/ventas';
 import { useForm } from '../../hooks/useForm';
 
-export const ViewVenta = () => {
+export const UpdateVenta = () => {
 
     const [btnPrevDisable, setBtnPrevDisable] = useState(false);
     const [btnNextDisable, setBtnNextDisable] = useState(true);
@@ -363,8 +363,6 @@ export const ViewVenta = () => {
             // TODO: sumar a la wallet global el total de la venta
 
         }
-
-
     }
   return (
     <div className='container-sucursales'>
@@ -373,269 +371,7 @@ export const ViewVenta = () => {
     </div>
     <Container className='div-card pt-3'>
         <form onSubmit={onSubmit}>
-            <Row>
-                <Col xs={12} md={0} className='mt-2'></Col>
-                <Col xs={12} md={12} className='mt-2'>
-                    {/* <div className=" card-shadow wallets-card mb-3">
-                        
-                        <label htmlFor="date" className="form-label">{moment(details.dateSell).format('LLLL')}</label>
-                    </div> */}
-                    <div className="card card-shadow wallets-card mb-3">
-                        {/* <div className="card-header">
-                            Sucursal
-                        </div> */}
-                        <div className="card-body">
-                            <blockquote className="blockquote mb-0">
-                            <p>SUCURSAL: <span className='wallets-text' style={{"fontWeight": "bold"}}>{sucursalName}</span></p>
-                            <footer className="blockquote-footer">Realizada el <cite title="Source Title">{moment(details.dateSell).format('LLLL')}</cite></footer>
-                            </blockquote>
-                        </div>
-                    </div>
-                </Col>
-                <Col xs={12} md={0} className='mt-2'></Col>
-            </Row>
-            
-            <Row>
-              <Col xs={12} md={4} className='mt-2'>
-
-                <div>
-                  <div className=" card-shadow wallets-card mb-3" style={{"maxWidth": "540px"}}>
-                    <div className="row g-0">
-                      <div className="col-md-4">
-                        <i 
-                          className='fas fa-cash-register center-element mt-4 ms-1 wallets-text' 
-                          style={{"fontSize": "4.5rem"}}
-                        ></i>
-                      </div>
-                      <div className="col-md-8">
-                        <div className="card-body">
-                          <h5 className="card-title">TOTAL</h5>
-                          <p 
-                            className="card-text wallets-text"
-                            style={{"fontSize": "1.5rem", "fontWeight": "bold"}}
-                          >
-                              {/* $ {activeVenta[0].total.$numberDecimal%1 === 0 ? activeVenta[0].total.$numberDecimal + '.00' : activeVenta[0].total.$numberDecimal} */}
-                              {/* $ {details.total.$numberDecimal%1 === 0 ? details.total.$numberDecimal + '.00' : details.total.$numberDecimal} */}
-                                $ {totalPlus%1 === 0 ? totalPlus + '.00' : totalPlus}
-                          </p>
-                          <p className="card-text">
-                            <small className="text-muted">
-                              Total de la venta {/*moment(ventaDate.pop()).startOf('hour').fromNow()*/}
-                            </small>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-              </Col>
-              <Col xs={12} md={4} className='mt-2'>
-
-                <div>
-                  <div className=" card-shadow wallets-card mb-3" style={{"maxWidth": "540px"}}>
-                    <div className="row g-0">
-                      <div className="col-md-4">
-                        <i 
-                          className='fas fa-coins center-element wallets-text mt-4 ms-1' 
-                          style={{"fontSize": "4.5rem"}}
-                        ></i>
-                      </div>
-                      <div className="col-md-8">
-                        <div className="card-body">
-                          <h5 className="card-title">GASTOS</h5>
-                          <p 
-                            className="card-text wallets-text"
-                            style={{"fontSize": "1.5rem", "fontWeight": "bold"}}
-                          >
-                              {/* $ {activeVenta[0].expenses.$numberDecimal%1 === 0 ? activeVenta[0].expenses.$numberDecimal + '.00' : activeVenta[0].expenses.$numberDecimal} */}
-                              $ {costPlus%1 === 0 ? costPlus + '.00' : costPlus}
-                          </p>
-                          <p className="card-text"><small className="text-muted">Gastos realizados</small></p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-              </Col>
-              <Col xs={12} md={4} className='mt-2'>
-
-                <div>
-                  <div className=" card-shadow wallets-card mb-3" style={{"maxWidth": "540px"}}>
-                    <div className="row g-0">
-                      <div className="col-md-4"> 
-                        <i 
-                          className='fas fa-hand-holding-usd center-element mt-4 ms-1 wallets-text' 
-                          style={{"fontSize": "4.5rem"}}
-                        ></i>
-                      </div>
-                      <div className="col-md-8">
-                        <div className="card-body">
-                          <h5 className="card-title">GANANCIAS </h5>
-                          <p 
-                            className="card-text wallets-text"
-                            style={{"fontSize": "1.5rem", "fontWeight": "bold"}}
-                          >
-                              {/* $ {activeVenta[0].utility.$numberDecimal%1 === 0 ? activeVenta[0].utility.$numberDecimal + '.00' : activeVenta[0].utility.$numberDecimal} */}
-                              $ {utilityPlus%1 === 0 ? utilityPlus + '.00' : utilityPlus}
-                          </p>
-                          <p className="card-text"><small className="text-muted">Utilidad de la venta</small></p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-              </Col>
-            </Row>
-
-            <Row>
-                <Col xs={12} md={0} className='mt-2'></Col>
-                <Col xs={12} md={12} className='mt-2'>
-                    {/* <div className="card card-shadow wallets-card mb-3">
-                        
-                    </div> */}
-                    <div className="card text-center card-shadow wallets-card mb-3">
-                        <div className="card-header wallets-text" style={{"fontSize": "1.5rem", "fontWeight": "bold"}}>
-                            PRODUCTOS INVOLUCRADOS
-                        </div>
-                        <div className="card-body">
-                            
-                            <Row>
-                                {     
-                                algProduct.map(p => ( 
-                                    <Col xs={6} md={4} key={p.id} className='mt-2'>
-                                    
-                                        <div 
-                                            className="card card-shadow card-products" 
-                                            
-                                        >
-                                            <div
-                                                className="card-body" 
-                                                id={p.id}
-                                                onClick={handleAddProductSell}
-                                            >
-                                                <img 
-                                                    id={p.id}
-                                                    src={`${process.env.REACT_APP_API_URL}/upload/${p.photo}`}
-                                                    className="img-fluid"
-                                                    alt='...'
-                                                    style={{maxHeight: "100px"}}
-                                                />
-                                                <h5 className="card-title" id={p.id}>{p.name} <span className="wallets-text" style={{"fontSize": "1.5rem", "fontWeight": "bold"}}>{p.barCode}</span></h5>
-                                                
-                                                
-
-                                                <div style={{marginTop: "1rem"}}>
-
-                                                    <p 
-                                                        className="card-text prices-cube-view"
-                                                        style={{width: "100%"}}
-                                                        id={p.id}
-                                                    >
-                                                        Precio: $ {p.price.$numberDecimal%1 === 0 ? p.price.$numberDecimal + '.00' : p.price.$numberDecimal}
-                                                    </p>
-
-                                                </div> 
-
-
-                                                <div style={{marginTop: "1rem"}}>
-
-                                                    <p 
-                                                        className="card-text prices-cube-view"
-                                                        style={{width: "100%"}}
-                                                        id={p.id}
-                                                    >
-                                                        Coste: $ {p.cost.$numberDecimal%1 === 0 ? p.cost.$numberDecimal + '.00' : p.cost.$numberDecimal}
-                                                    </p>
-
-                                                </div> 
-
-                                                <div style={{marginTop: "1rem"}}>
-
-                                                    <p 
-                                                        className="card-text prices-cube-view"
-                                                        style={{width: "100%"}}
-                                                        id={p.id}
-                                                    >
-                                                        Cantidad: {p.cantidad}
-                                                    </p>
-
-                                                </div> 
-
-                                                <div style={{marginTop: "1rem"}}>
-
-                                                    <p 
-                                                        className="card-text prices-cube-view"
-                                                        style={{width: "100%"}}
-                                                        id={p.id}
-                                                    >
-                                                        Costes totales: $ {p.totalCost%1 === 0 ? p.totalCost + '.00' : p.totalCost} 
-                                                    </p>
-
-                                                </div>
-
-
-                                                <div style={{marginTop: "1rem"}}>
-
-                                                    <p 
-                                                        className="card-text prices-cube-view"
-                                                        style={{width: "100%"}}
-                                                        id={p.id}
-                                                    >
-                                                        Suma total: $ {p.totalSum%1 === 0 ? p.totalSum + '.00' : p.totalSum} 
-                                                    </p>
-
-                                                </div>
-                                                    
-                                               
-                                            </div>
-                                        </div>
-                                    
-                                    </Col>
-                                ))
-                                }
-                                
-                            </Row>
-                        </div>
-                        {/* <div className="card-footer text-muted">
-                            2 days ago
-                        </div> */}
-                    </div>
-                </Col>
-                <Col xs={12} md={0} className='mt-2'></Col>
-            </Row>
-
-            <Row className='mt-4 mb-4'>
-                        <Col xs={0} md={2}>
-                            
-                        </Col>
-                        <Col xs={12} md={8} className='center-element'>
-                            
-                            <button
-                                    variant="primary" 
-                                    type='button'
-                                    className="btn-cancel me-5"
-                                    onClick={handleCancel}
-                                >
-                                CANCELAR
-                            </button>
-
-                            <button 
-                                variant="primary" 
-                                type='submit' 
-                                className="btn-save ms-5">
-                                MODIFICAR
-                            </button>
-                            
-                        </Col>
-                        <Col xs={0} md={2}>
-                            
-                        </Col>
-                    </Row>
-
-            {/* <Row className='mb-4'>
+             <Row className='mb-4'>
             
                 <Col xs={12} md={6} className='card-shadow'>
 
@@ -904,10 +640,10 @@ export const ViewVenta = () => {
                     
                     
                 </Col>
-            </Row> */}
+            </Row>
         </form>
 
-    </Container>
+</Container>
 </div>
   )
 }
