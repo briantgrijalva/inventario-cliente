@@ -6,6 +6,19 @@ import { UsuariosScreen } from './usuarios/UsuariosScreen';
 
 export const PersonasScreen = () => {
 
+    let buttons = document.querySelectorAll(".selected");
+    
+    buttons.forEach(button =>{
+        button.addEventListener("click",_ =>{
+          buttons.forEach(button =>{
+            button.classList.remove("edit");
+            
+          })
+          button.classList.toggle("edit");
+        })
+      })
+
+
     const [view, setView] = useState('Usuarios')
     /*El view se tiene que agregar en el localStorage*/ 
     
@@ -27,10 +40,10 @@ export const PersonasScreen = () => {
                 {view}
             </div>
 
-            <div className='panel pink'>
-                <button className='selected me-3' onClick={handleChangeView} id="usuarios">Usuarios</button>  
-                <button className='selected me-3' onClick={handleChangeView} id="Clientes">Clientes</button>  
-                <button className='selected me-3' onClick={handleChangeView} id="Proveedores">Proveedores</button> 
+            <div className='ms-3 mt-4'>
+                <button className='selected me-1 user' onClick={handleChangeView} id="usuarios">Usuarios</button>  
+                <button className='selected me-1' onClick={handleChangeView} id="Clientes">Clientes</button>  
+                <button className='selected' onClick={handleChangeView} id="Proveedores">Proveedores</button> 
             </div>
 
             {

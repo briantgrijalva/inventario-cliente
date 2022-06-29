@@ -23,7 +23,7 @@ export const UsuariosScreen = () => {
     
 
   return (
-    <Container className='card-shadow div-card pt-3'>
+    <Container className='card-shadow pt-3'>
                 
                 <Row>
                     <Col xs={6} md={6}>
